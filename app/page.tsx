@@ -1,9 +1,10 @@
 import { Button } from "@/components/ui/button";
+import { Container } from "@radix-ui/themes";
 
 export default function Home() {
   return (
-    <div>
+    <Container>
       <Button>Click me</Button>
-    </div>
+    </Container>
   );
 }
