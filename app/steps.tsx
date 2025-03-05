@@ -2,9 +2,78 @@ import ListIcon from "@/components/ui/list-icon";
 import { Flex, Grid } from "@radix-ui/themes";
 import Image from "next/image";
 
+// Define the type for Step props
+interface StepProps {
+  listNo: number;
+  title: string;
+  description: string;
+  isLast?: boolean;
+}
+
+// Reusable Step Component
+const Step = ({ listNo, title, description, isLast = false }: StepProps) => (
+  <Grid columns="18px 1fr" gap="2">
+    <div className="flex items-start pt-[4px] justify-center">
+      <ListIcon listNo={listNo} isLast={isLast} />
+    </div>
+    <div className="px-1">
+      <h4 className="font-medium">{title}</h4>
+      <p className="text-sm text-gray-600">{description}</p>
+    </div>
+  </Grid>
+);
+
 export default function Steps() {
+  // Define the type for steps
+  interface StepData {
+    listNo: number;
+    title: string;
+    description: string;
+    isLast?: boolean;
+  }
+
+  const freelancerSteps: StepData[] = [
+    {
+      listNo: 1,
+      title: "Create Your Profile",
+      description:
+        "Showcase your skills and experience with a standout profile.",
+    },
+    {
+      listNo: 2,
+      title: "Browse Jobs",
+      description: "Explore exciting projects that match your expertise.",
+    },
+    {
+      listNo: 3,
+      title: "Submit Proposals",
+      description: "Pitch your skills and win projects that inspire you!",
+      isLast: true,
+    },
+  ];
+
+  const employerSteps: StepData[] = [
+    {
+      listNo: 1,
+      title: "Post Your Project",
+      description: "Share your project details and requirements.",
+    },
+    {
+      listNo: 2,
+      title: "Review Proposals",
+      description: "Browse through talented freelancers and their proposals.",
+    },
+    {
+      listNo: 3,
+      title: "Choose Your Match",
+      description:
+        "Select the best fit for your project and start collaborating!",
+      isLast: true,
+    },
+  ];
+
   return (
-    <div className="my-12">
+    <div className="my-12 px-4">
       <h1 className="text-center mb-8 text-2xl font-bold">
         Simple Steps to Get Started
       </h1>
@@ -14,7 +83,7 @@ export default function Steps() {
           gap="6"
           align="start"
           direction={{ initial: "column", md: "row" }}
-          className="border p-3"
+          className="border p-6 rounded-lg shadow-sm"
         >
           <Image
             src="/steps/free.png"
@@ -22,40 +91,15 @@ export default function Steps() {
             height={282}
             alt="freelancer"
             className="my-4"
+            priority
           />
           <div className="space-y-6">
             <h3 className="text-lg font-semibold text-primary">
               For Freelancers
             </h3>
-            <Grid columns="18px 1fr" gap="2">
-              <div className="flex items-start pt-[4px] justify-center">
-                <ListIcon listNo={1} />
-              </div>
-              <div className="px-1">
-                <h4>Create Your Profile</h4>
-                <p>
-                  Showcase your skills and experience with a standout profile.
-                </p>
-              </div>
-            </Grid>
-            <Grid columns="18px 1fr" gap="2">
-              <div className="flex items-start pt-[4px] justify-center">
-                <ListIcon listNo={2} />
-              </div>
-              <div className="px-1">
-                <h4>Browse Jobs</h4>
-                <p>Explore exciting projects that match your expertise.</p>
-              </div>
-            </Grid>
-            <Grid columns="18px 1fr" gap="2">
-              <div className="flex items-start pt-[4px] justify-center">
-                <ListIcon isLast={true} listNo={3} />
-              </div>
-              <div className="px-1">
-                <h4>Submit Proposals</h4>
-                <p>Pitch your skills and win projects that inspire you!</p>
-              </div>
-            </Grid>
+            {freelancerSteps.map((step, index) => (
+              <Step key={index} {...step} />
+            ))}
           </div>
         </Flex>
 
@@ -64,7 +108,7 @@ export default function Steps() {
           gap="6"
           align="start"
           direction={{ initial: "column", md: "row" }}
-          className="border p-3"
+          className="border p-6 rounded-lg shadow-sm"
         >
           <Image
             src="/steps/emp.png"
@@ -72,40 +116,15 @@ export default function Steps() {
             height={282}
             alt="employer"
             className="my-4"
+            priority
           />
           <div className="space-y-6">
             <h3 className="text-lg font-semibold text-primary">
               For Employers
             </h3>
-            <Grid columns="18px 1fr" gap="2">
-              <div className="flex items-start pt-[4px] justify-center">
-                <ListIcon listNo={1} />
-              </div>
-              <div className="px-1">
-                <h4>Post Your Project</h4>
-                <p>Share your project details and requirements.</p>
-              </div>
-            </Grid>
-            <Grid columns="18px 1fr" gap="2">
-              <div className="flex items-start pt-[4px] justify-center">
-                <ListIcon listNo={2} />
-              </div>
-              <div className="px-1">
-                <h4>Review Proposals</h4>
-                <p>Browse through talented freelancers and their proposals.</p>
-              </div>
-            </Grid>
-            <Grid columns="18px 1fr" gap="2">
-              <div className="flex items-start pt-[4px] justify-center">
-                <ListIcon isLast={true} listNo={3} />
-              </div>
-              <div className="px-1">
-                <h4>Choose Your Match</h4>
-                <p>
-                  Select the best fit for your project and start collaborating!
-                </p>
-              </div>
-            </Grid>
+            {employerSteps.map((step, index) => (
+              <Step key={index} {...step} />
+            ))}
           </div>
         </Flex>
       </Grid>
