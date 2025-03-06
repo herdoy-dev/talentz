@@ -72,6 +72,7 @@ export function Contact() {
       toast.error("Failed to send message", {
         description: "Please try again later.",
       });
+      console.log(error);
     }
   };
 
