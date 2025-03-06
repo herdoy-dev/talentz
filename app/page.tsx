@@ -6,6 +6,7 @@ import Why from "./why";
 import Testimonials from "./testimonials";
 import Action from "./action";
 import { Contact } from "./contact";
+import Footer from "./footer";
 
 export default function Home() {
   return (
@@ -19,6 +20,7 @@ export default function Home() {
         <Action />
         <Contact />
       </Container>
+      <Footer />
     </>
   );
 }
