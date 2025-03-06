@@ -4,6 +4,7 @@ import Navbar from "./navbar";
 import Steps from "./steps";
 import Why from "./why";
 import Testimonials from "./testimonials";
+import Action from "./action";
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
         <Steps />
         <Why />
         <Testimonials />
+        <Action />
       </Container>
     </>
   );
