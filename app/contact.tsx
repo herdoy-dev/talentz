@@ -65,7 +65,7 @@ export function Contact() {
       toast.success("Your message has been sent successfully!", {
         description: "We will get back to you soon.",
       });
-
+      console.log(data);
       // Reset the form after successful submission
       form.reset();
     } catch (error) {
