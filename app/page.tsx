@@ -5,6 +5,7 @@ import Steps from "./steps";
 import Why from "./why";
 import Testimonials from "./testimonials";
 import Action from "./action";
+import { Contact } from "./contact";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
         <Why />
         <Testimonials />
         <Action />
+        <Contact />
       </Container>
     </>
   );
