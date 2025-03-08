@@ -10,7 +10,7 @@ export default function layout({ children }: PropsWithChildren) {
   return (
     <>
       <Navbar />
-      <Container className="py-4 h-[calc(100dvh-70px)] overflow-auto px-3">
+      <Container className="py-4 overflow-auto px-3">
         <Grid columns={{ initial: "1", md: "300px 1fr" }} gap="8">
           <Sidebar />
           {children}
