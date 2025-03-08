@@ -47,7 +47,7 @@ export default function TalentCard() {
             </Button>
           </Flex>
         </Flex>
-        <Flex align="center" gap="5" py="3">
+        <Flex align="center" gap={{ initial: "1", md: "5" }} py="3">
           <p className="text-gray-500 !text-[12px] md:text-[15px]">
             <span className="!text-black !text-[16px] !md:text-[19px]">
               98%
