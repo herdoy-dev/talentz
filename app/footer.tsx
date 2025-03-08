@@ -6,10 +6,10 @@ export default function Footer() {
     <div className="p-3 border-t">
       <Container>
         <Flex className="w-full" justify="between">
-          <p className="!text-gray-500">&copy; 2025 Talentz</p>
+          <p className="!text-gray-500 !text-sm">&copy; 2025 Talentz</p>
           <Flex
             align="center"
-            className="font-normal text-gray-500 text-sm]"
+            className="font-normal text-gray-500 text-sm"
             gap="4"
           >
             <Link href="/">Terms of Use</Link>
