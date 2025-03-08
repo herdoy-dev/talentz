@@ -48,11 +48,16 @@ export default function TalentCard() {
           </Flex>
         </Flex>
         <Flex align="center" gap="5" py="3">
-          <p className="text-gray-500 text-[12px]">
-            <span className="!text-black !text-[19px]">98%</span> Job Success!{" "}
+          <p className="text-gray-500 !text-[12px] md:text-[15px]">
+            <span className="!text-black !text-[16px] !md:text-[19px]">
+              98%
+            </span>{" "}
+            Job Success!{" "}
           </p>
           <Flex align="center">
-            <span className="!text-black !text-[19px] pr-2">5</span>
+            <span className="!text-black !text-[16px] md:!text-[19px] pr-1">
+              5
+            </span>
             <Flex align="center" className="text-yellow-300">
               <MdOutlineStarPurple500 />
               <MdOutlineStarPurple500 />
@@ -61,11 +66,13 @@ export default function TalentCard() {
               <MdOutlineStarPurple500 />
             </Flex>
           </Flex>
-          <p className="text-gray-500 text-[12px]">
-            <span className="!text-black !text-[19px]">9</span> Total Job{" "}
+          <p className="text-gray-500 !text-[12px] md:text-[15px]">
+            <span className="!text-black !text-[16px] !md:text-[19px]">9</span>{" "}
+            Total Job{" "}
           </p>
-          <p className="text-gray-500 text-[12px]">
-            <span className="!text-black !text-[19px]">14</span> Skills{" "}
+          <p className="text-gray-500 !text-[12px] !md:text-[15px]">
+            <span className="!text-black !text-[16px] md:!text-[19px]">14</span>{" "}
+            Skills{" "}
           </p>
         </Flex>
         <hr />
