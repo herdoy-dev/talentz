@@ -7,7 +7,11 @@ export default function Footer() {
       <Container>
         <Flex className="w-full" justify="between">
           <p className="!text-gray-500">&copy; 2025 Talentz</p>
-          <Flex align="center" className="font-normal text-gray-500" gap="4">
+          <Flex
+            align="center"
+            className="font-normal text-gray-500 text-sm]"
+            gap="4"
+          >
             <Link href="/">Terms of Use</Link>
             <Link href="/">Privacy Policy</Link>
           </Flex>
