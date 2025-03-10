@@ -145,6 +145,7 @@
   }
   body {
     @apply bg-background text-foreground;
+    overflow-x: hidden;
   }
 }
 
@@ -205,4 +206,32 @@ p {
   p {
     font-size: 13px;
   }
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  color: var(--accent);
+  font-weight: 300;
+  font-size: 15px;
+}
+
+@media screen and (max-width: 768px) {
+  .nav {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    flex-direction: column;
+    transform: translateX(100%);
+    justify-content: center;
+    background: white;
+    color: var(--primary);
+    width: 100% !important;
+  }
+}
+.show {
+  transform: translateX(0%);
 }
