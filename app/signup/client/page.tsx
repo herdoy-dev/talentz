@@ -6,7 +6,7 @@ import { FcGoogle } from "react-icons/fc";
 import { IoLogoApple } from "react-icons/io5";
 import { SignupForm } from "../signup-form";
 
-export default function Buyer() {
+export default function Client() {
   return (
     <Grid
       columns={{ initial: "1", md: "2" }}
@@ -24,7 +24,7 @@ export default function Buyer() {
           </p>
         </div>
 
-        <SignupForm />
+        <SignupForm role="CLIENT" />
 
         {/* Social Signup Section */}
         <div className="my-6">

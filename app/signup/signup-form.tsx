@@ -10,74 +10,25 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { SignupFormSchema, SignupFormValues } from "@/schemas";
+import { createUser } from "@/utils/create-user";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AxiosError } from "axios";
+import { Loader2 } from "lucide-react";
+import { signIn } from "next-auth/react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
+import { toast } from "react-toastify";
 
-// Define the form schema using Zod
-const FormSchema = z
-  .object({
-    firstName: z
-      .string()
-      .min(2, { message: "First name must be at least 2 characters long." })
-      .max(50, {
-        message: "First name must be no more than 50 characters long.",
-      })
-      .refine((val) => val.trim().length > 0, {
-        message: "First name is required.",
-      }),
+interface SignupFormProps {
+  role: "CLIENT" | "FREELANCER";
+}
 
-    lastName: z
-      .string()
-      .min(2, { message: "Last name must be at least 2 characters long." })
-      .max(50, {
-        message: "Last name must be no more than 50 characters long.",
-      })
-      .refine((val) => val.trim().length > 0, {
-        message: "Last name is required.",
-      }),
+export function SignupForm({ role }: SignupFormProps) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-    email: z
-      .string()
-      .email({ message: "Please enter a valid email address." })
-      .min(5, { message: "Email must be at least 5 characters long." })
-      .max(100, { message: "Email must be no more than 100 characters long." })
-      .refine((val) => val.trim().length > 0, {
-        message: "Email is required.",
-      }),
-
-    password: z
-      .string()
-      .min(10, { message: "Password must be at least 10 characters long." })
-      .max(100, {
-        message: "Password must be no more than 100 characters long.",
-      })
-      .refine((val) => val.trim().length > 0, {
-        message: "Password is required.",
-      }),
-
-    confirmPassword: z
-      .string()
-      .min(10, { message: "Password must be at least 10 characters long." })
-      .max(100, {
-        message: "Password must be no more than 100 characters long.",
-      })
-      .refine((val) => val.trim().length > 0, {
-        message: "Password is required.",
-      }),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
-  });
-
-// Define the type for the form values
-type FormValues = z.infer<typeof FormSchema>;
-
-export function SignupForm() {
-  const form = useForm<FormValues>({
-    resolver: zodResolver(FormSchema),
+  const form = useForm<SignupFormValues>({
+    resolver: zodResolver(SignupFormSchema),
     defaultValues: {
       firstName: "",
       lastName: "",
@@ -87,28 +38,42 @@ export function SignupForm() {
     },
   });
 
-  const onSubmit = async (data: FormValues) => {
-    try {
-      // Simulate an API call or any async operation
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+  const handleSubmit = async (data: SignupFormValues) => {
+    setIsSubmitting(true);
 
-      toast.success("Your account has been created successfully!", {
-        description: "Welcome to our platform!",
+    try {
+      await createUser({
+        name: `${data.firstName} ${data.lastName}`,
+        email: data.email,
+        password: data.password,
+        role,
       });
-      console.log(data);
-      // Reset the form after successful submission
+
+      toast.success("Your account has been created successfully!");
+
       form.reset();
-    } catch (error) {
-      toast.error("Failed to create account", {
-        description: "Please try again later.",
+      await signIn("credentials", {
+        email: data.email,
+        password: data.password,
+        callbackUrl: "/",
       });
-      console.log(error);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.error);
+      } else {
+        toast.error("Failed to create account!");
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
+      <form
+        onSubmit={form.handleSubmit(handleSubmit)}
+        className="w-full space-y-6"
+      >
         <FormField
           control={form.control}
           name="firstName"
@@ -182,14 +147,11 @@ export function SignupForm() {
             </FormItem>
           )}
         />
-        <Button
-          type="submit"
-          className="w-full"
-          disabled={form.formState.isSubmitting}
-        >
-          {form.formState.isSubmitting
-            ? "Creating Account..."
-            : "Create Account"}
+        <Button type="submit" className="w-full" disabled={isSubmitting}>
+          {isSubmitting ? (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          ) : null}
+          {isSubmitting ? "Creating Account..." : "Create Account"}
         </Button>
       </form>
     </Form>

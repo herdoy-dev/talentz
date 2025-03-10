@@ -19,7 +19,7 @@ const ROLES = [
   },
   {
     role: "Employer",
-    path: "/signup/buyer",
+    path: "/signup/client",
     imageSrc: "/client.png",
     imageAlt: "client" as ImageAltType, // Explicitly type imageAlt
   },

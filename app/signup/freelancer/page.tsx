@@ -24,7 +24,7 @@ export default function Freelancer() {
           </p>
         </div>
 
-        <SignupForm />
+        <SignupForm role="FREELANCER" />
 
         {/* Social Signup Section */}
         <div className="my-6">

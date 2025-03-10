@@ -1,8 +1,9 @@
 "use client";
 
 import { buttonVariants } from "@/components/ui/button";
-import { Container } from "@radix-ui/themes";
+import { Avatar, Container, Flex } from "@radix-ui/themes";
 import { Menu, X } from "lucide-react";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -15,9 +16,11 @@ const Navbar = () => {
     document.body.style.overflow = isOpen ? "hidden" : "auto";
   }, [isOpen]);
 
+  const { status, data } = useSession();
+
   return (
     <>
-      <nav className="bg-primary p-3 mb-4 fixed top-0 w-full z-50">
+      <nav className="bg-primary h-[70px] p-3 mb-4 fixed top-0 w-full z-50 flex items-center justify-center">
         <Container size="4">
           <div className="flex items-center justify-between">
             {/* Logo & Desktop Links */}
@@ -42,17 +45,41 @@ const Navbar = () => {
             </div>
 
             {/* Desktop Auth Buttons */}
-            <div className="hidden md:flex space-x-4">
-              <Link
-                href="/login"
-                className={`${buttonVariants({ variant: "link" })} text-white`}
-              >
-                Log In
-              </Link>
-              <Link href="/signup" className={`${buttonVariants()} px-8`}>
-                Sign Up
-              </Link>
-            </div>
+            {status === "unauthenticated" && (
+              <>
+                {" "}
+                <div className="hidden md:flex space-x-4">
+                  <Link
+                    href="/login"
+                    className={`${buttonVariants({
+                      variant: "link",
+                    })} text-white`}
+                  >
+                    Log In
+                  </Link>
+                  <Link href="/signup" className={`${buttonVariants()} px-8`}>
+                    Sign Up
+                  </Link>
+                </div>{" "}
+              </>
+            )}
+
+            {status === "authenticated" && (
+              <Flex align="center" gap="3">
+                <Avatar
+                  size="3"
+                  radius="full"
+                  src={data.user.image}
+                  fallback={data.user.name}
+                />
+                <div
+                  className="text-gray-200 cursor-pointer"
+                  onClick={() => signOut({ callbackUrl: "/" })}
+                >
+                  Log Out
+                </div>
+              </Flex>
+            )}
 
             {/* Mobile Menu Toggle */}
             <button

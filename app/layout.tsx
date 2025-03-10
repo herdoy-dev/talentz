@@ -2,7 +2,9 @@ import { Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
+import { ToastContainer } from "react-toastify";
 import "./globals.css";
+import SessionProvider from "./session-provider";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -23,7 +25,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={poppins.variable}>
-        <Theme>{children}</Theme>
+        <Theme>
+          <SessionProvider>{children}</SessionProvider>
+        </Theme>
+        <ToastContainer />
       </body>
     </html>
   );
