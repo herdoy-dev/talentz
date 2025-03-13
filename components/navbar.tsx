@@ -79,34 +79,37 @@ export default function Navbar() {
   const toggleMenu = useCallback(() => setActive((prev) => !prev), []);
 
   return (
-    <div className="h-[65px] flex items-center justify-center bg-primary relative">
-      <Container>
-        <nav className="flex items-center justify-between">
-          <div className={flexClasses}>
-            <Link href="/">
-              <Image
-                src="/logo.svg"
-                alt="logo"
-                width={120}
-                height={40}
-                priority
-              />
-            </Link>
-            <NavMenu isActive={isActive} />
-          </div>
-          <div className={flexClasses}>
-            <div className={cn(flexClasses, "hidden md:flex")}>
-              <Link href="/login" className="text-white text-[13px]">
-                Log In
+    <>
+      <div className="fixed w-full top-0 left-0 h-[65px] flex items-center justify-center bg-primary">
+        <Container>
+          <nav className="flex items-center justify-between">
+            <div className={flexClasses}>
+              <Link href="/">
+                <Image
+                  src="/logo.svg"
+                  alt="logo"
+                  width={120}
+                  height={40}
+                  priority
+                />
               </Link>
-              <Link href="/signup">
-                <Button className="py-[8px] px-8 text-[13px]">Sign Up</Button>
-              </Link>
+              <NavMenu isActive={isActive} />
             </div>
-            <HamburgerMenu isActive={isActive} onClick={toggleMenu} />
-          </div>
-        </nav>
-      </Container>
-    </div>
+            <div className={flexClasses}>
+              <div className={cn(flexClasses, "hidden md:flex")}>
+                <Link href="/login" className="text-white text-[13px]">
+                  Log In
+                </Link>
+                <Link href="/signup">
+                  <Button className="py-[8px] px-8 text-[13px]">Sign Up</Button>
+                </Link>
+              </div>
+              <HamburgerMenu isActive={isActive} onClick={toggleMenu} />
+            </div>
+          </nav>
+        </Container>
+      </div>
+      <div className="h-[70px]" />
+    </>
   );
 }

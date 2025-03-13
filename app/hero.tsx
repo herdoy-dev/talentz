@@ -1,6 +1,6 @@
-import ActionButtons from "./action-buttons";
-import SearchBoxPandingPage from "./search-box-landing-page";
-import Container from "./ui/container";
+import SearchBox from "@/app/search-box";
+import ActionButtons from "@/components/action-buttons";
+import Container from "@/components/ui/container";
 
 export default function Hero() {
   return (
@@ -9,7 +9,7 @@ export default function Hero() {
         <h1 className="text-center px-6 md:px-0">
           Connect with Top Talent or Find Your Dream Freelance Job!
         </h1>
-        <SearchBoxPandingPage />
+        <SearchBox />
         <div className="max-w-[424px] flex flex-col gap-6">
           <p className="text-center">
             Bridging the gap between skilled freelancers and forward-thinking

@@ -1,6 +1,6 @@
 import { IoSearchSharp } from "react-icons/io5";
 
-export default function SearchBoxPandingPage() {
+export default function SearchBox() {
   return (
     <div className="w-full flex items-center justify-between border px-4 rounded-4xl">
       <IoSearchSharp className="text-xl mr-1 text-primary" />
