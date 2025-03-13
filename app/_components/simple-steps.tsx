@@ -40,9 +40,8 @@ const stepsEmployers = [
 ];
 
 const boxClasses =
-  "flex flex-col md:flex-row items-center justify-between w-full max-w-4xl px-2 border border-gray-300 rounded-2xl shadow-sm py-4";
+  "flex flex-col md:flex-row items-center justify-between w-full max-w-4xl border border-gray-300 rounded-2xl shadow-sm px-6 md:py-4";
 const imageBoxClasses = "flex-3 flex justify-center md:justify-start md:mt-10";
-
 const imageClasses = "w-48 md:w-64 h-auto -mt-16 md:mt-0";
 
 export default function SimpleSteps() {

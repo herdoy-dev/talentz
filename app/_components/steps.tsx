@@ -15,9 +15,9 @@ interface Props {
 export default function Steps({ title, steps, className }: Props) {
   return (
     <div className={cn("space-y-6", className)}>
-      <h3 className="text-xl md:text-2xl font-semibold text-gray-900">
+      <h4 className="text-xl md:text-2xl font-semibold text-primary -ml-3">
         {title}
-      </h3>
+      </h4>
       <div className="flex flex-col">
         {steps.map((step) => (
           <div
