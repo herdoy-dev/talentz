@@ -1,6 +1,6 @@
-import SearchBox from "@/app/search-box";
 import ActionButtons from "@/components/action-buttons";
 import Container from "@/components/ui/container";
+import SearchBox from "./search-box";
 
 export default function Hero() {
   return (

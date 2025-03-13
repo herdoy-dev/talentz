@@ -1,11 +1,11 @@
+import Container from "@/components/ui/container";
 import Image from "next/image";
-import Container from "../components/ui/container";
 
 export default function HeroIllustrations() {
   return (
     <Container className="flex items-center justify-between py-5">
       <Image
-        src="/hero-illustration-left.png"
+        src="/hero_illustration_left.png"
         width={714}
         height={396}
         alt="hero illustration"
@@ -13,7 +13,7 @@ export default function HeroIllustrations() {
       />
 
       <Image
-        src="/hero-illustration-right.png"
+        src="/hero_illustration_right.png"
         width={714}
         height={396}
         alt="hero illustration"
