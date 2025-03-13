@@ -80,3 +80,22 @@ p {
     font-size: 15px;
   }
 }
+
+@media screen and (max-width: 768px) {
+  .nav-menu {
+    position: fixed;
+    flex-direction: column;
+    width: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    transform: translateX(100%);
+    top: 65px;
+    padding: 20px 30px;
+    transition: 0.5 step-end;
+  }
+}
+
+.nav-show {
+  transform: translateX(0%);
+}
