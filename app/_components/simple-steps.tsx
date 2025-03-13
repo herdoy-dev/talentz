@@ -40,7 +40,7 @@ const stepsEmployers = [
 ];
 
 const boxClasses =
-  "flex flex-col md:flex-row items-center justify-between w-full max-w-4xl px-2 border border-gray-300 rounded-2xl shadow-sm pb-16";
+  "flex flex-col md:flex-row items-center justify-between w-full max-w-4xl px-2 border border-gray-300 rounded-2xl shadow-sm py-4";
 const imageBoxClasses = "flex-3 flex justify-center md:justify-start md:mt-10";
 
 const imageClasses = "w-48 md:w-64 h-auto -mt-16 md:mt-0";
@@ -51,7 +51,7 @@ export default function SimpleSteps() {
       <h1 className="text-center text-3xl md:text-4xl font-bold md:mb-16 mb-26">
         Simple Steps to Get Started
       </h1>
-      <div className="flex flex-col md:flex-row items-center justify-center md:gap-4 gap-32">
+      <div className="flex flex-col md:flex-row items-center justify-center md:gap-6 gap-32">
         <div className={boxClasses}>
           <div className={imageBoxClasses}>
             <Image
