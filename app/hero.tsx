@@ -13,7 +13,7 @@ export default function Hero() {
         <div className="max-w-[424px] flex flex-col gap-6">
           <p className="text-center">
             Bridging the gap between skilled freelancers and forward-thinking
-            employers. Let's grow together!
+            employers. Let&apos;s grow together!
           </p>
         </div>
         <ActionButtons className="justify-center" />
