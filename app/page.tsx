@@ -1,9 +1,10 @@
 import Button from "@/components/ui/button";
+import Container from "@/components/ui/container";
 import Text from "@/components/ui/text";
 
 export default function Home() {
   return (
-    <div>
+    <Container>
       <Button>Click Me</Button>
       <Button variant="primary">Click Me</Button>
       <Button variant="outline">Click Me</Button>
@@ -18,6 +19,6 @@ export default function Home() {
       <h2>Lorem ipsum dolor sit amet.</h2>
       <h3>Lorem ipsum dolor sit amet.</h3>
       <h4>Lorem ipsum dolor sit amet.</h4>
-    </div>
+    </Container>
   );
 }
