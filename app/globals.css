@@ -92,6 +92,8 @@ p {
     transform: translateX(100%);
     top: 65px;
     padding: 20px 30px;
+    font-size: 18px !important;
+    font-weight: 500;
     transition: 0.5 step-end;
   }
 }

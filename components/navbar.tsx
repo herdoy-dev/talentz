@@ -55,10 +55,7 @@ const NavMenu = ({ isActive }: { isActive: boolean }) => (
   >
     {navItems.map((item) => (
       <li key={item.id}>
-        <Link
-          className="text-primary md:text-white text-[13px]"
-          href={item.path}
-        >
+        <Link className="text-dark md:text-white text-[13px]" href={item.path}>
           {item.label}
         </Link>
       </li>
