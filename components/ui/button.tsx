@@ -1,16 +1,16 @@
 import { cn } from "@/lib/utils";
-import { ReactNode } from "react";
 
 type ButtonProps = {
-  children: ReactNode;
   variant?: "primary" | "secondary" | "outline";
-  className?: string;
-};
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export default function Button({
   children,
   variant = "secondary",
   className,
+  onClick,
+  disabled = false,
+  ...rest
 }: ButtonProps) {
   return (
     <button
@@ -21,9 +21,13 @@ export default function Button({
           "bg-secondary text-white border-none": variant === "secondary",
           "bg-transparent text-primary border-2 border-primary":
             variant === "outline",
+          "opacity-50 cursor-not-allowed": disabled,
         },
         className
       )}
+      onClick={onClick}
+      disabled={disabled}
+      {...rest}
     >
       {children}
     </button>

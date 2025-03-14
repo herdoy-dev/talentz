@@ -3,6 +3,7 @@ import Hero from "./_components/hero";
 import HeroIllustrations from "./_components/hero-illustrations";
 import SimpleSteps from "./_components/simple-steps";
 import WhyChooseUs from "./_components/why-choose-us";
+import Testimonials from "./_components/testimonials";
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
       <HeroIllustrations />
       <SimpleSteps />
       <WhyChooseUs />
+      <Testimonials />
     </>
   );
 }
