@@ -2,10 +2,10 @@ import { IoSearchSharp } from "react-icons/io5";
 
 export default function SearchBox() {
   return (
-    <div className="max-w-full md:w-full flex items-center justify-between border px-4 rounded-4xl">
+    <div className="w-full flex items-center justify-between border px-4 rounded-4xl">
       <IoSearchSharp className="text-xl mr-1 text-primary" />
       <input
-        className="py-2 border-none focus:outline-none flex-1"
+        className="py-3 border-none focus:outline-none flex-1 w-full"
         type="text"
         placeholder="Search for..."
       />
