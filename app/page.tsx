@@ -1,3 +1,4 @@
+import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
 import CallToAction from "./_components/call-to-action";
 import Contact from "./_components/contact";
@@ -18,6 +19,7 @@ export default function Home() {
       <Testimonials />
       <CallToAction />
       <Contact />
+      <Footer />
     </>
   );
 }
