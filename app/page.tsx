@@ -1,5 +1,6 @@
 import Navbar from "@/components/navbar";
 import CallToAction from "./_components/call-to-action";
+import Contact from "./_components/contact";
 import Hero from "./_components/hero";
 import HeroIllustrations from "./_components/hero-illustrations";
 import SimpleSteps from "./_components/simple-steps";
@@ -16,6 +17,7 @@ export default function Home() {
       <WhyChooseUs />
       <Testimonials />
       <CallToAction />
+      <Contact />
     </>
   );
 }
