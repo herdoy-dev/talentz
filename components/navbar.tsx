@@ -80,7 +80,7 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="fixed w-full top-0 left-0 h-[65px] flex items-center justify-center bg-primary">
+      <div className="fixed w-full top-0 left-0 h-[65px] flex items-center justify-center bg-primary z-50">
         <Container>
           <nav className="flex items-center justify-between">
             <div className={flexClasses}>

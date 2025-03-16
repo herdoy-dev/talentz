@@ -101,3 +101,29 @@ p {
 .nav-show {
   transform: translateX(0%);
 }
+
+/* Add this to your global CSS file or a <style> tag */
+input[type="checkbox"] {
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid var(--primary); /* Replace with your primary color */
+  border-radius: 0.25rem;
+  cursor: pointer;
+  position: relative;
+}
+
+input[type="checkbox"]:checked {
+  background-color: var(--primary); /* Replace with your primary color */
+  border-color: var(--primary); /* Replace with your primary color */
+}
+
+input[type="checkbox"]:checked::after {
+  content: "✔"; /* Unicode checkmark symbol */
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.75rem;
+  color: white; /* White tick icon */
+}

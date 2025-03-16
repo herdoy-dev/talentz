@@ -1,12 +1,19 @@
 import { InputHTMLAttributes } from "react";
 import Text from "./text";
+import { cn } from "@/lib/utils";
 
 type InputProps = {
   label?: string;
   error?: string;
+  className?: string;
 } & InputHTMLAttributes<HTMLInputElement>;
 
-export default function Input({ label, error, ...rest }: InputProps) {
+export default function Input({
+  label,
+  error,
+  className,
+  ...rest
+}: InputProps) {
   return (
     <div>
       {label && (
@@ -15,7 +22,10 @@ export default function Input({ label, error, ...rest }: InputProps) {
         </label>
       )}
       <input
-        className="p-2 rounded-md border-[1.5px] border-primary focus:outline-none w-full"
+        className={cn(
+          "p-2 rounded-md border-[1.5px] border-primary focus:outline-none w-full",
+          className
+        )}
         id={label}
         placeholder={label}
         {...rest}
