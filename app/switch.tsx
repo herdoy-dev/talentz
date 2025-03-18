@@ -18,7 +18,7 @@ export default function Switcher<T extends string>({
   return (
     <div
       className={cn(
-        "border border-gray-400 rounded-4xl p-[2px] flex w-fit",
+        "border border-gray-300 rounded-4xl p-[2px] flex w-fit",
         className
       )}
     >

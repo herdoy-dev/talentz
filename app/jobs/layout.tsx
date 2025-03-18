@@ -1,5 +1,5 @@
-import CallToAction from "@/app/_components/call-to-action";
-import Contact from "@/app/_components/contact";
+import CallToAction from "@/components/call-to-action";
+import Contact from "@/components/contact";
 import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
 import Container from "@/components/ui/container";

@@ -23,7 +23,7 @@ export default function Input({
       )}
       <input
         className={cn(
-          "p-2 rounded-md border-[1.5px] border-primary focus:outline-none w-full",
+          "p-2 rounded-md border border-primary focus:outline-none w-full",
           className
         )}
         id={label}
