@@ -2,8 +2,10 @@
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import TextArea from "@/components/ui/text-area";
+import apiClient from "@/services/apiClient";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { z } from "zod";
 
 const FormSchema = z.object({
@@ -19,13 +21,21 @@ export default function ContactForm() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FormSchemaType>({
     resolver: zodResolver(FormSchema),
   });
 
-  const onSubmit = (data: FormSchemaType) => {
-    console.log("Form submitted:", data);
+  const onSubmit = async (data: FormSchemaType) => {
+    try {
+      await apiClient.post("/contacts", data);
+      reset();
+      toast.success("Message sent successfully! 🚀");
+    } catch (error) {
+      toast.error("Oops! Something went wrong.");
+      console.log(error);
+    }
   };
 
   return (
