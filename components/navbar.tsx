@@ -61,11 +61,11 @@ const NavMenu = ({ isActive }: { isActive: boolean }) => (
       </li>
     ))}
     <div className="flex flex-col gap-6 items-center justify-center w-full md:hidden">
-      <Link className="w-full" href="/signup">
+      <Link className="w-full" href="/sign-up">
         <Button className="py-[8px] px-8 text-[13px] w-full">Sign Up</Button>
       </Link>
       <Link
-        href="/login"
+        href="/log-in"
         className="text-[13px] text-primary font-semibold w-full text-center"
       >
         Log In
@@ -97,10 +97,10 @@ export default function Navbar() {
             </div>
             <div className={flexClasses}>
               <div className={cn(flexClasses, "hidden md:flex")}>
-                <Link href="/login" className="text-white text-[13px]">
+                <Link href="/log-in" className="text-white text-[13px]">
                   Log In
                 </Link>
-                <Link href="/signup">
+                <Link href="/sign-up">
                   <Button className="py-[8px] px-8 text-[13px]">Sign Up</Button>
                 </Link>
               </div>

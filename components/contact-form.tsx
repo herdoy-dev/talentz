@@ -2,7 +2,7 @@
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import TextArea from "@/components/ui/text-area";
-import apiClient from "@/services/apiClient";
+import apiClient from "@/services/api-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
