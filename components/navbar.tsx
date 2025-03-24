@@ -1,11 +1,12 @@
 "use client";
-
+import useSession from "@/hooks/useSession";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useState } from "react";
 import Button from "./ui/button";
 import Container from "./ui/container";
+import { logout } from "@/actions/logout";
 
 const navItems = [
   { id: 1, label: "How We Work", path: "/how-we-work" },
@@ -75,8 +76,18 @@ const NavMenu = ({ isActive }: { isActive: boolean }) => (
 );
 
 export default function Navbar() {
+  const { session, loading } = useSession();
   const [isActive, setActive] = useState(false);
   const toggleMenu = useCallback(() => setActive((prev) => !prev), []);
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      window.location.href = "/";
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -97,12 +108,26 @@ export default function Navbar() {
             </div>
             <div className={flexClasses}>
               <div className={cn(flexClasses, "hidden md:flex")}>
-                <Link href="/log-in" className="text-white text-[13px]">
-                  Log In
-                </Link>
-                <Link href="/sign-up">
-                  <Button className="py-[8px] px-8 text-[13px]">Sign Up</Button>
-                </Link>
+                {!loading && !session && (
+                  <>
+                    <Link href="/log-in" className="text-white text-[13px]">
+                      Log In
+                    </Link>
+                    <Link href="/sign-up">
+                      <Button className="py-[8px] px-8 text-[13px]">
+                        Sign Up
+                      </Button>
+                    </Link>
+                  </>
+                )}
+                {session && (
+                  <button
+                    onClick={handleLogout}
+                    className="text-white text-[13px] cursor-pointer"
+                  >
+                    Log out
+                  </button>
+                )}
               </div>
               <HamburgerMenu isActive={isActive} onClick={toggleMenu} />
             </div>
