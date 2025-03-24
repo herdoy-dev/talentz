@@ -127,3 +127,24 @@ input[type="checkbox"]:checked::after {
   font-size: 0.75rem;
   color: white; /* White tick icon */
 }
+
+.table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.table td,
+.table th {
+  border: 1px solid #ddd;
+  padding: 7px;
+}
+
+.table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+}

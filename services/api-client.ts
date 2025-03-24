@@ -1,5 +1,11 @@
 import axios from "axios";
 
-export default axios.create({
-  baseURL: process.env.NEXT_PUBLIC_DATABASE_URL,
-});
+const apiClient = (token?: string) =>
+  axios.create({
+    baseURL: process.env.NEXT_PUBLIC_DATABASE_URL,
+    headers: {
+      "x-auth-token": token,
+    },
+  });
+
+export default apiClient;

@@ -37,7 +37,7 @@ export default function LoginForm() {
 
   const onSubmit = async (data: FormSchemaType) => {
     try {
-      const { data: token } = await apiClient.post<string>(
+      const { data: token } = await apiClient().post<string>(
         "/auth/log-in",
         data
       );

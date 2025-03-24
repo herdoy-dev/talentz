@@ -29,7 +29,7 @@ export default function ContactForm() {
 
   const onSubmit = async (data: FormSchemaType) => {
     try {
-      await apiClient.post("/contacts", data);
+      await apiClient().post("/contacts", data);
       reset();
       toast.success("Message sent successfully! 🚀");
     } catch (error) {

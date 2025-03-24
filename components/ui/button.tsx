@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 type ButtonProps = {
-  variant?: "primary" | "secondary" | "outline";
+  variant?: "primary" | "secondary" | "accent" | "outline";
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export default function Button({
@@ -19,6 +19,7 @@ export default function Button({
         {
           "bg-primary text-white border-none": variant === "primary",
           "bg-secondary text-white border-none": variant === "secondary",
+          "bg-red-500 text-white border-none": variant === "accent",
           "bg-transparent text-primary border-2 border-primary":
             variant === "outline",
           "opacity-50 cursor-not-allowed": disabled,

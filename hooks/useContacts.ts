@@ -1,13 +1,13 @@
 import { Contact } from "@/schemas/contact";
+import apiClient from "@/services/api-client";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 
-const useContacts = () =>
+const useContacts = (token: string) =>
   useQuery<Contact[], Error>({
     queryKey: ["contacts"],
     queryFn: () =>
-      axios
-        .get<Contact[]>(`${process.env.DATABASE_URL}/contacts`)
+      apiClient(token)
+        .get<Contact[]>("/contacts")
         .then((res) => res.data),
   });
 
