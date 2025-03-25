@@ -1,41 +1,74 @@
 "use client";
-
+import Table from "@/components/table";
 import Button from "@/components/ui/button";
 import useContacts from "@/hooks/useContacts";
 import useToken from "@/hooks/useToken";
+import { formatDate } from "@/lib/utils";
+import Column from "@/schemas/column";
+import { Contact } from "@/schemas/contact";
+import useContactStore from "@/store";
+
+const columns: Column<Contact>[] = [
+  {
+    _id: 1,
+    path: "firstName",
+    label: "FirstName",
+  },
+  { _id: 2, path: "lastName", label: "LastName" },
+  { _id: 3, path: "email", label: "Email" },
+  {
+    _id: 4,
+    path: "message",
+    label: "Message",
+    content: (contact: Contact) => `${contact.message.slice(0, 40)}...`,
+  },
+  {
+    _id: 5,
+    path: "createdAt",
+    label: "Created At",
+    content: (contact: Contact) => formatDate(contact.createdAt),
+  },
+  {
+    _id: 6,
+    path: "_id",
+    label: "Actions",
+    content: (contact: Contact) => (
+      <div className="space-x-2">
+        <Button
+          onClick={() => console.log(contact._id)}
+          className="py-1 px-3 text-sm"
+        >
+          View
+        </Button>
+        <Button
+          onClick={() => console.log(contact._id)}
+          className="py-1 px-3 text-sm"
+          variant="accent"
+        >
+          Delete
+        </Button>
+      </div>
+    ),
+  },
+];
 
 export default function MessageTable() {
   const { token } = useToken();
   const { data, isLoading } = useContacts(token as string);
-  if (isLoading) return <p> Loading... </p>;
+  const setOrder = useContactStore((s) => s.setOrder);
+  const orderBy = useContactStore((s) => s.orderBy);
+  const currentOrder = useContactStore((s) => s.orderDirection);
+
+  if (isLoading) return <p>Loading...</p>;
+  if (!data?.result) return <p>No data available</p>;
 
   return (
-    <table className="w-full table">
-      <thead>
-        <tr>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Email</th>
-          <th>Message</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data?.map((item) => (
-          <tr key={item._id}>
-            <td> {item.firstName} </td>
-            <td> {item.lastName} </td>
-            <td> {item.email} </td>
-            <td> {item.message.slice(0, 40)}... </td>
-            <td className="space-x-2">
-              <Button className="py-1 px-3 text-sm">View</Button>
-              <Button className="py-1 px-3 text-sm" variant="accent">
-                Delete
-              </Button>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <Table
+      columns={columns}
+      onClick={setOrder}
+      currentOrder={currentOrder}
+      orderBy={orderBy}
+      data={data.result}
+    />
   );
 }

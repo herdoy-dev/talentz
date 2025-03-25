@@ -1,14 +1,24 @@
-import { Contact } from "@/schemas/contact";
+import { ContactResponse } from "@/schemas/contact";
 import apiClient from "@/services/api-client";
-import { useQuery } from "@tanstack/react-query";
+import useContactStore from "@/store";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
-const useContacts = (token: string) =>
-  useQuery<Contact[], Error>({
-    queryKey: ["contacts"],
+const useContacts = (token: string) => {
+  const query = useContactStore();
+  return useQuery<ContactResponse, Error>({
+    queryKey: ["contacts", query],
     queryFn: () =>
       apiClient(token)
-        .get<Contact[]>("/contacts")
+        .get<ContactResponse>("/contacts", {
+          params: {
+            orderBy: query.orderBy,
+            search: query.searchText,
+            sortOrder: query.orderDirection,
+          },
+        })
         .then((res) => res.data),
+    placeholderData: keepPreviousData,
   });
+};
 
 export default useContacts;
