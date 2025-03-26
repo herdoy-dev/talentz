@@ -11,9 +11,7 @@ export interface ContactResponse {
   result: Contact[];
   count: number;
   pagination: {
-    count: number;
-    page: number;
-    pageSize: number;
+    currentPage: number;
     totalPages: number;
   };
 }

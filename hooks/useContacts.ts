@@ -14,6 +14,7 @@ const useContacts = (token: string) => {
             orderBy: query.orderBy,
             search: query.searchText,
             sortOrder: query.orderDirection,
+            currentPage: query.page,
           },
         })
         .then((res) => res.data),

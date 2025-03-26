@@ -1,4 +1,5 @@
 "use client";
+import Pagination from "@/components/pagination";
 import Table from "@/components/table";
 import Button from "@/components/ui/button";
 import useContacts from "@/hooks/useContacts";
@@ -58,17 +59,29 @@ export default function MessageTable() {
   const setOrder = useContactStore((s) => s.setOrder);
   const orderBy = useContactStore((s) => s.orderBy);
   const currentOrder = useContactStore((s) => s.orderDirection);
+  const nextPage = useContactStore((s) => s.nextPage);
+  const previousPage = useContactStore((s) => s.previousPage);
+  const setPage = useContactStore((s) => s.setPage);
 
   if (isLoading) return <p>Loading...</p>;
   if (!data?.result) return <p>No data available</p>;
 
   return (
-    <Table
-      columns={columns}
-      onClick={setOrder}
-      currentOrder={currentOrder}
-      orderBy={orderBy}
-      data={data.result}
-    />
+    <div>
+      <Table
+        columns={columns}
+        onClick={setOrder}
+        currentOrder={currentOrder}
+        orderBy={orderBy}
+        data={data.result}
+      />
+      <Pagination
+        currentPage={data.pagination.currentPage}
+        pageCount={data.pagination.totalPages}
+        next={nextPage}
+        previous={previousPage}
+        setPage={setPage}
+      />
+    </div>
   );
 }
