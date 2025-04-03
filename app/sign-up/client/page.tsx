@@ -9,7 +9,7 @@ export default function SignupClient() {
           <h2 className="text-primary">Sign Up</h2>
           <p>Enter the details below to create an account for you</p>
         </div>
-        <SignupForm />
+        <SignupForm role="client" />
       </div>
       <div className="hidden md:block">
         <Image

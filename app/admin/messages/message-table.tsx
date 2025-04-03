@@ -1,12 +1,15 @@
 "use client";
+import { queryClient } from "@/app/query-client-provider";
 import Pagination from "@/components/pagination";
 import Table from "@/components/table";
 import Button from "@/components/ui/button";
+import Dialog from "@/components/ui/dialog";
+import Text from "@/components/ui/text";
 import useContacts from "@/hooks/useContacts";
-import useToken from "@/hooks/useToken";
 import { formatDate } from "@/lib/utils";
 import Column from "@/schemas/column";
 import { Contact } from "@/schemas/contact";
+import apiClient from "@/services/api-client";
 import useContactStore from "@/store";
 
 const columns: Column<Contact>[] = [
@@ -35,27 +38,62 @@ const columns: Column<Contact>[] = [
     label: "Actions",
     content: (contact: Contact) => (
       <div className="space-x-2">
-        <Button
-          onClick={() => console.log(contact._id)}
-          className="py-1 px-3 text-sm"
-        >
-          View
-        </Button>
-        <Button
-          onClick={() => console.log(contact._id)}
-          className="py-1 px-3 text-sm"
-          variant="accent"
-        >
-          Delete
-        </Button>
+        <Dialog
+          trigger={<Button className="py-1 px-3 text-sm">View</Button>}
+          body={
+            <div>
+              <Text> {contact.firstName + " " + contact.lastName} </Text>
+              <Text variant="gray" size="small">
+                {" "}
+                {contact.email}{" "}
+              </Text>
+              <div className="py-3">
+                <Text> {contact.message} </Text>
+              </div>
+            </div>
+          }
+        />
+        <Dialog
+          trigger={
+            <Button className="py-1 px-3 text-sm" variant="accent">
+              Delete
+            </Button>
+          }
+          body={
+            <div>
+              <h4>
+                {" "}
+                Are you sure you want to delete this contact? This action cannot
+                be undone.{" "}
+              </h4>
+            </div>
+          }
+          actions={
+            <>
+              <Button className="py-1 px-3 text-sm">Cancel</Button>
+              <Button
+                onClick={async () => {
+                  await apiClient.delete(`/contacts/${contact._id}`);
+                  await queryClient.invalidateQueries({
+                    queryKey: ["contacts"],
+                    refetchType: "active",
+                  });
+                }}
+                className="py-1 px-3 text-sm"
+                variant="accent"
+              >
+                Delete
+              </Button>
+            </>
+          }
+        />
       </div>
     ),
   },
 ];
 
 export default function MessageTable() {
-  const { token } = useToken();
-  const { data, isLoading } = useContacts(token as string);
+  const { data, isLoading } = useContacts();
   const setOrder = useContactStore((s) => s.setOrder);
   const orderBy = useContactStore((s) => s.orderBy);
   const currentOrder = useContactStore((s) => s.orderDirection);

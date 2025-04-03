@@ -1,11 +1,14 @@
+import getToken from "@/actions/get-token";
 import axios from "axios";
 
-const apiClient = (token?: string) =>
-  axios.create({
-    baseURL: process.env.NEXT_PUBLIC_DATABASE_URL,
-    headers: {
-      "x-auth-token": token,
-    },
-  });
+const instance = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_DATABASE_URL,
+});
 
-export default apiClient;
+instance.interceptors.request.use(async (config) => {
+  const token = await getToken();
+  config.headers["x-auth-token"] = token ? token : "";
+  return config;
+});
+
+export default instance;

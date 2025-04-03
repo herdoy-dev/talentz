@@ -32,7 +32,11 @@ const FormSchema = z
 
 type FormSchemaType = z.infer<typeof FormSchema>;
 
-export default function SignUpForm() {
+interface Props {
+  role: "freelancer" | "client";
+}
+
+export default function SignUpForm({ role }: Props) {
   const router = useRouter();
   const {
     register,
@@ -45,11 +49,14 @@ export default function SignUpForm() {
 
   const onSubmit = async (data: FormSchemaType) => {
     try {
-      const { data: token } = await apiClient().post<string>(
-        "/auth/sign-up", // Changed from log-in to sign-up
-        data
-      );
-      await setAuthToken(token);
+      const { headers } = await apiClient.post<string>("/auth/sign-up", {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        password: data.password,
+        role: role,
+      });
+      await setAuthToken(headers["x-auth-token"]);
       reset();
       toast.success("Account created successfully");
       router.push("/");

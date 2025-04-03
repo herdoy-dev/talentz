@@ -3,12 +3,12 @@ import apiClient from "@/services/api-client";
 import useContactStore from "@/store";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
-const useContacts = (token: string) => {
+const useContacts = () => {
   const query = useContactStore();
   return useQuery<ContactResponse, Error>({
     queryKey: ["contacts", query],
     queryFn: () =>
-      apiClient(token)
+      apiClient
         .get<ContactResponse>("/contacts", {
           params: {
             orderBy: query.orderBy,
