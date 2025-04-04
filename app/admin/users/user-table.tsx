@@ -4,60 +4,34 @@ import Pagination from "@/components/pagination";
 import Table from "@/components/table";
 import Button from "@/components/ui/button";
 import Dialog from "@/components/ui/dialog";
-import Text from "@/components/ui/text";
-import useContacts from "@/hooks/useContacts";
+import useUsers from "@/hooks/useUsers";
 import { formatDate } from "@/lib/utils";
 import Column from "@/schemas/column";
-import { Contact } from "@/schemas/contact";
+import { User } from "@/schemas/user";
 import apiClient from "@/services/api-client";
 import useContactStore from "@/store/contacts";
 
-const columns: Column<Contact>[] = [
+const columns: Column<User>[] = [
   {
     _id: 1,
     path: "firstName",
     label: "FirstName",
   },
   { _id: 2, path: "lastName", label: "LastName" },
-  { _id: 3, path: "email", label: "Email" },
-  {
-    _id: 4,
-    path: "message",
-    label: "Message",
-    content: (contact: Contact) => {
-      if (contact) {
-        return contact.message.slice(0, 40) + "...";
-      }
-      return null;
-    },
-  },
+  { _id: 3, path: "role", label: "Role" },
+  { _id: 4, path: "email", label: "Email" },
   {
     _id: 5,
     path: "createdAt",
     label: "Created At",
-    content: (contact: Contact) => formatDate(contact.createdAt),
+    content: (contact: User) => formatDate(contact.createdAt),
   },
   {
     _id: 6,
     path: "_id",
     label: "Actions",
-    content: (contact: Contact) => (
+    content: (user: User) => (
       <div className="space-x-2">
-        <Dialog
-          trigger={<Button className="py-1 px-3 text-sm">View</Button>}
-          body={
-            <div>
-              <Text> {contact.firstName + " " + contact.lastName} </Text>
-              <Text variant="gray" size="small">
-                {" "}
-                {contact.email}{" "}
-              </Text>
-              <div className="py-3">
-                <Text> {contact.message} </Text>
-              </div>
-            </div>
-          }
-        />
         <Dialog
           trigger={
             <Button className="py-1 px-3 text-sm" variant="accent">
@@ -78,9 +52,9 @@ const columns: Column<Contact>[] = [
               <Button className="py-1 px-3 text-sm">Cancel</Button>
               <Button
                 onClick={async () => {
-                  await apiClient.delete(`/contacts/${contact._id}`);
+                  await apiClient.delete(`/users/${user._id}`);
                   await queryClient.invalidateQueries({
-                    queryKey: ["contacts"],
+                    queryKey: ["users"],
                     refetchType: "active",
                   });
                 }}
@@ -97,8 +71,8 @@ const columns: Column<Contact>[] = [
   },
 ];
 
-export default function MessageTable() {
-  const { data, isLoading } = useContacts();
+export default function UserTable() {
+  const { data, isLoading } = useUsers();
   const setOrder = useContactStore((s) => s.setOrder);
   const orderBy = useContactStore((s) => s.orderBy);
   const currentOrder = useContactStore((s) => s.orderDirection);

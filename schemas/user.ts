@@ -1,14 +1,14 @@
-export interface Contact {
+export interface User {
   _id: string;
   firstName: string;
   lastName: string;
   email: string;
-  message: string;
+  role: "client" | "freelancer" | "admin";
   createdAt: string;
 }
 
-export interface ContactResponse {
-  result: Contact[];
+export interface UsersResponse {
+  result: User[];
   count: number;
   pagination: {
     currentPage: number;

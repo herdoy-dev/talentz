@@ -1,15 +1,15 @@
-import { ContactResponse } from "@/schemas/contact";
+import { UsersResponse } from "@/schemas/user";
 import apiClient from "@/services/api-client";
 import useContactStore from "@/store/contacts";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
-const useContacts = () => {
+const useUsers = () => {
   const query = useContactStore();
-  return useQuery<ContactResponse, Error>({
-    queryKey: ["contacts", query],
+  return useQuery<UsersResponse, Error>({
+    queryKey: ["users", query],
     queryFn: () =>
       apiClient
-        .get<ContactResponse>("/contacts", {
+        .get<UsersResponse>("/users", {
           params: {
             orderBy: query.orderBy,
             search: query.searchText,
@@ -22,4 +22,4 @@ const useContacts = () => {
   });
 };
 
-export default useContacts;
+export default useUsers;
