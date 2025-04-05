@@ -2,12 +2,11 @@
 
 import { cookies } from "next/headers";
 
-const TOKEN_EXPIRATION_TIME = 24 * 60 * 60 * 1000;
-
 export async function setAuthToken(token: string): Promise<void> {
   try {
     const cookieStore = await cookies();
-    const expirationDate = new Date(Date.now() + TOKEN_EXPIRATION_TIME);
+    const expirationDate = new Date();
+    expirationDate.setFullYear(expirationDate.getFullYear() + 10); // 10 years from now
 
     cookieStore.set("token", token, {
       expires: expirationDate,

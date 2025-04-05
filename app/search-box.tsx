@@ -1,10 +1,26 @@
+"use client";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import toast from "react-hot-toast";
 import { IoSearchSharp } from "react-icons/io5";
 
 export default function SearchBox() {
+  const router = useRouter();
+  const [text, setText] = useState("");
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      if (!text) return toast.error("Type Something.");
+      router.push(`/jobs?search=${text}`);
+    }
+  };
+
   return (
     <div className="w-full flex items-center justify-between border border-gray-400 px-4 rounded-4xl">
       <IoSearchSharp className="text-xl mr-1 text-primary" />
       <input
+        onChange={(e) => setText(e.target.value)}
+        onKeyDown={handleKeyDown}
         className="py-3 border-none focus:outline-none flex-1 w-full"
         type="text"
         placeholder="Search for..."

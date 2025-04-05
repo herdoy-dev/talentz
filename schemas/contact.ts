@@ -12,7 +12,7 @@ export interface ContactResponse {
   count: number;
   pagination: {
     currentPage: number;
-    totalPages: number;
+    pageCount: number;
     pageSize: number;
   };
 }

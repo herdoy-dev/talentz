@@ -1,8 +1,5 @@
-import { ReactNode } from "react";
-
-export default interface Column<T> {
+export default interface Column {
   _id: number;
-  path: keyof T;
+  value: string;
   label: string;
-  content?: (contact: T) => ReactNode;
 }

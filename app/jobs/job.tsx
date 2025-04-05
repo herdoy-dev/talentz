@@ -20,7 +20,7 @@ export default function Job({ job }: Props) {
         </Text>
         {/* <Badge variant="gray">Applied</Badge> */}
       </div>
-      <h4>{job.title}</h4>
+      <h4 className="text-primary">{job.title}</h4>
       <div className="flex items-center gap-5">
         <IconBadge text="LA, US">
           <GrLocation />

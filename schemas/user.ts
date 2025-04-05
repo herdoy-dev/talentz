@@ -3,7 +3,7 @@ export interface User {
   firstName: string;
   lastName: string;
   email: string;
-  role: "client" | "freelancer" | "admin";
+  role: string;
   createdAt: string;
 }
 
@@ -12,7 +12,7 @@ export interface UsersResponse {
   count: number;
   pagination: {
     currentPage: number;
-    totalPages: number;
+    pageCount: number;
     pageSize: number;
   };
 }

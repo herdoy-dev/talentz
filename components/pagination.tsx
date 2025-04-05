@@ -1,56 +1,80 @@
-import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
-import { FaAnglesLeft, FaAnglesRight } from "react-icons/fa6";
+"use client";
+import { useRouter, useSearchParams } from "next/navigation";
+import {
+  MdKeyboardArrowLeft,
+  MdKeyboardArrowRight,
+  MdKeyboardDoubleArrowLeft,
+  MdKeyboardDoubleArrowRight,
+} from "react-icons/md";
 import Button from "./ui/button";
 
 interface Props {
   currentPage: number;
   pageCount: number;
-  setPage: (page: number) => void;
-  previous: () => void;
-  next: () => void;
 }
 
-export default function Pagination({
-  currentPage,
-  pageCount,
-  setPage,
-  next,
-  previous,
-}: Props) {
+const Pagination = ({ currentPage, pageCount }: Props) => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  if (pageCount <= 1) return null;
+
+  const handlePageChange = (page: number) => {
+    // Validate page number
+    const validatedPage = Math.max(1, Math.min(page, pageCount));
+
+    const params = new URLSearchParams(searchParams.toString());
+    if (validatedPage === 1) {
+      params.delete("page");
+    } else {
+      params.set("page", validatedPage.toString());
+    }
+
+    router.push("?" + params.toString());
+  };
+
+  // Ensure currentPage is within bounds
+  const safeCurrentPage = Math.max(1, Math.min(currentPage, pageCount));
+
   return (
-    <div className="flex items-center gap-2 py-4">
+    <div className="flex items-center gap-3 my-4">
       <p>
-        {" "}
-        Page: {currentPage} of {pageCount}
+        Page {safeCurrentPage} of {pageCount}
       </p>
-      <Button
-        disabled={currentPage === 1}
-        onClick={() => setPage(1)}
-        className="rounded-md px-3 bg-secondary disabled:bg-secondary/70"
-      >
-        <FaAnglesLeft />
-      </Button>
-      <Button
-        disabled={currentPage === 1}
-        onClick={previous}
-        className="rounded-md px-3 bg-secondary disabled:bg-secondary/70"
-      >
-        <FaAngleLeft />
-      </Button>
-      <Button
-        disabled={currentPage === pageCount}
-        onClick={next}
-        className="rounded-md px-3 bg-secondary disabled:bg-secondary/70"
-      >
-        <FaAngleRight />
-      </Button>
-      <Button
-        disabled={currentPage === pageCount}
-        onClick={() => setPage(pageCount)}
-        className="rounded-md px-3 bg-secondary disabled:bg-secondary/70"
-      >
-        <FaAnglesRight />
-      </Button>
+      <div className="flex items-center gap-3">
+        <Button
+          className="py-1 px-2 rounded-md"
+          disabled={safeCurrentPage <= 1}
+          onClick={() => handlePageChange(1)}
+        >
+          <MdKeyboardDoubleArrowLeft />
+        </Button>
+        <Button
+          className="py-1 px-2 rounded-md"
+          disabled={safeCurrentPage <= 1}
+          onClick={() => handlePageChange(safeCurrentPage - 1)}
+        >
+          <MdKeyboardArrowLeft />
+        </Button>
+
+        <Button
+          className="py-1 px-2 rounded-md"
+          disabled={safeCurrentPage >= pageCount}
+          onClick={() => handlePageChange(safeCurrentPage + 1)}
+        >
+          <MdKeyboardArrowRight />
+        </Button>
+
+        <Button
+          className="py-1 px-2 rounded-md"
+          disabled={safeCurrentPage >= pageCount}
+          onClick={() => handlePageChange(pageCount)}
+        >
+          <MdKeyboardDoubleArrowRight />
+        </Button>
+      </div>
     </div>
   );
-}
+};
+
+export default Pagination;
