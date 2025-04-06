@@ -1,5 +1,5 @@
+import DeleteAlert from "@/components/delete-alert";
 import TableHead from "@/components/table-head";
-import Button from "@/components/ui/button";
 import { formatDate } from "@/lib/utils";
 import { UsersResponse } from "@/schemas/user";
 
@@ -30,9 +30,7 @@ export default function UserTable({ data }: Props) {
               <td> {user.role}</td>
               <td> {formatDate(user.createdAt)} </td>
               <td className="space-x-1">
-                <Button variant="accent" className="py-1 px-3 text-sm">
-                  Delete
-                </Button>
+                <DeleteAlert count={data.count} id={user._id} path="/users" />
               </td>
             </tr>
           ))}

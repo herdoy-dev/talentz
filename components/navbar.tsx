@@ -1,12 +1,12 @@
 "use client";
+import { logout } from "@/actions/logout";
 import useSession from "@/hooks/useSession";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useState } from "react";
-import Button from "./ui/button";
+import { Button } from "./button";
 import Container from "./ui/container";
-import { logout } from "@/actions/logout";
 
 const navItems = [
   { id: 1, label: "How We Work", path: "/how-we-work" },

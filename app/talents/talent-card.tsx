@@ -1,6 +1,6 @@
 "use client";
+import { Button } from "@/components/button";
 import Avatar from "@/components/ui/avatar";
-import Button from "@/components/ui/button";
 import IconBadge from "@/components/ui/icon-badge";
 import Text from "@/components/ui/text";
 import Image from "next/image";

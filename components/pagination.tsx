@@ -1,12 +1,13 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 import {
   MdKeyboardArrowLeft,
   MdKeyboardArrowRight,
   MdKeyboardDoubleArrowLeft,
   MdKeyboardDoubleArrowRight,
 } from "react-icons/md";
-import Button from "./ui/button";
+import { Button } from "./button";
 
 interface Props {
   currentPage: number;
@@ -16,6 +17,15 @@ interface Props {
 const Pagination = ({ currentPage, pageCount }: Props) => {
   const searchParams = useSearchParams();
   const router = useRouter();
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (currentPage === 1) {
+      params.delete("page");
+    }
+    const query = params.toString();
+    router.push("?" + query);
+  }, [currentPage, router, searchParams]);
 
   if (pageCount <= 1) return null;
 
@@ -29,8 +39,9 @@ const Pagination = ({ currentPage, pageCount }: Props) => {
     } else {
       params.set("page", validatedPage.toString());
     }
+    const query = params.toString();
 
-    router.push("?" + params.toString());
+    router.push("?" + query);
   };
 
   // Ensure currentPage is within bounds

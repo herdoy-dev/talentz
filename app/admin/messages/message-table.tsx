@@ -1,7 +1,8 @@
+import DeleteAlert from "@/components/delete-alert";
 import TableHead from "@/components/table-head";
-import Button from "@/components/ui/button";
 import { formatDate } from "@/lib/utils";
 import { ContactResponse } from "@/schemas/contact";
+import MessageDetails from "./message";
 
 interface Props {
   data: ContactResponse;
@@ -30,10 +31,12 @@ export default function MessageTable({ data }: Props) {
               <td> {contact.message.slice(0, 40)}... </td>
               <td> {formatDate(contact.createdAt)} </td>
               <td className="space-x-1">
-                <Button className="py-1 px-3 text-sm">View</Button>
-                <Button variant="accent" className="py-1 px-3 text-sm">
-                  Delete
-                </Button>
+                <MessageDetails message={contact} />
+                <DeleteAlert
+                  id={contact._id}
+                  count={data.count}
+                  path="/contacts"
+                />
               </td>
             </tr>
           ))}

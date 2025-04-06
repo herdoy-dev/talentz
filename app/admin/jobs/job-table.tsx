@@ -1,7 +1,8 @@
+import DeleteAlert from "@/components/delete-alert";
 import TableHead from "@/components/table-head";
-import Button from "@/components/ui/button";
 import { formatDate } from "@/lib/utils";
 import { JobResponse } from "@/schemas/job";
+import JobDetails from "./job";
 
 interface Props {
   data: JobResponse;
@@ -26,10 +27,8 @@ export default function JobTable({ data }: Props) {
               <td> {job.category.name} </td>
               <td> {formatDate(job.createdAt)} </td>
               <td className="space-x-1">
-                <Button className="py-1 px-3 text-sm">View</Button>
-                <Button variant="accent" className="py-1 px-3 text-sm">
-                  Delete
-                </Button>
+                <JobDetails job={job} />
+                <DeleteAlert count={data.count} id={job._id} path="/jobs" />
               </td>
             </tr>
           ))}

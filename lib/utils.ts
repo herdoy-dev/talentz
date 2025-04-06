@@ -14,3 +14,5 @@ export function formatDate(isoString: string) {
     minute: "2-digit",
   });
 }
+
+export const pageSize = 10;
