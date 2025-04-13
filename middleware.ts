@@ -23,6 +23,30 @@ export async function middleware(req: NextRequest) {
     if (!session.isAdmin) return NextResponse.redirect(new URL("/", req.url));
   }
 
+  if (session && pathname.startsWith("/buyer")) {
+    if (session.role !== "client" || session.isAdmin)
+      return NextResponse.redirect(new URL("/", req.url));
+  }
+
+  if (session && pathname.startsWith("/seller")) {
+    if (session.role !== "freelancer" || session.isAdmin)
+      return NextResponse.redirect(new URL("/", req.url));
+  }
+
+  if (session && pathname.startsWith("/profile-seller")) {
+    if (session.role !== "freelancer" || session.isAdmin)
+      return NextResponse.redirect(new URL("/", req.url));
+  }
+
+  if (session && pathname.startsWith("/profile-buyer")) {
+    if (session.role !== "client" || session.isAdmin)
+      return NextResponse.redirect(new URL("/", req.url));
+  }
+
+  if (session && pathname.startsWith("/profile-admin")) {
+    if (!session.isAdmin) return NextResponse.redirect(new URL("/", req.url));
+  }
+
   return NextResponse.next();
 }
 

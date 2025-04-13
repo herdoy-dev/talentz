@@ -5,7 +5,7 @@ import Link from "next/link";
 import { FaRegHeart } from "react-icons/fa6";
 import { FiBell } from "react-icons/fi";
 
-export default function AdminNavbar() {
+export default function BuyerNavbar() {
   return (
     <div className="w-full bg-primary">
       <Container className="h-[65px] flex items-center justify-between">

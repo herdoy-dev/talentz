@@ -1,8 +1,10 @@
+import { Theme } from "@radix-ui/themes";
+import "@radix-ui/themes/styles.css";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 import "./globals.css";
 import QueryClientProvider from "./query-client-provider";
-import { Toaster } from "react-hot-toast";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -23,7 +25,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={poppins.variable}>
-        <QueryClientProvider>{children}</QueryClientProvider>
+        <QueryClientProvider>
+          <Theme>{children}</Theme>
+        </QueryClientProvider>
         <Toaster />
       </body>
     </html>

@@ -1,11 +1,11 @@
 "use client";
-import { logout } from "@/actions/logout";
 import useSession from "@/hooks/useSession";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useState } from "react";
 import { Button } from "./button";
+import { ProfileCard } from "./profile-card";
 import Container from "./ui/container";
 
 const navItems = [
@@ -80,15 +80,6 @@ export default function Navbar() {
   const [isActive, setActive] = useState(false);
   const toggleMenu = useCallback(() => setActive((prev) => !prev), []);
 
-  const handleLogout = async () => {
-    try {
-      await logout();
-      window.location.href = "/";
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
     <>
       <div className="fixed w-full top-0 left-0 h-[65px] flex items-center justify-center bg-primary z-50">
@@ -120,14 +111,7 @@ export default function Navbar() {
                     </Link>
                   </>
                 )}
-                {session && (
-                  <button
-                    onClick={handleLogout}
-                    className="text-white text-[13px] cursor-pointer"
-                  >
-                    Log out
-                  </button>
-                )}
+                {session && <ProfileCard />}
               </div>
               <HamburgerMenu isActive={isActive} onClick={toggleMenu} />
             </div>

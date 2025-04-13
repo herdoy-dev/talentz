@@ -1,0 +1,42 @@
+import Steps from "./steps";
+
+const stepsFreelancer = [
+  {
+    id: 1,
+    label: "Set Up Profile",
+    url: "/profile-seller",
+  },
+  {
+    id: 2,
+    label: "Skills & Languages",
+    url: "/profile-seller/skills",
+  },
+  {
+    id: 3,
+    label: "Education",
+    url: "/profile-seller/education",
+  },
+  {
+    id: 4,
+    label: "Portfolio",
+    url: "/profile-seller/portfolio",
+  },
+  {
+    id: 5,
+    label: "Services",
+    url: "/profile-seller/services",
+  },
+  {
+    id: 6,
+    label: "Preview",
+    url: "/profile-seller/preview",
+  },
+];
+
+export default function SellerProfileSidebar() {
+  return (
+    <div className="p-4">
+      <Steps steps={stepsFreelancer} />
+    </div>
+  );
+}

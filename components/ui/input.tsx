@@ -1,6 +1,6 @@
+import { cn } from "@/lib/utils";
 import { InputHTMLAttributes } from "react";
 import Text from "./text";
-import { cn } from "@/lib/utils";
 
 type InputProps = {
   label?: string;
@@ -15,7 +15,7 @@ export default function Input({
   ...rest
 }: InputProps) {
   return (
-    <div>
+    <div className="w-full">
       {label && (
         <label htmlFor={label} className="block mb-1 text-sm font-medium">
           {label}
