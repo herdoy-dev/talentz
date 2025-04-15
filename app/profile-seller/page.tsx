@@ -1,5 +1,5 @@
 import NextSkip from "@/components/next-skip";
-import ProfileForm from "./profile-form";
+import ProfileForm from "../../components/profile-form";
 import ProfilePhoto from "./profile-photo";
 
 export default function SellerProfile() {
