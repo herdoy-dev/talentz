@@ -1,5 +1,6 @@
 import Image from "next/image";
 import LoginForm from "./login-form";
+import Link from "next/link";
 
 export default function Login() {
   return (
@@ -7,6 +8,12 @@ export default function Login() {
       <div className="flex items-center justify-center flex-col w-full md:px-6">
         <h2 className="text-primary">Welcome back!</h2>
         <LoginForm />
+        <div className="text-center text-sm text-gray-600 mt-4">
+          Don&apos;t have an account?{" "}
+          <Link href="/sign-up" className="text-primary underline">
+            Sign Up here
+          </Link>
+        </div>
       </div>
       <div className="hidden md:block">
         <Image

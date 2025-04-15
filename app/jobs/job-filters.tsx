@@ -1,5 +1,5 @@
 import Checkbox from "@/components/ui/checkbox";
-import Input from "@/components/ui/input";
+import { Input } from "@/components/ui/input";
 import FilterBox from "./filter-box";
 
 export default function JobFilters() {
