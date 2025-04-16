@@ -9,7 +9,7 @@ export default function SellerProfileLayout({ children }: PropsWithChildren) {
     <>
       <LogoNavbar />
       <Container>
-        <Grid columns={{ initial: "1", md: "300px 1fr" }}>
+        <Grid columns={{ initial: "1", md: "300px 1fr" }} className="mb-20">
           <SellerProfileSidebar />
           <div className="p-4">{children}</div>
         </Grid>

@@ -43,7 +43,7 @@ export function ProfileCard() {
       <DropdownMenuTrigger asChild>
         <div className="flex items-center gap-1 bg-[#FFFFFF4D] p-1 pr-2 rounded-2xl cursor-pointer">
           <Avatar
-            src={user.image ? user.image : "me.jpg"}
+            src={user.image ? user.image : "/me.jpg"}
             alt="me"
             className="!w-6 !h-6"
           />
@@ -54,7 +54,7 @@ export function ProfileCard() {
         <DropdownMenuLabel>
           <div className="flex items-center gap-2 mb">
             <Avatar
-              src={user.image ? user.image : "me.jpg"}
+              src={user.image ? user.image : "/me.jpg"}
               alt="me"
               className="!w-10 !h-10"
             />

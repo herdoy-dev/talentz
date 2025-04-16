@@ -1,9 +1,7 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { Button } from "@/components/button";
+import { queryClient } from "@/app/query-client-provider";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -14,13 +12,16 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import TextArea from "@/components/ui/text-area";
-import { Flex, Grid } from "@radix-ui/themes";
 import useMe from "@/hooks/useMe";
+import apiClient from "@/services/api-client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Flex, Grid } from "@radix-ui/themes";
 import { Loader2 } from "lucide-react";
 import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import apiClient from "@/services/api-client";
-import { queryClient } from "@/app/query-client-provider";
+import { BeatLoader } from "react-spinners";
+import { z } from "zod";
 
 // Enhanced validation schema
 const FormSchema = z.object({
@@ -256,12 +257,9 @@ export default function ProfileForm() {
           <Button
             type="submit"
             disabled={form.formState.isSubmitting || !form.formState.isDirty}
+            className="flex items-center justify-center w-40 h-[40px]"
           >
-            {form.formState.isSubmitting ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              "Save Changes"
-            )}
+            {form.formState.isSubmitting ? <BeatLoader /> : "Save Changes"}
           </Button>
         </Flex>
       </form>

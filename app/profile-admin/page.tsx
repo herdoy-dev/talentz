@@ -1,6 +1,5 @@
-import NextSkip from "@/components/next-skip";
-import ProfilePhoto from "./profile-photo";
 import ProfileForm from "@/components/profile-form";
+import ProfilePhoto from "./profile-photo";
 
 export default function SellerProfile() {
   return (
@@ -8,7 +7,6 @@ export default function SellerProfile() {
       <h2 className="text-primary">Set Up Profile</h2>
       <ProfilePhoto />
       <ProfileForm />
-      <NextSkip />
     </div>
   );
 }

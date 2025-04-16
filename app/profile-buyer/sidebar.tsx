@@ -17,7 +17,7 @@ const stepsFreelancer = [
     url: "/profile-buyer/education",
   },
   {
-    id: 6,
+    id: 4,
     label: "Preview",
     url: "/profile-buyer/preview",
   },

@@ -8,7 +8,7 @@ export default function SellerProfile() {
       <h2 className="text-primary">Set Up Profile</h2>
       <ProfilePhoto />
       <ProfileForm />
-      <NextSkip />
+      <NextSkip next="/profile-seller/skills" />
     </div>
   );
 }

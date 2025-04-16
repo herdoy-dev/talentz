@@ -6,6 +6,8 @@ interface User {
   firstName: string;
   lastName: string;
   email: string;
+  skills?: [string];
+  languages?: [string];
   image?: string;
   phone?: string; // Optional field
   location?: string; // Optional field
