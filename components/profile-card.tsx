@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import useSession from "@/hooks/useSession";
+import useMe from "@/hooks/useMe";
 import { BiSolidChevronDown } from "react-icons/bi";
 import { BsShieldLock } from "react-icons/bs";
 import { FaRegUserCircle } from "react-icons/fa";
@@ -25,7 +25,7 @@ import Avatar from "./ui/avatar";
 import Text from "./ui/text";
 
 export function ProfileCard() {
-  const { session } = useSession();
+  const { data: user } = useMe();
 
   const handleLogout = async () => {
     try {
@@ -36,26 +36,34 @@ export function ProfileCard() {
     }
   };
 
-  if (!session) return null;
+  if (!user) return null;
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <div className="flex items-center gap-1 bg-[#FFFFFF4D] p-1 pr-2 rounded-2xl cursor-pointer">
-          <Avatar src="/me.jpg" alt="me" className="!w-6 !h-6" />
+          <Avatar
+            src={user.image ? user.image : "me.jpg"}
+            alt="me"
+            className="!w-6 !h-6"
+          />
           <BiSolidChevronDown />
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-65 bg-white border-none overflow-hidden">
         <DropdownMenuLabel>
           <div className="flex items-center gap-2 mb">
-            <Avatar src="/me.jpg" alt="me" className="!w-10 !h-10" />
+            <Avatar
+              src={user.image ? user.image : "me.jpg"}
+              alt="me"
+              className="!w-10 !h-10"
+            />
             <div>
               <Text>
-                {session.firstName} {session.lastName}
+                {user.firstName} {user.lastName}
               </Text>
               <Text variant="gray" size="small">
-                {session.email}
+                {user.email}
               </Text>
             </div>
           </div>
