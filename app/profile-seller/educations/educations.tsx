@@ -37,7 +37,7 @@ export default function Educations() {
                 )}
               </div>
             </div>
-            <div className="absolute top-0 right-0 flex items-center gap-3">
+            <div className="absolute top-0 right-0 flex items-center">
               <EditEducation education={education} />
               <DeleteEducation educationId={education._id} />
             </div>

@@ -1,6 +1,6 @@
 "use client";
 import { queryClient } from "@/app/query-client-provider";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { DatePicker } from "@/components/ui/date-picker";
 import {
   Dialog,
@@ -80,10 +80,8 @@ export function AddEducation() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="outline" className="mt-5">
-          Add New Education
-        </Button>
+      <DialogTrigger className={buttonVariants()}>
+        Add New Education
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>

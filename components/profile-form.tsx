@@ -10,11 +10,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import TextArea from "@/components/ui/text-area";
 import useMe from "@/hooks/useMe";
 import apiClient from "@/services/api-client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Flex, Grid } from "@radix-ui/themes";
+import { Flex, Grid, TextArea } from "@radix-ui/themes";
 import { Loader2 } from "lucide-react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";

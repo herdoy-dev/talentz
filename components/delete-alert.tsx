@@ -30,7 +30,15 @@ export default function DeleteAlert({ id: messageId, count, path }: Props) {
   const [loading, setLoading] = useState(false);
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
-      <AlertDialogTrigger className="bg-red-500">Delete</AlertDialogTrigger>
+      <AlertDialogTrigger asChild>
+        <Button
+          variant="destructive"
+          className="bg-destructive hover:bg-destructive/80"
+          size="sm"
+        >
+          Delete
+        </Button>
+      </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
@@ -40,15 +48,12 @@ export default function DeleteAlert({ id: messageId, count, path }: Props) {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <Button
-            onClick={() => setOpen(false)}
-            variant="destructive"
-            size="sm"
-          >
+          <Button onClick={() => setOpen(false)} variant="secondary" size="sm">
             Cancel
           </Button>
           <Button
             size="sm"
+            variant="destructive"
             onClick={async () => {
               setLoading(true);
               const params = new URLSearchParams(searchParams.toString());
@@ -74,11 +79,7 @@ export default function DeleteAlert({ id: messageId, count, path }: Props) {
               }
             }}
           >
-            {loading ? (
-              <BeatLoader size={8} margin={2} color="#fff" />
-            ) : (
-              "Continue"
-            )}
+            {loading ? <BeatLoader color="#fff" /> : "Continue"}
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>

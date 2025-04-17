@@ -18,8 +18,8 @@ const stepsFreelancer = [
   },
   {
     id: 4,
-    label: "Portfolio",
-    url: "/profile-seller/portfolio",
+    label: "Portfolios",
+    url: "/profile-seller/portfolios",
   },
   {
     id: 5,

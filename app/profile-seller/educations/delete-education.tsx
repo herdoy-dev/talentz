@@ -10,7 +10,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import apiClient from "@/services/api-client";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
@@ -48,15 +48,10 @@ export function DeleteEducation({
 
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-      <AlertDialogTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="hover:bg-red-50 hover:text-red-600 text-gray-500 bg-transparent"
-          aria-label="Delete education"
-        >
-          <FiTrash2 className="h-4 w-4" />
-        </Button>
+      <AlertDialogTrigger
+        className={buttonVariants({ variant: "ghost", size: "sm" })}
+      >
+        <FiTrash2 className="h-4 w-4" />
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

@@ -1,6 +1,6 @@
 "use client";
 import { queryClient } from "@/app/query-client-provider";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { DatePicker } from "@/components/ui/date-picker";
 import {
   Dialog,
@@ -76,13 +76,10 @@ export function EditEducation({ education }: EditEducationProps) {
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-      <DialogTrigger asChild className="bg-transparent">
-        <button
-          aria-label="Edit education"
-          className="p-1 rounded-md hover:bg-gray-100 transition-colors"
-        >
-          <FaRegEdit className="text-gray-600 hover:text-gray-900" />
-        </button>
+      <DialogTrigger
+        className={buttonVariants({ variant: "ghost", size: "sm" })}
+      >
+        <FaRegEdit className="text-gray-600 hover:text-gray-900" />
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>

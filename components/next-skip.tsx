@@ -12,7 +12,9 @@ export default function NextSkip({ next }: Props) {
     <>
       <div className="shadow-2xl shadow-dark w-full bg-secondary fixed left-0 bottom-0">
         <Container className="flex items-center justify-between h-20">
-          <p className="underline text-primary cursor-pointer">Skip For Now</p>
+          <Link href={next} className={buttonVariants({ variant: "link" })}>
+            Skip For Now
+          </Link>
           <Link
             href={next}
             className={cn(buttonVariants({ variant: "outline" }), "px-12")}

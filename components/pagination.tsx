@@ -54,14 +54,16 @@ const Pagination = ({ currentPage, pageCount }: Props) => {
       </p>
       <div className="flex items-center gap-3">
         <Button
-          className="py-1 px-2 rounded-md"
+          className="rounded-md"
+          size="sm"
           disabled={safeCurrentPage <= 1}
           onClick={() => handlePageChange(1)}
         >
           <MdKeyboardDoubleArrowLeft />
         </Button>
         <Button
-          className="py-1 px-2 rounded-md"
+          className="rounded-md"
+          size="sm"
           disabled={safeCurrentPage <= 1}
           onClick={() => handlePageChange(safeCurrentPage - 1)}
         >
@@ -69,7 +71,8 @@ const Pagination = ({ currentPage, pageCount }: Props) => {
         </Button>
 
         <Button
-          className="py-1 px-2 rounded-md"
+          className="rounded-md"
+          size="sm"
           disabled={safeCurrentPage >= pageCount}
           onClick={() => handlePageChange(safeCurrentPage + 1)}
         >
@@ -77,7 +80,8 @@ const Pagination = ({ currentPage, pageCount }: Props) => {
         </Button>
 
         <Button
-          className="py-1 px-2 rounded-md"
+          className="rounded-md"
+          size="sm"
           disabled={safeCurrentPage >= pageCount}
           onClick={() => handlePageChange(pageCount)}
         >

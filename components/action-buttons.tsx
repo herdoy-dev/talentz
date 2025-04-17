@@ -16,7 +16,8 @@ export default function ActionButtons({ className, isAllSecondary }: Props) {
     >
       <Button className="w-full md:w-auto">Join as a Freelancer</Button>
       <Button
-        className={cn("w-full md:w-auto", isAllSecondary && "bg-primary-light")}
+        className="w-full md:w-auto"
+        variant={isAllSecondary ? "default" : "dark"}
       >
         Hire a Freelancer
       </Button>

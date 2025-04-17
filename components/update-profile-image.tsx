@@ -9,7 +9,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import useSession from "@/hooks/useSession";
 import { handleUpload } from "@/lib/utils";
 import apiClient from "@/services/api-client";
@@ -24,6 +24,7 @@ import ReactCrop, {
   Crop,
   makeAspectCrop,
 } from "react-image-crop";
+import { BeatLoader } from "react-spinners";
 
 const ASPECT_RATIO = 4 / 4;
 const MIN_DIMENSION = 150;
@@ -83,7 +84,7 @@ const UpdateProfileImage = () => {
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
-      <AlertDialogTrigger className="bg-transparent">
+      <AlertDialogTrigger className="bg-transparent hover:bg-transparent">
         <Flex
           align="center"
           justify="center"
@@ -153,9 +154,14 @@ const UpdateProfileImage = () => {
           </div>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel
+            className={buttonVariants({ variant: "secondary", size: "sm" })}
+          >
+            Cancel
+          </AlertDialogCancel>
           <Button
             disabled={loading || !imgSrc}
+            size="sm"
             onClick={async () => {
               setLoading(true);
               if (imgRef.current && previewCanvasRef.current && crop) {
@@ -183,7 +189,7 @@ const UpdateProfileImage = () => {
               }
             }}
           >
-            {loading ? "Uploading..." : "Continue"}
+            {loading ? <BeatLoader color="#fff" /> : "Continue"}
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>

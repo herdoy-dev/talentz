@@ -14,9 +14,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import TextArea from "@/components/ui/text-area";
 import apiClient from "@/services/api-client";
 import toast from "react-hot-toast";
+import { TextArea } from "@radix-ui/themes";
 
 const FormSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
