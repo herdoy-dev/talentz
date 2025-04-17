@@ -1,6 +1,5 @@
 "use client";
 import { queryClient } from "@/app/query-client-provider";
-import { Button } from "@/components/button";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -10,6 +9,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 import useSession from "@/hooks/useSession";
 import { handleUpload } from "@/lib/utils";
 import apiClient from "@/services/api-client";

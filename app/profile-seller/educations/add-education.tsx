@@ -1,6 +1,6 @@
 "use client";
 import { queryClient } from "@/app/query-client-provider";
-import { Button } from "@/components/button";
+import { Button } from "@/components/ui/button";
 import { DatePicker } from "@/components/ui/date-picker";
 import {
   Dialog,
@@ -24,6 +24,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { BeatLoader } from "react-spinners";
 import { z } from "zod";
 
 const educationFormSchema = z
@@ -175,7 +176,11 @@ export function AddEducation() {
                   !form.formState.isValid || form.formState.isSubmitting
                 }
               >
-                {form.formState.isSubmitting ? "Saving..." : "Save Education"}
+                {form.formState.isSubmitting ? (
+                  <BeatLoader />
+                ) : (
+                  "Save Education"
+                )}
               </Button>
             </DialogFooter>
           </form>

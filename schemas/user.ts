@@ -4,7 +4,7 @@ export interface User {
   lastName: string;
   email: string;
   role: string;
-  createdAt: string;
+  createdAt: Date;
 }
 
 export interface UsersResponse {

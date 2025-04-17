@@ -4,6 +4,7 @@ import Text from "@/components/ui/text";
 import useEducations from "@/hooks/useEducations";
 import { DeleteEducation } from "./delete-education";
 import { EditEducation } from "./edit-education";
+import { formatDate } from "@/lib/utils";
 
 export default function Educations() {
   const { data } = useEducations();
@@ -11,25 +12,38 @@ export default function Educations() {
   return (
     <div>
       <h3 className="text-primary mb-2">Added education</h3>
-      {data.map((education) => (
-        <div
-          key={education._id}
-          className="px-4 py-8 max-w-[350px] border border-gray-400 rounded-2xl relative my-3"
-        >
-          <h4> {education.degree} </h4>
-          <Text variant="gray" size="small">
-            {" "}
-            {education.institution}{" "}
-          </Text>
-          <Text variant="gray" size="small" className="mt-3">
-            Jan 2022
-          </Text>
-          <div className="absolute top-3 right-3 flex items-center gap-3">
-            <EditEducation education={education} />
-            <DeleteEducation educationId={education._id} />
+      <div className="flex items-center flex-wrap gap-3">
+        {data.map((education) => (
+          <div
+            key={education._id}
+            className="px-4 max-w-[350px] border border-gray-400 rounded-2xl relative my-3"
+          >
+            <div className="py-8">
+              <h4 className="text-primary"> {education.degree} </h4>
+              <Text variant="gray" size="small">
+                {" "}
+                {education.institution}{" "}
+              </Text>
+              <div className="flex items-center justify-between w-full">
+                <Text variant="gray" size="small" className="mt-3">
+                  <span className="font-semibold">Started:</span>{" "}
+                  {formatDate(education.startDate, true)}
+                </Text>
+                {education.endDate && (
+                  <Text variant="gray" size="small" className="mt-3">
+                    <span className="font-semibold">Finished:</span>{" "}
+                    {formatDate(education.endDate, true)}
+                  </Text>
+                )}
+              </div>
+            </div>
+            <div className="absolute top-0 right-0 flex items-center gap-3">
+              <EditEducation education={education} />
+              <DeleteEducation educationId={education._id} />
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }

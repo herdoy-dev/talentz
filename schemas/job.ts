@@ -9,7 +9,7 @@ export interface Job {
   type: "fixed" | "hourly";
   jobSize: "large" | "medium" | "small";
   description: string;
-  createdAt: string;
+  createdAt: Date;
 }
 
 export interface JobResponse {

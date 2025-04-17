@@ -7,7 +7,7 @@ import {
   MdKeyboardDoubleArrowLeft,
   MdKeyboardDoubleArrowRight,
 } from "react-icons/md";
-import { Button } from "./button";
+import { Button } from "./ui/button";
 
 interface Props {
   currentPage: number;

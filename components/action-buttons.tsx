@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { Button } from "./button";
+import { Button } from "./ui/button";
 
 interface Props {
   className?: string;
@@ -16,8 +16,7 @@ export default function ActionButtons({ className, isAllSecondary }: Props) {
     >
       <Button className="w-full md:w-auto">Join as a Freelancer</Button>
       <Button
-        className="w-full md:w-auto"
-        variant={isAllSecondary ? "secondary" : "primary"}
+        className={cn("w-full md:w-auto", isAllSecondary && "bg-primary-light")}
       >
         Hire a Freelancer
       </Button>

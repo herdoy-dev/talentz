@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/components/button";
+import { Button } from "@/components/ui/button";
 import Avatar from "@/components/ui/avatar";
 import IconBadge from "@/components/ui/icon-badge";
 import Text from "@/components/ui/text";

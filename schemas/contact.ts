@@ -4,7 +4,7 @@ export interface Contact {
   lastName: string;
   email: string;
   message: string;
-  createdAt: string;
+  createdAt: Date;
 }
 
 export interface ContactResponse {

@@ -34,7 +34,13 @@ export default function Steps({ steps }: Props) {
             {step.id}
           </div>
           <div className="flex-1 -mt-1">
-            <Link href={step.url} className="text-primary">
+            <Link
+              href={step.url}
+              className={cn(
+                "text-primary",
+                step.url === currentPath && "text-primary-dark"
+              )}
+            >
               {step.label}
             </Link>
           </div>

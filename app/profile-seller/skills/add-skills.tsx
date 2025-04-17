@@ -84,8 +84,8 @@ export default function AddSkills() {
             <Button
               onClick={() => setSkill(skillItem.value)}
               size="sm"
-              className="bg-[#AAEBCA80] text-primary rounded-full cursor-pointer hover:bg-[#AAEBCA80]"
               key={skillItem._id}
+              variant="light"
             >
               {skillItem.value} <IoAdd />
             </Button>
@@ -100,8 +100,8 @@ export default function AddSkills() {
               <Button
                 onClick={() => handleRemoveSkill(skill)}
                 size="sm"
-                className="bg-[#DCDCDC80] text-primary rounded-full cursor-pointer hover:bg-[#DCDCDC80]"
                 key={i}
+                variant="secondary"
               >
                 {skill} <IoClose />
               </Button>

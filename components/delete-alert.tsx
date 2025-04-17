@@ -1,5 +1,4 @@
 "use client";
-import { Button } from "@/components/button";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -9,6 +8,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 import { pageSize } from "@/lib/utils";
 import apiClient from "@/services/api-client";
 import { AxiosError } from "axios";
@@ -40,7 +40,11 @@ export default function DeleteAlert({ id: messageId, count, path }: Props) {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <Button onClick={() => setOpen(false)} variant="accent" size="sm">
+          <Button
+            onClick={() => setOpen(false)}
+            variant="destructive"
+            size="sm"
+          >
             Cancel
           </Button>
           <Button

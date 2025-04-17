@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/components/button";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 interface SwitcherProps<T extends string> {
@@ -28,7 +28,7 @@ export default function Switcher<T extends string>({
           onClick={() => onChange(option)}
           className={cn(
             "py-1 px-8 md:px-12 transition-all",
-            selected === option ? "bg-secondary" : "bg-transparent text-dark"
+            selected === option ? "bg-primary" : "bg-transparent text-dark"
           )}
         >
           {option}

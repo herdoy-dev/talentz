@@ -1,6 +1,6 @@
 "use client";
 import { setAuthToken } from "@/actions/set-token";
-import { Button } from "@/components/button";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import apiClient from "@/services/api-client";
 import { zodResolver } from "@hookform/resolvers/zod";

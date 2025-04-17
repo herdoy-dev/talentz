@@ -48,7 +48,7 @@ export default function WhyChooseUs() {
           {items.map((item) => (
             <div key={item.id}>
               <div className="flex items-center gap-2">
-                <FaCheckCircle className="text-secondary text-xl" />
+                <FaCheckCircle className="text-primary text-xl" />
                 <h4 className="text-primary">{item.title}</h4>
               </div>
               <Text> {item.description} </Text>

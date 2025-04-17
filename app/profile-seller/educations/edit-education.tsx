@@ -1,6 +1,6 @@
 "use client";
 import { queryClient } from "@/app/query-client-provider";
-import { Button } from "@/components/button";
+import { Button } from "@/components/ui/button";
 import { DatePicker } from "@/components/ui/date-picker";
 import {
   Dialog,

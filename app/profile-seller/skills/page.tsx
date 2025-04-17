@@ -5,7 +5,7 @@ import AddLanguages from "./add-languages";
 export default function SkillsLanguages() {
   return (
     <div className="mb-30">
-      <h2 className="text-primary">Skills & Languages</h2>
+      <h2 className="mb-5">Skills & Languages</h2>
       <AddSkills />
       <AddLanguages />
       <NextSkip next="/profile-seller/educations" />

@@ -1,7 +1,6 @@
 "use client";
 
 import { queryClient } from "@/app/query-client-provider";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -22,6 +21,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { BeatLoader } from "react-spinners";
 import { z } from "zod";
+import { Button } from "./ui/button";
 
 // Enhanced validation schema
 const FormSchema = z.object({
@@ -257,7 +257,6 @@ export default function ProfileForm() {
           <Button
             type="submit"
             disabled={form.formState.isSubmitting || !form.formState.isDirty}
-            className="flex items-center justify-center w-40 h-[40px]"
           >
             {form.formState.isSubmitting ? <BeatLoader /> : "Save Changes"}
           </Button>

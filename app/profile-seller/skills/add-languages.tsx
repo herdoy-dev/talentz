@@ -85,7 +85,7 @@ export default function AddLanguages() {
             <Button
               onClick={() => setLanguage(languageItem.value)}
               size="sm"
-              className="bg-[#AAEBCA80] text-primary rounded-full cursor-pointer hover:bg-[#AAEBCA80] flex items-center gap-1"
+              variant="light"
               key={languageItem._id}
             >
               {languageItem.value} <IoAdd className="text-xs" />
@@ -102,7 +102,7 @@ export default function AddLanguages() {
               <Button
                 onClick={() => handleRemoveLanguage(lang)}
                 size="sm"
-                className="bg-[#DCDCDC80] text-primary rounded-full cursor-pointer hover:bg-[#DCDCDC80] flex items-center gap-1"
+                variant="secondary"
                 key={lang}
               >
                 {lang} <IoClose className="text-xs" />

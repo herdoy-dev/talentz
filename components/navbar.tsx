@@ -4,8 +4,8 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useState } from "react";
-import { Button } from "./button";
 import { ProfileCard } from "./profile-card";
+import { Button } from "./ui/button";
 import Container from "./ui/container";
 
 const navItems = [
@@ -82,7 +82,7 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="fixed w-full top-0 left-0 h-[65px] flex items-center justify-center bg-primary z-50">
+      <div className="fixed w-full top-0 left-0 h-[65px] flex items-center justify-center bg-primary-dark z-50">
         <Container>
           <nav className="flex items-center justify-between">
             <div className={flexClasses}>

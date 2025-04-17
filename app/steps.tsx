@@ -27,7 +27,7 @@ export default function Steps({ title, steps, className }: Props) {
               steps.length !== step.id && "border-l-2 border-gray-300"
             )}
           >
-            <div className="-ml-[10px] w-5 h-5 bg-secondary flex items-center justify-center rounded-full text-white text-xs font-semibold">
+            <div className="-ml-[10px] w-5 h-5 bg-primary flex items-center justify-center rounded-full text-white text-xs font-semibold">
               {step.id}
             </div>
             <div className="flex-1 -mt-1">
