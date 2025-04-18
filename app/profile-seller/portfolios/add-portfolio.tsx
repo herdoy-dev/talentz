@@ -56,7 +56,6 @@ const portfolioFormSchema = z
   })
   .refine(
     (data) => {
-      // Custom validation example: title and description shouldn't be the same
       return (
         data.title.trim().toLowerCase() !==
         data.description.trim().toLowerCase()

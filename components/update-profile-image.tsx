@@ -113,7 +113,7 @@ const UpdateProfileImage = () => {
             {error && <p className="text-red-400 text-xs">{error}</p>}
 
             {imgSrc && (
-              <div className="flex flex-col items-center">
+              <div className="flex flex-col items-center relative">
                 <ReactCrop
                   crop={crop}
                   onChange={(pixelCrop, percentCrop) => setCrop(percentCrop)}
@@ -134,8 +134,8 @@ const UpdateProfileImage = () => {
                   />
                 </ReactCrop>
                 {loading && (
-                  <div className="w-full h-full bg-black/60 absolute flex items-center justify-center">
-                    <div className="loader"></div>
+                  <div className="w-full h-full bg-primary-dark/60 absolute flex items-center justify-center">
+                    <BeatLoader color="#fff" />
                   </div>
                 )}
               </div>
