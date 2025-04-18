@@ -23,7 +23,7 @@ interface Props {
   path: string;
 }
 
-export default function DeleteAlert({ id: messageId, count, path }: Props) {
+export default function DeleteTableItem({ id: messageId, count, path }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [open, setOpen] = useState(false);

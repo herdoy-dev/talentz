@@ -1,8 +1,8 @@
 "use client";
 
+import { DeleteDialog } from "@/components/delete-dialog";
 import usePortfolios from "@/hooks/usePortfolios";
 import Image from "next/image";
-import { DeletePortfolio } from "./delete-portfolio";
 import { EditPortfolio } from "./edit-portfolio";
 
 export default function Portfolios() {
@@ -31,7 +31,7 @@ export default function Portfolios() {
               </p>
               <div className="flex">
                 <EditPortfolio portfolio={portfolio} />
-                <DeletePortfolio portfolioId={portfolio._id} />
+                <DeleteDialog id={portfolio._id} path="portfolios" />
               </div>
             </div>
           </div>

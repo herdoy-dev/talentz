@@ -1,4 +1,4 @@
-import DeleteAlert from "@/components/delete-alert";
+import DeleteTableItem from "@/components/delete-table-item";
 import TableHead from "@/components/table-head";
 import { formatDate } from "@/lib/utils";
 import { UsersResponse } from "@/schemas/user";
@@ -30,7 +30,11 @@ export default function UserTable({ data }: Props) {
               <td> {user.role}</td>
               <td> {formatDate(user.createdAt)} </td>
               <td className="space-x-1">
-                <DeleteAlert count={data.count} id={user._id} path="/users" />
+                <DeleteTableItem
+                  count={data.count}
+                  id={user._id}
+                  path="/users"
+                />
               </td>
             </tr>
           ))}

@@ -1,14 +1,15 @@
 "use client";
 
+import { DeleteDialog } from "@/components/delete-dialog";
 import Text from "@/components/ui/text";
 import useEducations from "@/hooks/useEducations";
-import { DeleteEducation } from "./delete-education";
-import { EditEducation } from "./edit-education";
 import { formatDate } from "@/lib/utils";
+import { EditEducation } from "./edit-education";
 
 export default function Educations() {
   const { data } = useEducations();
   if (!data) return null;
+
   return (
     <div>
       <h3 className="text-primary mb-2">Added education</h3>
@@ -39,7 +40,7 @@ export default function Educations() {
             </div>
             <div className="absolute top-0 right-0 flex items-center">
               <EditEducation education={education} />
-              <DeleteEducation educationId={education._id} />
+              <DeleteDialog id={education._id} path="educations" />
             </div>
           </div>
         ))}

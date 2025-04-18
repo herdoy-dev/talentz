@@ -1,4 +1,4 @@
-import DeleteAlert from "@/components/delete-alert";
+import DeleteTableItem from "@/components/delete-table-item";
 import TableHead from "@/components/table-head";
 import { formatDate } from "@/lib/utils";
 import { JobResponse } from "@/schemas/job";
@@ -28,7 +28,7 @@ export default function JobTable({ data }: Props) {
               <td> {formatDate(job.createdAt)} </td>
               <td className="space-x-1">
                 <JobDetails job={job} />
-                <DeleteAlert count={data.count} id={job._id} path="/jobs" />
+                <DeleteTableItem count={data.count} id={job._id} path="/jobs" />
               </td>
             </tr>
           ))}

@@ -1,4 +1,4 @@
-import DeleteAlert from "@/components/delete-alert";
+import DeleteTableItem from "@/components/delete-table-item";
 import TableHead from "@/components/table-head";
 import { formatDate } from "@/lib/utils";
 import { ContactResponse } from "@/schemas/contact";
@@ -32,7 +32,7 @@ export default function MessageTable({ data }: Props) {
               <td> {formatDate(contact.createdAt)} </td>
               <td className="space-x-1">
                 <MessageDetails message={contact} />
-                <DeleteAlert
+                <DeleteTableItem
                   id={contact._id}
                   count={data.count}
                   path="/contacts"
