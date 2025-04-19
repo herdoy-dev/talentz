@@ -1,7 +1,6 @@
 "use client";
 import { queryClient } from "@/app/query-client-provider";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { DatePicker } from "@/components/ui/date-picker";
 import {
   Dialog,
   DialogContent,
@@ -23,6 +22,7 @@ import Education from "@/schemas/education";
 import apiClient from "@/services/api-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import DatePicker from "react-datepicker";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { FaRegEdit } from "react-icons/fa";
@@ -133,11 +133,10 @@ export function EditEducation({ education }: EditEducationProps) {
                     <FormLabel>Start Date*</FormLabel>
                     <FormControl>
                       <DatePicker
+                        className="border border-primary py-1 px-2 rounded-md"
+                        placeholderText="Start Date..."
                         selected={field.value}
-                        onSelect={field.onChange}
-                        placeholderText="Select start date"
-                        fromDate={new Date(1970, 0, 1)}
-                        toDate={new Date()}
+                        onChange={field.onChange}
                       />
                     </FormControl>
                     <FormMessage />
@@ -153,11 +152,10 @@ export function EditEducation({ education }: EditEducationProps) {
                     <FormLabel>End Date</FormLabel>
                     <FormControl>
                       <DatePicker
-                        selected={field.value!}
-                        onSelect={field.onChange}
-                        placeholderText="Select end date"
-                        isClearable
-                        fromDate={form.watch("startDate")}
+                        className="border border-primary py-1 px-2 rounded-md"
+                        placeholderText="Finished Date..."
+                        selected={field.value}
+                        onChange={field.onChange}
                       />
                     </FormControl>
                     <FormMessage />

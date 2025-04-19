@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import "react-image-crop/dist/ReactCrop.css";
+import "react-datepicker/dist/react-datepicker.css";
 import "./globals.css";
 import QueryClientProvider from "./query-client-provider";
 

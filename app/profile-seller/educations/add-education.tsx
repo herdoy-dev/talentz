@@ -1,7 +1,7 @@
 "use client";
 import { queryClient } from "@/app/query-client-provider";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { DatePicker } from "@/components/ui/date-picker";
+import DatePicker from "react-datepicker";
 import {
   Dialog,
   DialogContent,
@@ -132,11 +132,10 @@ export function AddEducation() {
                     <FormLabel>Start Date*</FormLabel>
                     <FormControl>
                       <DatePicker
+                        className="border border-primary py-1 px-2 rounded-md"
+                        placeholderText="Start Date..."
                         selected={field.value}
-                        onSelect={field.onChange}
-                        placeholderText="Select start date"
-                        fromDate={new Date(1970, 0, 1)}
-                        toDate={new Date()}
+                        onChange={field.onChange}
                       />
                     </FormControl>
                     <FormMessage />
@@ -152,13 +151,10 @@ export function AddEducation() {
                     <FormLabel>End Date</FormLabel>
                     <FormControl>
                       <DatePicker
-                        selected={field.value!}
-                        onSelect={field.onChange}
-                        placeholderText="Select end date"
-                        isClearable
-                        fromDate={
-                          form.watch("startDate") || new Date(1970, 0, 1)
-                        }
+                        className="border border-primary py-1 px-2 rounded-md"
+                        placeholderText="Finished Date..."
+                        selected={field.value}
+                        onChange={field.onChange}
                       />
                     </FormControl>
                     <FormMessage />
