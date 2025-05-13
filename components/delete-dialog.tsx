@@ -1,3 +1,4 @@
+'use client'
 import { queryClient } from "@/app/query-client-provider";
 import {
   AlertDialog,
