@@ -1,4 +1,4 @@
-import AddService from "./add-service";
+import ServiceForm from "./service-form";
 import Services from "./services";
 
 export default function ServicesPage() {
@@ -7,7 +7,7 @@ export default function ServicesPage() {
       <h1 className="text-primary mb-5">Services</h1>
       <Services />
       <div className="mt-5">
-        <AddService />
+        <ServiceForm />
       </div>
     </div>
   );

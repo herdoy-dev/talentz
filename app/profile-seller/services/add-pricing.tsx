@@ -27,17 +27,34 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import usePackages from "@/hooks/usePackages";
 import apiClient from "@/services/api-client";
 import { Grid } from "@radix-ui/themes";
 import { GoDotFill } from "react-icons/go";
 
+const PACKAGE_LABELS = {
+  BASIC: "Basic",
+  STANDARD: "Standard",
+  PREMIUM: "Premium",
+} as const;
+
+const packageLabels = Object.values(PACKAGE_LABELS);
+
 const portfolioFormSchema = z.object({
-  label: z
-    .string()
-    .min(1, "Please enter a project title")
-    .max(255, "Title should be less than 255 characters"),
-  price: z.string().min(5).max(5000),
+  label: z.enum(
+    [PACKAGE_LABELS.BASIC, PACKAGE_LABELS.STANDARD, PACKAGE_LABELS.PREMIUM],
+    {
+      required_error: "Please select a package label",
+    }
+  ),
+  price: z.string().min(1, "Price is required").max(5000),
 });
 
 type PortfolioFormValues = z.infer<typeof portfolioFormSchema>;
@@ -52,7 +69,7 @@ export default function AddPricing({ serviceId }: Props) {
   const form = useForm<PortfolioFormValues>({
     resolver: zodResolver(portfolioFormSchema),
     defaultValues: {
-      label: "",
+      label: undefined,
       price: "",
     },
   });
@@ -80,21 +97,27 @@ export default function AddPricing({ serviceId }: Props) {
         features,
         serviceId,
       });
-      toast.success("Service updated successfully!");
+      toast.success("Package added successfully!");
       queryClient.invalidateQueries({ queryKey: ["packages"] });
       form.reset();
       setFeatures([]);
     } catch (error) {
-      toast.error("Failed to update service");
+      toast.error("Failed to add package");
       console.error(error);
     }
   };
 
   const { data } = usePackages(serviceId);
+  const existingLabels = data?.result?.map((pkg) => pkg.label) || [];
 
   return (
     <Dialog>
-      <DialogTrigger className={buttonVariants()}>Add Pricing</DialogTrigger>
+      <DialogTrigger
+        className={buttonVariants()}
+        disabled={existingLabels.length >= packageLabels.length}
+      >
+        Add Pricing
+      </DialogTrigger>
 
       <DialogContent className="sm:max-w-[calc(100vw-80px)]">
         <DialogHeader>
@@ -111,12 +134,27 @@ export default function AddPricing({ serviceId }: Props) {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Label</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="e.g. (Gold, Platinum, Sliver)"
-                          {...field}
-                        />
-                      </FormControl>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a package label" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {packageLabels.map((label) => (
+                            <SelectItem
+                              key={label}
+                              value={label}
+                              disabled={existingLabels.includes(label)}
+                            >
+                              {label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -174,10 +212,19 @@ export default function AddPricing({ serviceId }: Props) {
                   </div>
                 </div>
               </div>
+              <DialogFooter className="mt-6">
+                <Button type="submit" disabled={form.formState.isSubmitting}>
+                  {form.formState.isSubmitting ? (
+                    <BeatLoader size={6} />
+                  ) : (
+                    "Save"
+                  )}
+                </Button>
+              </DialogFooter>
             </form>
           </Form>
           {data && data.result && (
-            <div className="space-y-5">
+            <div className="space-y-5 max-h-[60dvh] overflow-auto">
               {data.result.map((d) => (
                 <div key={d._id} className="border p-3 shadow rounded-2xl">
                   <div className="flex w-full items-center justify-between">
@@ -196,11 +243,6 @@ export default function AddPricing({ serviceId }: Props) {
             </div>
           )}
         </Grid>
-        <DialogFooter className="mt-6">
-          <Button type="submit" disabled={form.formState.isSubmitting}>
-            {form.formState.isSubmitting ? <BeatLoader size={6} /> : "Save"}
-          </Button>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

@@ -5,7 +5,7 @@ import useServices from "@/hooks/useServices";
 import { Grid } from "@radix-ui/themes";
 import { GoDotFill } from "react-icons/go";
 import AddPricing from "./add-pricing";
-import EditService from "./edit-service";
+import ServiceForm from "./service-form";
 
 export default function Services() {
   const { data } = useServices();
@@ -34,7 +34,7 @@ export default function Services() {
               </ul>
             </div>
             <div className="flex absolute top-2 right-2">
-              <EditService service={service} />
+              <ServiceForm service={service} />
               <DeleteDialog id={service._id} path="services" />
             </div>
             <div className="absolute bottom-4 right-4">
