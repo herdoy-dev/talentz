@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Grid } from "@radix-ui/themes";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -34,6 +33,7 @@ import { Input } from "@/components/ui/input";
 import Text from "@/components/ui/text";
 import { Textarea } from "@/components/ui/textarea";
 
+import { queryClient } from "@/app/query-client-provider";
 import { storage } from "@/firebase";
 import useMe from "@/hooks/useMe";
 import { Service } from "@/schemas/service";
@@ -71,7 +71,6 @@ interface EditServiceProps {
 }
 
 export default function EditService({ service }: EditServiceProps) {
-  const router = useRouter();
   const { data: userData } = useMe();
 
   const [open, setOpen] = useState(false);
@@ -141,7 +140,7 @@ export default function EditService({ service }: EditServiceProps) {
     try {
       await apiClient.put(`/services/${service._id}`, updatedService);
       toast.success("Service updated successfully!");
-      router.refresh();
+      queryClient.invalidateQueries({ queryKey: ["services"] });
       setOpen(false);
     } catch (error) {
       toast.error("Failed to update service");
