@@ -128,7 +128,7 @@ export function AddPortfolio() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className={buttonVariants()}>
-        Add New Project
+        Add New Portfolio
       </DialogTrigger>
       <DialogContent className="sm:max-w-[calc(100vw-80px)]">
         <DialogHeader>
@@ -221,54 +221,56 @@ export function AddPortfolio() {
               </div>
 
               <div className="flex flex-col h-full">
-                <FormLabel htmlFor="portfolio-image" className="mb-3">
-                  Media
-                </FormLabel>
-                <div className="h-full border-primary border-2 border-dashed rounded-2xl flex items-center justify-center relative">
-                  <input
-                    onChange={handleImageUpload}
-                    id="portfolio-image"
-                    className="w-full h-full opacity-0 absolute top-0 left-0 cursor-pointer"
-                    type="file"
-                    accept="image/*"
-                    disabled={isUploading}
-                  />
-                  {image ? (
-                    <div className="w-full h-full p-2">
-                      <Image
-                        src={image}
-                        alt="Preview"
-                        width={500}
-                        height={300}
-                        className="w-full h-full object-cover rounded-lg"
-                      />
-                    </div>
-                  ) : (
-                    <div className="flex flex-col items-center justify-center gap-1">
-                      {isUploading ? (
-                        <BeatLoader size={8} />
-                      ) : (
-                        <>
-                          <Text>
-                            <span className="text-primary">Upload </span>image
-                            or Drag and Drop here
-                          </Text>
-                          <Text
-                            variant="gray"
-                            className="text-gray-400"
-                            size="small"
-                          >
-                            (JPG, PNG formats, up to 50MB)
-                          </Text>
-                        </>
-                      )}
-                    </div>
-                  )}
+                <div className="h-[450px]">
+                  <FormLabel htmlFor="portfolio-image" className="mb-3">
+                    Media
+                  </FormLabel>
+                  <div className="h-full border-primary border-2 border-dashed rounded-2xl flex items-center justify-center relative">
+                    <input
+                      onChange={handleImageUpload}
+                      id="portfolio-image"
+                      className="w-full h-full opacity-0 absolute top-0 left-0 cursor-pointer"
+                      type="file"
+                      accept="image/*"
+                      disabled={isUploading}
+                    />
+                    {image ? (
+                      <div className="w-full h-full p-2">
+                        <Image
+                          src={image}
+                          alt="Preview"
+                          width={500}
+                          height={300}
+                          className="w-full h-full object-cover rounded-lg"
+                        />
+                      </div>
+                    ) : (
+                      <div className="flex flex-col items-center justify-center gap-1">
+                        {isUploading ? (
+                          <BeatLoader size={8} />
+                        ) : (
+                          <>
+                            <Text>
+                              <span className="text-primary">Upload </span>image
+                              or Drag and Drop here
+                            </Text>
+                            <Text
+                              variant="gray"
+                              className="text-gray-400"
+                              size="small"
+                            >
+                              (JPG, PNG formats, up to 50MB)
+                            </Text>
+                          </>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </Grid>
 
-            <DialogFooter className="mt-6">
+            <DialogFooter className="mt-12">
               <Button
                 type="submit"
                 disabled={form.formState.isSubmitting || isUploading}

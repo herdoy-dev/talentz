@@ -1,4 +1,4 @@
-import { AddService } from "./add-service";
+import AddService from "./add-service";
 import Services from "./services";
 
 export default function ServicesPage() {

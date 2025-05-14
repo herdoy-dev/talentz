@@ -1,10 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { DeleteDialog } from "@/components/delete-dialog";
 import { GetServicesResponse } from "@/schemas/service";
 import apiClient from "@/services/api-client";
 import { Grid } from "@radix-ui/themes";
+import { useEffect, useState } from "react";
 import { GoDotFill } from "react-icons/go";
+import EditService from "./edit-service";
 
 export default function Services() {
   const [services, setServices] = useState<GetServicesResponse["result"]>([]);
@@ -29,7 +31,7 @@ export default function Services() {
         {services.map((service) => (
           <div
             key={service._id}
-            className="border rounded-2xl overflow-hidden shadow-2xl"
+            className="border rounded-2xl overflow-hidden shadow-2xl relative"
           >
             <div className="px-2 py-4 space-y-3">
               <p className="text-xl font-semibold text-primary">
@@ -42,6 +44,10 @@ export default function Services() {
                   </li>
                 ))}
               </ul>
+            </div>
+            <div className="flex absolute top-2 right-2">
+              <EditService service={service} />
+              <DeleteDialog id={service._id} path="services" />
             </div>
           </div>
         ))}

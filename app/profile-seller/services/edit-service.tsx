@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { FaRegEdit } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
 import { BeatLoader } from "react-spinners";
 import { z } from "zod";
@@ -35,6 +36,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 import { storage } from "@/firebase";
 import useMe from "@/hooks/useMe";
+import { Service } from "@/schemas/service";
 import apiClient from "@/services/api-client";
 
 const portfolioFormSchema = z
@@ -64,25 +66,29 @@ const portfolioFormSchema = z
 
 type PortfolioFormValues = z.infer<typeof portfolioFormSchema>;
 
-export default function AddService() {
+interface EditServiceProps {
+  service: Service;
+}
+
+export default function EditService({ service }: EditServiceProps) {
   const router = useRouter();
   const { data: userData } = useMe();
 
   const [open, setOpen] = useState(false);
   const [toolInput, setToolInput] = useState("");
-  const [tools, setTools] = useState<string[]>([]);
+  const [tools, setTools] = useState<string[]>(service.tools ?? []);
   const [featureInput, setFeatureInput] = useState("");
-  const [features, setFeatures] = useState<string[]>([]);
+  const [features, setFeatures] = useState<string[]>(service.features ?? []);
   const [detailInput, setDetailInput] = useState("");
-  const [details, setDetails] = useState<string[]>([]);
-  const [image, setImage] = useState<string>("");
+  const [details, setDetails] = useState<string[]>(service.details ?? []);
+  const [image, setImage] = useState<string>(service.image ?? "");
   const [isUploading, setIsUploading] = useState(false);
 
   const form = useForm<PortfolioFormValues>({
     resolver: zodResolver(portfolioFormSchema),
     defaultValues: {
-      title: "",
-      description: "",
+      title: service.title ?? "",
+      description: service.description ?? "",
     },
   });
 
@@ -133,7 +139,7 @@ export default function AddService() {
     };
 
     try {
-      await apiClient.post("/services", updatedService);
+      await apiClient.put(`/services/${service._id}`, updatedService);
       toast.success("Service updated successfully!");
       router.refresh();
       setOpen(false);
@@ -145,8 +151,10 @@ export default function AddService() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className={buttonVariants()}>
-        Add New Project
+      <DialogTrigger
+        className={buttonVariants({ variant: "ghost", size: "sm" })}
+      >
+        <FaRegEdit className="text-gray-600 hover:text-gray-900" />
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-[calc(100vw-80px)]">
