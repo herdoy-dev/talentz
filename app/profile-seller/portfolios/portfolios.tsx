@@ -2,6 +2,7 @@
 
 import { DeleteDialog } from "@/components/delete-dialog";
 import usePortfolios from "@/hooks/usePortfolios";
+import { Grid } from "@radix-ui/themes";
 import Image from "next/image";
 import { EditPortfolio } from "./edit-portfolio";
 
@@ -12,7 +13,7 @@ export default function Portfolios() {
     <div>
       <h3 className="mb-4">Added project</h3>
 
-      <div className="flex items-start gap-3 flex-wrap">
+      <Grid columns={{ initial: "1", md: "2" }} gap="5">
         {portfolios.map((portfolio) => (
           <div
             key={portfolio._id}
@@ -23,7 +24,7 @@ export default function Portfolios() {
               height={180}
               src={portfolio.image}
               alt="Portfolio"
-              className="object-cover w-[305px] h-[180px] shadow"
+              className="object-cover w-full h-[200px] shadow"
             />
             <div className="px-2 py-4">
               <p className="text-xl font-semibold text-primary">
@@ -36,7 +37,7 @@ export default function Portfolios() {
             </div>
           </div>
         ))}
-      </div>
+      </Grid>
     </div>
   );
 }
