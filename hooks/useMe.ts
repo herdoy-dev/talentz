@@ -8,6 +8,7 @@ interface User {
   email: string;
   skills?: [string];
   languages?: [string];
+  role: "freelancer" | "client" | "admin";
   image?: string;
   phone?: string; // Optional field
   location?: string; // Optional field

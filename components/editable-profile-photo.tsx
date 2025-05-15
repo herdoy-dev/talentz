@@ -3,7 +3,7 @@ import UpdateProfileImage from "@/components/update-profile-image";
 import useMe from "@/hooks/useMe";
 import { Avatar, Flex } from "@radix-ui/themes";
 
-export default function ProfilePhoto() {
+export default function EditableProfilePhoto() {
   const { data: user } = useMe();
   if (!user) return null;
   return (

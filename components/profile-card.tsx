@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import useMe from "@/hooks/useMe";
+import Link from "next/link";
 import { BiSolidChevronDown } from "react-icons/bi";
 import { BsShieldLock } from "react-icons/bs";
 import { FaRegUserCircle } from "react-icons/fa";
@@ -37,6 +38,12 @@ export function ProfileCard() {
   };
 
   if (!user) return null;
+
+  const setProfileUrl = () => {
+    if (user.role === "admin") return "/profile-admin";
+    else if (user.role === "client") return "/profile-buyer";
+    return "/profile-seller";
+  };
 
   return (
     <DropdownMenu>
@@ -71,18 +78,28 @@ export function ProfileCard() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <FaRegUserCircle />
-            Profile
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <TiDocumentText />
-            My Portfolios
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <MdOutlineAccountBalanceWallet />
-            Wallet
-          </DropdownMenuItem>
+          <Link href={setProfileUrl()}>
+            <DropdownMenuItem>
+              <FaRegUserCircle />
+              Profile
+            </DropdownMenuItem>
+          </Link>
+          {user.role === "freelancer" && (
+            <Link href="/profile-seller/portfolios">
+              <DropdownMenuItem>
+                <TiDocumentText />
+                My Portfolios
+              </DropdownMenuItem>
+            </Link>
+          )}
+          {user.role === "freelancer" && (
+            <Link href="/">
+              <DropdownMenuItem>
+                <MdOutlineAccountBalanceWallet />
+                Wallet
+              </DropdownMenuItem>
+            </Link>
+          )}
           <DropdownMenuItem>
             <BsShieldLock />
             Password
