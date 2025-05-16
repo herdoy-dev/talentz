@@ -2,22 +2,36 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BsChatRightDotsFill } from "react-icons/bs";
-import { GoGraph } from "react-icons/go";
-import { HiUsers } from "react-icons/hi";
-import { IoBriefcase } from "react-icons/io5";
-import { MdDashboard } from "react-icons/md";
+import { IoBriefcaseOutline, IoCalendarOutline } from "react-icons/io5";
+import { LuSearchCode } from "react-icons/lu";
+import { MdOutlineMessage } from "react-icons/md";
+import { RiDashboardLine } from "react-icons/ri";
 
 const items = [
-  { id: 1, label: "Dashboard", path: "/admin", icon: <MdDashboard /> },
-  { id: 2, label: "Salse", path: "/admin/salse", icon: <GoGraph /> },
-  { id: 3, label: "Users", path: "/admin/users", icon: <HiUsers /> },
-  { id: 4, label: "Jobs", path: "/admin/jobs", icon: <IoBriefcase /> },
+  { id: 1, label: "Dashboard", path: "/buyer", icon: <RiDashboardLine /> },
+  {
+    id: 2,
+    label: "Job Management",
+    path: "/buyer/jobs",
+    icon: <IoBriefcaseOutline />,
+  },
+  {
+    id: 3,
+    label: "Talents",
+    path: "/buyer/talents",
+    icon: <LuSearchCode />,
+  },
+  {
+    id: 4,
+    label: "Messages",
+    path: "/buyer/messages",
+    icon: <MdOutlineMessage />,
+  },
   {
     id: 5,
-    label: "Messages",
-    path: "/admin/messages",
-    icon: <BsChatRightDotsFill />,
+    label: "Calendar",
+    path: "/buyer/calendar",
+    icon: <IoCalendarOutline />,
   },
 ];
 
