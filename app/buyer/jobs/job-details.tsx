@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/sheet";
 import { TableCell } from "@/components/ui/table";
 import Text from "@/components/ui/text";
+import useComments from "@/hooks/useComments";
 import { Job } from "@/schemas/job";
 import { Avatar, Flex } from "@radix-ui/themes";
 import { useState } from "react";
@@ -20,26 +21,9 @@ interface Props {
   title: string;
 }
 
-const steps = [
-  {
-    id: 1,
-    title: "Create Your Profile",
-    description: "Showcase your skills and experience with a standout profile.",
-  },
-  {
-    id: 2,
-    title: "Browse Jobs",
-    description: "Explore exciting projects that match your expertise.",
-  },
-  {
-    id: 3,
-    title: "Submit Proposals",
-    description: "Pitch your skills and win projects that inspire you!",
-  },
-];
-
 export function JobDetails({ job, title }: Props) {
   const [isOpen, setOpen] = useState(false);
+  const { data } = useComments(job._id);
   return (
     <Sheet open={isOpen} onOpenChange={setOpen}>
       <SheetTrigger asChild>
@@ -77,9 +61,9 @@ export function JobDetails({ job, title }: Props) {
             </div>
           </div>
           <div className="space-y-6 mt-8">
-            <CreateComment />
-            {steps.map((step) => (
-              <div key={step.id}>
+            <CreateComment jobId={job._id} />
+            {data?.result.map((comment) => (
+              <div key={comment._id}>
                 <div className="flex-1 p-3 border rounded-2xl">
                   <Flex
                     align="center"
@@ -88,12 +72,16 @@ export function JobDetails({ job, title }: Props) {
                   >
                     <div className="flex items-center gap-3">
                       <Avatar
-                        src="/me.jpg"
+                        src={comment.author.image}
                         fallback="User"
                         radius="full"
                         className="!w-8 !h-8 !rounded-full"
                       />
-                      <span>Herdoy Almamun</span>
+                      <span>
+                        {comment.author.firstName +
+                          " " +
+                          comment.author.lastName}
+                      </span>
                     </div>
                     <Text className="text-gray-500" size="small">
                       12 Jan 2025
