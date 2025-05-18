@@ -1,5 +1,6 @@
 "use client";
 
+import { queryClient } from "@/app/query-client-provider";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -93,6 +94,7 @@ export default function JobForm() {
       const payload = { ...data, requiredSkills: skills, author: user._id };
       await apiClient.post("/jobs", payload);
       toast.success("Job posted successfully");
+      queryClient.invalidateQueries({ queryKey: ["jobs"] });
       form.reset();
       setSkills([]);
     } catch (error) {

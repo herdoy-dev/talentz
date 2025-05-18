@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/table";
 import useJobs from "@/hooks/useJobs";
 import { formatDate } from "@/lib/utils";
+import { JobDetails } from "./job-details";
 
 export default function JobManagemnet() {
   const { data } = useJobs();
@@ -28,7 +29,7 @@ export default function JobManagemnet() {
         <TableBody>
           {data.result.map((job) => (
             <TableRow key={job._id}>
-              <TableCell className="w-[200px]">{job.title}</TableCell>
+              <JobDetails job={job} title={job.title} />
               <TableCell>{formatDate(job.createdAt)}</TableCell>
               <TableCell>{formatDate(job.createdAt)}</TableCell>
             </TableRow>
