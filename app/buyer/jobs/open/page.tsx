@@ -1,8 +1,9 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import useJobs from "@/hooks/useJobs";
 import { Flex } from "@radix-ui/themes";
+import Link from "next/link";
 import Job from "./job";
 
 export default function OpenJobs() {
@@ -12,7 +13,9 @@ export default function OpenJobs() {
     <div>
       <Flex align="center" justify="between" className="pb-6 border-b-2">
         <h1>Open Jobs</h1>
-        <Button>Create New Job</Button>
+        <Link className={buttonVariants()} href="/buyer/jobs/new">
+          Create New Job
+        </Link>
       </Flex>
       <div className="space-y-2">
         {data?.result.map((job) => (
