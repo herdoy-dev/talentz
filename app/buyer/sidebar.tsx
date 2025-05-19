@@ -2,7 +2,7 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { IoBriefcaseOutline, IoCalendarOutline } from "react-icons/io5";
+import { IoBriefcaseOutline } from "react-icons/io5";
 import { LuSearchCode } from "react-icons/lu";
 import { MdOutlineMessage } from "react-icons/md";
 import { RiDashboardLine } from "react-icons/ri";
@@ -26,12 +26,6 @@ const items = [
     label: "Messages",
     path: "/buyer/messages",
     icon: <MdOutlineMessage />,
-  },
-  {
-    id: 5,
-    label: "Calendar",
-    path: "/buyer/calendar",
-    icon: <IoCalendarOutline />,
   },
 ];
 
