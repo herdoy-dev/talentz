@@ -5,9 +5,9 @@ import Link from "next/link";
 import { FaRegHeart } from "react-icons/fa6";
 import { FiBell } from "react-icons/fi";
 
-export default function SellerNavbar() {
+export default function BuyerNavbar() {
   return (
-    <div className="w-full bg-primary">
+    <div className="w-full bg-primary-dark">
       <Container className="h-[65px] flex items-center justify-between">
         <Link href="/">
           <Image src="/logo.svg" alt="logo" width={120} height={40} priority />

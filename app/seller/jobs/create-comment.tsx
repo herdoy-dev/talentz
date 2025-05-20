@@ -7,6 +7,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { LuPlus } from "react-icons/lu";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -32,7 +33,7 @@ interface Props {
   jobId: string;
 }
 
-export function CreateApplication({ jobId }: Props) {
+export function CreateComment({ jobId }: Props) {
   const [isOpen, setOpen] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const { data: user } = useMe();
@@ -47,13 +48,9 @@ export function CreateApplication({ jobId }: Props) {
     if (!user || !jobId) return;
     setLoading(true);
     try {
-      await apiClient.post("/applications", {
-        ...data,
-        author: user._id,
-        jobId,
-      });
-      queryClient.invalidateQueries({ queryKey: ["applications"] });
-      toast.success("Applyed");
+      await apiClient.post("/comments", { ...data, author: user._id, jobId });
+      queryClient.invalidateQueries({ queryKey: ["comments"] });
+      toast.success("Comment Added.");
       form.reset();
       setLoading(false);
       setOpen(false);
@@ -65,14 +62,14 @@ export function CreateApplication({ jobId }: Props) {
   }
   return (
     <Dialog open={isOpen} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button size="sm" className="px-8 cursor-pointer">
-          Apply
-        </Button>
+      <DialogTrigger asChild className="bg-transparent">
+        <div className="flex-1 flex items-center gap-2 cursor-pointer p-3 border rounded-2xl">
+          <LuPlus /> <span>Create Comments</span>
+        </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Apply For This Job</DialogTitle>
+          <DialogTitle>Create Comment</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <Form {...form}>

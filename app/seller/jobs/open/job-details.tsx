@@ -9,10 +9,12 @@ import {
 } from "@/components/ui/sheet";
 import Text from "@/components/ui/text";
 import useApplications from "@/hooks/useApplications";
+import useMe from "@/hooks/useMe";
 import { Job } from "@/schemas/job";
 import { Avatar, Flex } from "@radix-ui/themes";
 import { useState } from "react";
 import { FaAngleLeft } from "react-icons/fa6";
+import { CreateApplication } from "./create-application";
 
 interface Props {
   job: Job;
@@ -22,7 +24,8 @@ interface Props {
 export function JobDetails({ job, title }: Props) {
   const [isOpen, setOpen] = useState(false);
   const { data } = useApplications(job._id);
-
+  const { data: user } = useMe();
+  if (!user) return null;
   return (
     <Sheet open={isOpen} onOpenChange={setOpen}>
       <SheetTrigger asChild>
@@ -39,6 +42,9 @@ export function JobDetails({ job, title }: Props) {
               >
                 <FaAngleLeft /> Back
               </Button>
+              {user._id !== job.author._id && (
+                <CreateApplication jobId={job._id} />
+              )}
             </div>
           </SheetTitle>
         </SheetHeader>
@@ -46,7 +52,7 @@ export function JobDetails({ job, title }: Props) {
           <h2 className="mb-2"> {job.title} </h2>
           <p>{job.description}</p>
 
-          {data && data.count >= 1 && (
+          {user._id === job.author._id && data && data.count >= 1 && (
             <div className="space-y-6 border p-6 mt-6 rounded-3xl">
               <h3>Applications</h3>
               <div className="space-y-6">

@@ -45,6 +45,11 @@ const FormSchema = z
     path: ["retypePassword"],
   });
 
+interface TokenInterface {
+  value: string;
+  role: string;
+}
+
 export default function LoginForm({ role }: Props) {
   const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -58,19 +63,30 @@ export default function LoginForm({ role }: Props) {
     },
   });
 
+  const setRedirectRoute = (role: string) => {
+    if (role === "client") return "/buyer";
+    if (role === "freelancer") return "/seller";
+    if (role === "admin") return "/admin";
+    return "/";
+  };
+
   const onSubmit = async (data: FormSchemaType) => {
     try {
-      const { headers } = await apiClient.post<string>("/auth/sign-up", {
-        firstName: data.firstName,
-        lastName: data.lastName,
-        email: data.email,
-        password: data.password,
-        role: role,
-      });
-      await setAuthToken(headers["x-auth-token"]);
+      const { data: token } = await apiClient.post<TokenInterface>(
+        "/auth/sign-up",
+        {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+          password: data.password,
+          role: role,
+        }
+      );
+      await setAuthToken(token.value);
       form.reset();
       toast.success("Account created successfully");
-      router.push("/");
+      const redirectUrl = setRedirectRoute(token.role);
+      router.push(redirectUrl);
     } catch (error) {
       if (
         error instanceof AxiosError &&

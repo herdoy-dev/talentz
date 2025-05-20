@@ -1,3 +1,3 @@
-export default function SellerPage() {
-  return <div>SellerPage</div>;
+export default function BuyerPage() {
+  return <div>BuyerPage</div>;
 }

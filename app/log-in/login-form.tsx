@@ -32,6 +32,11 @@ const FormSchema = z.object({
     .max(64, "Password must not exceed 64 characters"),
 });
 
+interface TokenInterface {
+  value: string;
+  role: string;
+}
+
 export default function LoginForm() {
   const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -42,16 +47,24 @@ export default function LoginForm() {
     },
   });
 
+  const setRedirectRoute = (role: string) => {
+    if (role === "client") return "/buyer";
+    if (role === "freelancer") return "/seller";
+    if (role === "admin") return "/admin";
+    return "/";
+  };
+
   const onSubmit = async (data: FormSchemaType) => {
     try {
-      const { data: token } = await apiClient.post<string>(
+      const { data: token } = await apiClient.post<TokenInterface>(
         "/auth/log-in",
         data
       );
-      await setAuthToken(token);
+      await setAuthToken(token.value);
       form.reset();
       toast.success("Log In Success");
-      router.push("/");
+      const redirectUrl = setRedirectRoute(token.role);
+      router.push(redirectUrl);
     } catch (error) {
       if (
         error instanceof AxiosError &&
