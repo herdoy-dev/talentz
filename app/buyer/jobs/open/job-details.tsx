@@ -106,7 +106,7 @@ export function JobDetails({ job, title }: Props) {
                                 queryClient.invalidateQueries({
                                   queryKey: ["chats"],
                                 });
-                                setCurrentChat(data._id);
+                                setCurrentChat(data);
                                 router.push("/buyer/messages");
                               } catch (error) {
                                 console.log(error);
