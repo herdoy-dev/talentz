@@ -1,5 +1,4 @@
 import { Category } from "@/schemas/category";
-import Education from "@/schemas/education";
 import apiClient from "@/services/api-client";
 import { useQuery } from "@tanstack/react-query";
 

@@ -1,6 +1,17 @@
+"use client";
+import { useChatStore } from "@/store";
 import { Avatar, Flex } from "@radix-ui/themes";
 
 export default function Messages() {
+  const currentChat = useChatStore((s) => s.currentChat);
+  if (!currentChat)
+    return (
+      <Flex align="center" justify="center">
+        <p className="!text-2xl text-center text-gray-300">
+          Please Select An Conversion.
+        </p>
+      </Flex>
+    );
   return (
     <Flex
       align="start"

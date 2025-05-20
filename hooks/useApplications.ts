@@ -1,13 +1,13 @@
-import { GetCommentsResponse } from "@/schemas/comment";
+import { GetApplicationResponse } from "@/schemas/application";
 import apiClient from "@/services/api-client";
 import { useQuery } from "@tanstack/react-query";
 
 const useApplications = (jobId: string) => {
-  return useQuery<GetCommentsResponse, Error>({
+  return useQuery<GetApplicationResponse, Error>({
     queryKey: ["applications", jobId],
     queryFn: () =>
       apiClient
-        .get<GetCommentsResponse>("/applications", {
+        .get<GetApplicationResponse>("/applications", {
           params: {
             jobId,
           },

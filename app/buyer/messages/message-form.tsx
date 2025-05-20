@@ -1,10 +1,14 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useChatStore } from "@/store";
 import { Flex } from "@radix-ui/themes";
 import { BsPaperclip } from "react-icons/bs";
 import { LuSendHorizontal } from "react-icons/lu";
 
 export default function MessageForm() {
+  const currentChat = useChatStore((s) => s.currentChat);
+  if (!currentChat) return <div />;
   return (
     <Flex align="center" className="border-t px-3">
       <Flex align="center" className="w-full h-full">

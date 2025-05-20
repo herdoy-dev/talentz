@@ -1,26 +1,38 @@
+"use client";
 import { cn } from "@/lib/utils";
+import { Chat } from "@/schemas/chat";
+import { useChatStore } from "@/store";
 import { Avatar, Flex } from "@radix-ui/themes";
 
 interface Props {
-  current: number;
-  setCurrent: () => void;
+  chat: Chat;
 }
 
-export default function Chat({ current, setCurrent }: Props) {
+export default function ChatDetails({ chat }: Props) {
+  const currentChat = useChatStore((s) => s.currentChat);
+  const setCurrent = useChatStore((s) => s.setCurrentChat);
   return (
     <Flex
-      onClick={setCurrent}
+      onClick={() => setCurrent(chat)}
       align="center"
       p="2"
       className={cn(
         "border cursor-pointer rounded-xl",
-        3 == current && "bg-primary-light"
+        chat._id === currentChat?._id && "bg-primary-light"
       )}
       gap="2"
     >
-      <Avatar src="/me.jpg" fallback="User" radius="full" size="4" />
+      <Avatar
+        src={chat.seller.image}
+        fallback={chat.seller.firstName}
+        radius="full"
+        size="4"
+      />
       <div>
-        <p className="font-semibold">Herdoy Almamun</p>
+        <p className="font-semibold">
+          {" "}
+          {chat.seller.firstName + " " + chat.seller.lastName}{" "}
+        </p>
         <p className="!text-[12px] text-gray-400">Lorem ipsum dolor...</p>
       </div>
     </Flex>

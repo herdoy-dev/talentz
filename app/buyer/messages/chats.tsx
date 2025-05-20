@@ -1,13 +1,24 @@
 "use client";
-import { useState } from "react";
-import Chat from "./chat";
+import ChatDetails from "./chat";
+import useMe from "@/hooks/useMe";
+import useChats from "@/hooks/useChats";
+import { Flex } from "@radix-ui/themes";
 
 export default function Chats() {
-  const [current, setCurrent] = useState(3);
+  const { data: user } = useMe();
+  const { data } = useChats("buyer", user?._id as string);
+  if (!data)
+    return (
+      <Flex align="center" justify="center" className="bg-gray-200">
+        <p className="!text-3xl text-center text-gray-400">
+          There are no conversion available!
+        </p>
+      </Flex>
+    );
   return (
     <div className="border-r overflow-auto p-4 space-y-3">
-      {Array.from({ length: 40 }).map((_, i) => (
-        <Chat key={i} current={current} setCurrent={() => setCurrent(i)} />
+      {data.result.map((chat) => (
+        <ChatDetails key={chat._id} chat={chat} />
       ))}
     </div>
   );
