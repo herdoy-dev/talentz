@@ -30,10 +30,11 @@ export default function ChatDetails({ chat }: Props) {
       />
       <div>
         <p className="font-semibold">
-          {" "}
-          {chat.buyer.firstName + " " + chat.buyer.lastName}{" "}
+          {chat.buyer.firstName + " " + chat.buyer.lastName}
         </p>
-        <p className="!text-[12px] text-gray-400">Lorem ipsum dolor...</p>
+        <p className="!text-[12px] text-gray-400">
+          {chat.lastMessage ? chat.lastMessage.slice(0, 50) + "..." : ""}
+        </p>
       </div>
     </Flex>
   );

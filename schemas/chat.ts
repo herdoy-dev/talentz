@@ -12,6 +12,7 @@ export interface Chat {
     lastName: string;
     image: string;
   };
+  lastMessage: string;
 }
 
 export interface getChatsResponse {

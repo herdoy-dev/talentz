@@ -283,3 +283,10 @@ input[type="checkbox"]:checked::after {
     @apply bg-background text-foreground;
   }
 }
+
+
+@layer utilities {
+  .animate-spin-slow {
+    animation: spin 1s linear infinite;
+  }
+}

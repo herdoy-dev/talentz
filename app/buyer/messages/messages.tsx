@@ -1,9 +1,22 @@
 "use client";
+import useMessages from "@/hooks/useMessages";
+import { formatDate } from "@/lib/utils";
 import { useChatStore } from "@/store";
 import { Avatar, Flex } from "@radix-ui/themes";
+import { useEffect, useRef } from "react";
 
 export default function Messages() {
   const currentChat = useChatStore((s) => s.currentChat);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const { data: messages } = useMessages(currentChat?._id as string);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
   if (!currentChat)
     return (
       <Flex align="center" justify="center">
@@ -12,6 +25,7 @@ export default function Messages() {
         </p>
       </Flex>
     );
+  if (!messages) return <Flex className="bg-gray-100 !overflow-y-auto p-4" />;
   return (
     <Flex
       align="start"
@@ -19,32 +33,28 @@ export default function Messages() {
       className="bg-gray-100 !overflow-y-auto p-4"
       gap="8"
     >
-      {Array.from({ length: 20 }).map((_, i) => (
-        <Flex className="w-full" gap="2" key={i}>
-          <Avatar src="/me.jpg" fallback="User" radius="full" size="2" />
+      {messages.result.map((message) => (
+        <Flex className="w-full" gap="2" key={message._id}>
+          <Avatar
+            src={message.sender.image}
+            fallback={message.sender.firstName}
+            radius="full"
+            size="2"
+          />
           <div>
             <Flex align="center" gap="2">
-              <p className="text-sm font-[500] text-gray-600">Herdoy Almamun</p>
-              <p className="!text-[14px] text-gray-500">12:13 PM</p>
+              <p className="text-sm font-[500] text-gray-600">
+                {message.sender.firstName + " " + message.sender.lastName}
+              </p>
+              <p className="!text-[14px] text-gray-500">
+                {formatDate(message.createdAt)}
+              </p>
             </Flex>
-            <p className="text-sm text-gray-600 mt-3">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. At
-              incidunt repudiandae cum, culpa odio iusto aliquam nihil provident
-              molestiae dolorem omnis modi quod eos dolorum dolore sed
-              perspiciatis natus voluptas?
-              <br />
-              <br />
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. At
-              incidunt repudiandae cum, culpa odio iusto aliquam nihil provident
-              molestiae dolorem omnis modi quod eos dolorum dolore sed
-              perspiciatis natus voluptas?
-              <br />
-              <br />
-              dolore sed perspiciatis natus voluptas?
-            </p>
+            <p className="text-sm text-gray-600 mt-3">{message.message}</p>
           </div>
         </Flex>
       ))}
+      <div ref={messagesEndRef}></div>
     </Flex>
   );
 }
