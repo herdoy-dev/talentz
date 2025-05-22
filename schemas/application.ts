@@ -9,8 +9,8 @@ export interface Application {
     image: string;
   };
   files?: string[];
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface GetApplicationResponse {
