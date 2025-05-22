@@ -2,12 +2,12 @@ import { getChatsResponse } from "@/schemas/chat";
 import apiClient from "@/services/api-client";
 import { useQuery } from "@tanstack/react-query";
 
-const useChats = (path: string, userId: string) => {
+const useChats = (userId: string) => {
   return useQuery<getChatsResponse, Error>({
-    queryKey: ["chats", path, userId],
+    queryKey: ["chats", userId],
     queryFn: () =>
       apiClient
-        .get<getChatsResponse>(`/chats/${path}`, {
+        .get<getChatsResponse>("chats", {
           params: {
             userId,
           },

@@ -1,4 +1,5 @@
 "use client";
+import useMe from "@/hooks/useMe";
 import { cn } from "@/lib/utils";
 import { Chat } from "@/schemas/chat";
 import { useChatStore } from "@/store";
@@ -11,6 +12,12 @@ interface Props {
 export default function ChatDetails({ chat }: Props) {
   const currentChat = useChatStore((s) => s.currentChat);
   const setCurrent = useChatStore((s) => s.setCurrentChat);
+  const { data: user } = useMe();
+  const setChatUser = () => {
+    if (user?._id === chat.buyer._id) return chat.seller;
+    return chat.buyer;
+  };
+  const chatUser = setChatUser();
   return (
     <Flex
       onClick={() => setCurrent(chat)}
@@ -23,14 +30,14 @@ export default function ChatDetails({ chat }: Props) {
       gap="2"
     >
       <Avatar
-        src={chat.buyer.image}
-        fallback={chat.buyer.firstName}
+        src={chatUser.image}
+        fallback={chatUser.firstName}
         radius="full"
         size="4"
       />
       <div>
         <p className="font-semibold">
-          {chat.buyer.firstName + " " + chat.buyer.lastName}
+          {chatUser.firstName + " " + chatUser.lastName}
         </p>
         <p className="!text-[12px] text-gray-400">
           {chat.lastMessage ? chat.lastMessage.slice(0, 50) + "..." : ""}

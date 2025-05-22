@@ -1,16 +1,31 @@
 "use client";
-import { Button } from "@/components/ui/button";
+import { queryClient } from "@/app/query-client-provider";
 import Avatar from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import IconBadge from "@/components/ui/icon-badge";
 import Text from "@/components/ui/text";
+import useMe from "@/hooks/useMe";
+import { Chat } from "@/schemas/chat";
+import { Talent } from "@/schemas/talent";
+import apiClient from "@/services/api-client";
+import { useChatStore } from "@/store";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { FaHeart, FaRegHeart } from "react-icons/fa6";
 import { GrLocation } from "react-icons/gr";
 
-export default function TalentCard() {
+interface Props {
+  talent: Talent;
+}
+
+export default function TalentCard({ talent }: Props) {
   const [isLiked, setLiked] = useState(false);
+  const setCurrentChat = useChatStore((s) => s.setCurrentChat);
+  const router = useRouter();
+  const { data: user } = useMe();
+
   return (
     <div className="rounded-2xl overflow-hidden border border-gray-200 shadow">
       <Image
@@ -25,16 +40,18 @@ export default function TalentCard() {
           <div className="flex items-center gap-1 md:gap-3">
             <Avatar
               className="w-8 h-8 md:w-10 md:h-10"
-              src="/me.jpg"
+              src={talent.image}
               alt="me"
             />
             <div>
-              <h5 className="text-sm md:text-xl">Herdoy Almamun</h5>
+              <h5 className="text-sm md:text-xl">
+                {talent.firstName + " " + talent.lastName}
+              </h5>
               <div className="flex items-center gap-1 md:gap-5">
                 <Text variant="gray" size="small">
-                  Web Developer
+                  {talent.title}
                 </Text>
-                <IconBadge text="LA, US">
+                <IconBadge text={talent.location}>
                   <GrLocation />
                 </IconBadge>
               </div>
@@ -51,12 +68,34 @@ export default function TalentCard() {
                 <FaRegHeart className="text-primary text-sm md:text-[16px]" />
               )}
             </div>
-            <Button
-              variant="outline"
-              className="py-[2px] px-2 md:py-[4px] md:px-4 border"
-            >
-              Message
-            </Button>
+            {user?._id === talent._id ? null : (
+              <Button
+                variant="outline"
+                className="py-[2px] px-2 md:py-[4px] md:px-4 border cursor-pointer"
+                onClick={async () => {
+                  if (!user) return router.push("/log-in");
+                  try {
+                    const { data } = await apiClient.post<Chat>("/chats", {
+                      buyer: user._id,
+                      seller: talent._id,
+                    });
+                    setCurrentChat(data);
+                    queryClient.invalidateQueries({
+                      queryKey: ["chats"],
+                    });
+                    router.push(
+                      `/${
+                        user.role === "freelancer" ? "seller" : user.role
+                      }/messages`
+                    );
+                  } catch (error) {
+                    console.log(error);
+                  }
+                }}
+              >
+                Message
+              </Button>
+            )}
           </div>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
@@ -81,18 +120,14 @@ export default function TalentCard() {
             </Text>
           </div>
           <div className="flex items-center gap-1 md:gap-3">
-            <Text>12</Text>
+            <Text> {talent.skills.length} </Text>
             <Text size="small" variant="gray">
               Skills
             </Text>
           </div>
         </div>
         <hr className="text-gray-300" />
-        <Text size="small">
-          Let&apos;s go your story out there! I&apos;m a copy writer with a
-          special interest in B2B business, Contact me for a quick breakdown of
-          cost by subtask, ullamcorper egestas egestas...
-        </Text>
+        <Text size="small">{talent.about.slice(0, 200)} ...</Text>
       </div>
     </div>
   );

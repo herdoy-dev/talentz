@@ -1,6 +1,7 @@
 "use client";
 import { queryClient } from "@/app/query-client-provider";
 import { Button } from "@/components/ui/button";
+import useMe from "@/hooks/useMe";
 import { useChatStore } from "@/store";
 import { Avatar, Flex } from "@radix-ui/themes";
 import { useState } from "react";
@@ -9,7 +10,16 @@ import { MdOutlineRefresh } from "react-icons/md";
 export default function ChatActions() {
   const currentChat = useChatStore((s) => s.currentChat);
   const [rotating, setRotating] = useState(false);
+  const { data: user } = useMe(); // Move this hook call to the top level
+
   if (!currentChat) return <div />;
+
+  const setChatUser = () => {
+    if (user?._id === currentChat.buyer._id) return currentChat.seller;
+    return currentChat.buyer;
+  };
+
+  const chatUser = setChatUser();
 
   const handleRefresh = async () => {
     try {
@@ -29,19 +39,21 @@ export default function ChatActions() {
     <Flex align="center" justify="between" className="border-b shadow px-8">
       <Flex align="center" gap="2">
         <Avatar
-          src={currentChat.seller.image}
-          fallback={currentChat.seller.firstName}
+          src={chatUser.image}
+          fallback={chatUser.firstName}
           radius="full"
           size="4"
         />
         <p className="font-semibold">
-          {currentChat.seller.firstName + " " + currentChat.seller.lastName}
+          {chatUser.firstName + " " + chatUser.lastName}
         </p>
       </Flex>
       <Flex align="center" gap="3">
-        <Button size="sm" className="px-8">
-          Hire
-        </Button>
+        {chatUser.role === "freelancer" && (
+          <Button size="sm" className="px-8">
+            Hire
+          </Button>
+        )}
         <Button
           variant="ghost"
           className="cursor-pointer"
