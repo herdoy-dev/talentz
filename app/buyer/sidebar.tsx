@@ -6,6 +6,7 @@ import { IoBriefcaseOutline } from "react-icons/io5";
 import { LuSearchCode } from "react-icons/lu";
 import { MdOutlineMessage } from "react-icons/md";
 import { RiDashboardLine } from "react-icons/ri";
+import { LiaMoneyCheckSolid } from "react-icons/lia";
 
 const items = [
   { id: 1, label: "Dashboard", path: "/buyer", icon: <RiDashboardLine /> },
@@ -26,6 +27,12 @@ const items = [
     label: "Messages",
     path: "/buyer/messages",
     icon: <MdOutlineMessage />,
+  },
+  {
+    id: 5,
+    label: "Payments",
+    path: "/buyer/payments",
+    icon: <LiaMoneyCheckSolid />,
   },
 ];
 
