@@ -80,6 +80,12 @@ export default function Navbar() {
   const [isActive, setActive] = useState(false);
   const toggleMenu = useCallback(() => setActive((prev) => !prev), []);
 
+  const setDashboardUrl = (role: string) => {
+    if (role === "admin") return "/admin";
+    else if (role === "client") return "/buyer";
+    return "/seller";
+  };
+
   return (
     <>
       <div className="fixed w-full top-0 left-0 h-[65px] flex items-center justify-center bg-primary-dark z-50">
@@ -111,7 +117,17 @@ export default function Navbar() {
                     </Link>
                   </>
                 )}
-                {session && <ProfileCard />}
+                {session && (
+                  <div className="flex items-center gap-7">
+                    <Link
+                      className="text-white"
+                      href={setDashboardUrl(session.role)}
+                    >
+                      Dashboard
+                    </Link>
+                    <ProfileCard />
+                  </div>
+                )}
               </div>
               <HamburgerMenu isActive={isActive} onClick={toggleMenu} />
             </div>

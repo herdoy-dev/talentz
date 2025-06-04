@@ -39,9 +39,9 @@ export function ProfileCard() {
 
   if (!user) return null;
 
-  const setProfileUrl = () => {
-    if (user.role === "admin") return "/profile-admin";
-    else if (user.role === "client") return "/profile-buyer";
+  const setProfileUrl = (role: string) => {
+    if (role === "admin") return "/profile-admin";
+    else if (role === "client") return "/profile-buyer";
     return "/profile-seller";
   };
 
@@ -78,7 +78,7 @@ export function ProfileCard() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <Link href={setProfileUrl()}>
+          <Link href={setProfileUrl(user.role)}>
             <DropdownMenuItem>
               <FaRegUserCircle />
               Profile
