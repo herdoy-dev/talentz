@@ -134,6 +134,16 @@ export default function Navbar() {
           </nav>
         </Container>
       </div>
+      {session && !session.isVerified && (
+        <div className="bg-gray-900/50 flex items-center py-2 justify-center fixed top-[65px] left-0 right-0 w-full">
+          <p className="text-xl text-white">
+            Please verify your{" "}
+            <Link className="underline font-semibold" href="/verify">
+              Email
+            </Link>
+          </p>
+        </div>
+      )}
       <div className="h-[70px]" />
     </>
   );

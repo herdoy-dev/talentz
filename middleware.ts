@@ -11,6 +11,24 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
+  // Allow only certain paths for unverified users
+  if (session && !session.isVerified) {
+    const allowedPaths = [
+      "/",
+      "/jobs",
+      "/talents",
+      "/log-in",
+      "/sign-up",
+      "/verify",
+    ];
+    const isAllowed = allowedPaths.some(
+      (path) => pathname === path || pathname.startsWith(`${path}/`)
+    );
+    if (!isAllowed) {
+      return NextResponse.redirect(new URL("/verify", req.url));
+    }
+  }
+
   if (session && (pathname === "/log-in" || pathname === "/sign-up")) {
     return NextResponse.redirect(new URL("/", req.url));
   }

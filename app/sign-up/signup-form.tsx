@@ -25,6 +25,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import Link from "next/link";
+import { useState } from "react";
+import { BeatLoader } from "react-spinners";
 
 const FormSchema = z
   .object({
@@ -51,6 +53,7 @@ interface TokenInterface {
 }
 
 export default function LoginForm({ role }: Props) {
+  const [isLoading, setLoading] = useState(false);
   const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -71,6 +74,7 @@ export default function LoginForm({ role }: Props) {
   };
 
   const onSubmit = async (data: FormSchemaType) => {
+    setLoading(true);
     try {
       const { data: token } = await apiClient.post<TokenInterface>(
         "/auth/sign-up",
@@ -86,6 +90,7 @@ export default function LoginForm({ role }: Props) {
       form.reset();
       toast.success("Account created successfully");
       const redirectUrl = setRedirectRoute(token.role);
+      setLoading(false);
       router.push(redirectUrl);
     } catch (error) {
       if (
@@ -97,6 +102,8 @@ export default function LoginForm({ role }: Props) {
         return;
       }
       toast.error("Oops! Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -173,7 +180,7 @@ export default function LoginForm({ role }: Props) {
           )}
         />
         <Button className="w-full" type="submit">
-          Sign Up
+          {isLoading ? <BeatLoader /> : "Sign Up"}
         </Button>
         <div className="text-center text-sm text-gray-600">
           Already have an account?{" "}

@@ -5,4 +5,5 @@ export default interface Session {
   email: string;
   isAdmin: boolean;
   role: "client" | "freelancer" | "admin";
+  isVerified: boolean;
 }

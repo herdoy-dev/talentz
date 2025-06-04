@@ -40,7 +40,7 @@ export default function TalentCard({ talent }: Props) {
           <div className="flex items-center gap-1 md:gap-3">
             <Avatar
               className="w-8 h-8 md:w-10 md:h-10"
-              src={talent.image}
+              src={talent.image ? talent.image : "/card-1.png"}
               alt="me"
             />
             <div>
@@ -127,7 +127,9 @@ export default function TalentCard({ talent }: Props) {
           </div>
         </div>
         <hr className="text-gray-300" />
-        <Text size="small">{talent.about.slice(0, 200)} ...</Text>
+        <Text size="small">
+          {talent && talent.about && talent.about.slice(0, 200)} ...
+        </Text>
       </div>
     </div>
   );
