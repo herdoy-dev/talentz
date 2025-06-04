@@ -41,14 +41,14 @@ export function InputOTPForm() {
     },
   });
 
-  const { watch, setValue } = form;
+  const { watch } = form;
   const pinValue = watch("pin");
 
   useEffect(() => {
     if (pinValue.length === 6) {
       form.handleSubmit(onSubmit)();
     }
-  }, [pinValue]);
+  }, [pinValue, onSubmit]);
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     if (!session) return;
@@ -75,7 +75,7 @@ export function InputOTPForm() {
             Enter Verification Code
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            We've sent a 6-digit verification code to your email:{" "}
+            We&apos;ve sent a 6-digit verification code to your email:{" "}
             <span className="!text-primary font-semibold">
               {session?.email}
             </span>
@@ -130,7 +130,7 @@ export function InputOTPForm() {
         </Form>
 
         <div className="text-center text-sm text-gray-500">
-          Didn't receive a code?{" "}
+          Didn&apos;t receive a code?{" "}
           <button
             type="button"
             className="font-medium text-blue-600 hover:text-blue-500"
