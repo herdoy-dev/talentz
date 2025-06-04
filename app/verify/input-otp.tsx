@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -44,28 +44,31 @@ export function InputOTPForm() {
   const { watch } = form;
   const pinValue = watch("pin");
 
+  const onSubmit = useCallback(
+    async (data: z.infer<typeof FormSchema>) => {
+      if (!session) return;
+      try {
+        await apiClient.post("/auth/verify", {
+          email: session.email,
+          code: parseInt(data.pin),
+        });
+        toast.success("Email Verification Completed");
+        await logout();
+        form.reset();
+        window.location.href = "/log-in";
+      } catch (error) {
+        console.log(error);
+        toast.error("Invalid Verification Code");
+      }
+    },
+    [form, session]
+  );
+
   useEffect(() => {
     if (pinValue.length === 6) {
       form.handleSubmit(onSubmit)();
     }
-  }, [pinValue, onSubmit]);
-
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
-    if (!session) return;
-    try {
-      await apiClient.post("/auth/verify", {
-        email: session.email,
-        code: parseInt(data.pin),
-      });
-      toast.success("Email Verification Completed");
-      await logout();
-      form.reset();
-      window.location.href = "/log-in";
-    } catch (error) {
-      console.log(error);
-      toast.error("Invalid Verification Code");
-    }
-  }
+  }, [pinValue, form, onSubmit]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[300px] p-6 bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl shadow-sm">
