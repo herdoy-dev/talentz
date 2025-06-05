@@ -48,14 +48,18 @@ export function InputOTPForm() {
     async (data: z.infer<typeof FormSchema>) => {
       if (!session) return;
       try {
-        await apiClient.post("/auth/verify", {
+        const res = await apiClient.post("/auth/verify", {
           email: session.email,
           code: parseInt(data.pin),
         });
-        toast.success("Email Verification Completed");
-        await logout();
-        form.reset();
-        window.location.href = "/log-in";
+        if (res.data.success) {
+          toast.success("Email Verification Completed");
+          await logout();
+          form.reset();
+          window.location.href = "/log-in";
+        } else if (!res.data.success) {
+          toast.error(res.data.message);
+        }
       } catch (error) {
         console.log(error);
         toast.error("Invalid Verification Code");

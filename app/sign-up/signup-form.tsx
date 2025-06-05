@@ -1,16 +1,12 @@
 "use client";
-import { setAuthToken } from "@/actions/set-token";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import apiClient from "@/services/api-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AxiosError } from "axios";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
-
-type FormSchemaType = z.infer<typeof FormSchema>;
 
 interface Props {
   role: "freelancer" | "client";
@@ -47,14 +43,8 @@ const FormSchema = z
     path: ["retypePassword"],
   });
 
-interface TokenInterface {
-  value: string;
-  role: string;
-}
-
 export default function SignupForm({ role }: Props) {
   const [isLoading, setLoading] = useState(false);
-  const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -66,17 +56,10 @@ export default function SignupForm({ role }: Props) {
     },
   });
 
-  const setRedirectRoute = (role: string) => {
-    if (role === "client") return "/buyer";
-    if (role === "freelancer") return "/seller";
-    if (role === "admin") return "/admin";
-    return "/";
-  };
-
-  const onSubmit = async (data: FormSchemaType) => {
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
     setLoading(true);
     try {
-      const { data: token } = await apiClient.post<TokenInterface>(
+      await apiClient.post(
         "/auth/sign-up",
         {
           firstName: data.firstName,
@@ -84,14 +67,13 @@ export default function SignupForm({ role }: Props) {
           email: data.email,
           password: data.password,
           role: role,
-        }
+        },
+        { withCredentials: true }
       );
-      await setAuthToken(token.value);
       form.reset();
       toast.success("Account created successfully");
-      const redirectUrl = setRedirectRoute(token.role);
+      window.location.reload();
       setLoading(false);
-      router.push(redirectUrl);
     } catch (error) {
       if (
         error instanceof AxiosError &&
@@ -105,7 +87,7 @@ export default function SignupForm({ role }: Props) {
     } finally {
       setLoading(false);
     }
-  };
+  }
 
   return (
     <Form {...form}>

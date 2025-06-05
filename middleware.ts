@@ -29,8 +29,13 @@ export async function middleware(req: NextRequest) {
     }
   }
 
-  if (session && (pathname === "/log-in" || pathname === "/sign-up")) {
-    return NextResponse.redirect(new URL("/", req.url));
+  if (session && (pathname === "/log-in" || pathname.startsWith("/sign-up"))) {
+    if (session.role === "admin")
+      return NextResponse.redirect(new URL("/admin", req.url));
+    if (session.role === "client")
+      return NextResponse.redirect(new URL("/buyer", req.url));
+    if (session.role === "freelancer")
+      return NextResponse.redirect(new URL("/seller", req.url));
   }
 
   if (!session && pathname.startsWith("/dashboard")) {

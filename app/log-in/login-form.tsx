@@ -1,16 +1,11 @@
 "use client";
-import { setAuthToken } from "@/actions/set-token";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import apiClient from "@/services/api-client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AxiosError } from "axios";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
-
-type FormSchemaType = z.infer<typeof FormSchema>;
 
 import {
   Form,
@@ -34,14 +29,8 @@ const FormSchema = z.object({
     .max(64, "Password must not exceed 64 characters"),
 });
 
-interface TokenInterface {
-  value: string;
-  role: string;
-}
-
 export default function LoginForm() {
   const [isLoading, setLoading] = useState(false);
-  const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -50,40 +39,22 @@ export default function LoginForm() {
     },
   });
 
-  const setRedirectRoute = (role: string) => {
-    if (role === "client") return "/buyer";
-    if (role === "freelancer") return "/seller";
-    if (role === "admin") return "/admin";
-    return "/";
-  };
-
-  const onSubmit = async (data: FormSchemaType) => {
+  async function onSubmit(values: z.infer<typeof FormSchema>) {
     setLoading(true);
     try {
-      const { data: token } = await apiClient.post<TokenInterface>(
-        "/auth/log-in",
-        data
-      );
-      await setAuthToken(token.value);
+      await apiClient.post("/auth/log-in", values, {
+        withCredentials: true,
+      });
       form.reset();
-      toast.success("Log In Success");
-      const redirectUrl = setRedirectRoute(token.role);
-      router.push(redirectUrl);
+      toast.success("Login Success");
+      window.location.reload();
       setLoading(false);
     } catch (error) {
-      if (
-        error instanceof AxiosError &&
-        error.response &&
-        error.response.data
-      ) {
-        toast.error(error.response.data);
-        return;
-      }
-      toast.error("Oops! Something went wrong.");
+      console.log(error);
     } finally {
       setLoading(false);
     }
-  };
+  }
 
   return (
     <Form {...form}>
