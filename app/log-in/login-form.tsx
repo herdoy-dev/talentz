@@ -20,6 +20,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useState } from "react";
+import { BeatLoader } from "react-spinners";
 
 const FormSchema = z.object({
   email: z
@@ -38,6 +40,7 @@ interface TokenInterface {
 }
 
 export default function LoginForm() {
+  const [isLoading, setLoading] = useState(false);
   const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -55,6 +58,7 @@ export default function LoginForm() {
   };
 
   const onSubmit = async (data: FormSchemaType) => {
+    setLoading(true);
     try {
       const { data: token } = await apiClient.post<TokenInterface>(
         "/auth/log-in",
@@ -65,6 +69,7 @@ export default function LoginForm() {
       toast.success("Log In Success");
       const redirectUrl = setRedirectRoute(token.role);
       router.push(redirectUrl);
+      setLoading(false);
     } catch (error) {
       if (
         error instanceof AxiosError &&
@@ -75,6 +80,8 @@ export default function LoginForm() {
         return;
       }
       toast.error("Oops! Something went wrong.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -111,7 +118,7 @@ export default function LoginForm() {
           )}
         />
         <Button className="w-full" type="submit">
-          Sign In
+          {isLoading ? <BeatLoader /> : "Log In"}
         </Button>
       </form>
     </Form>

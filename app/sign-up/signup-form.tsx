@@ -52,7 +52,7 @@ interface TokenInterface {
   role: string;
 }
 
-export default function LoginForm({ role }: Props) {
+export default function SignupForm({ role }: Props) {
   const [isLoading, setLoading] = useState(false);
   const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
