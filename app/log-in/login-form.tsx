@@ -45,6 +45,7 @@ export default function LoginForm() {
       await apiClient.post("/auth/log-in", values);
       form.reset();
       toast.success("Login Success");
+      window.location.reload();
       setLoading(false);
     } catch (error) {
       console.log(error);
