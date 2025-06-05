@@ -59,17 +59,13 @@ export default function SignupForm({ role }: Props) {
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     setLoading(true);
     try {
-      await apiClient.post(
-        "/auth/sign-up",
-        {
-          firstName: data.firstName,
-          lastName: data.lastName,
-          email: data.email,
-          password: data.password,
-          role: role,
-        },
-        { withCredentials: true }
-      );
+      await apiClient.post("/auth/sign-up", {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        password: data.password,
+        role: role,
+      });
       form.reset();
       toast.success("Account created successfully");
       window.location.reload();

@@ -42,9 +42,7 @@ export default function LoginForm() {
   async function onSubmit(values: z.infer<typeof FormSchema>) {
     setLoading(true);
     try {
-      await apiClient.post("/auth/log-in", values, {
-        withCredentials: true,
-      });
+      await apiClient.post("/auth/log-in", values);
       form.reset();
       toast.success("Login Success");
       window.location.reload();
