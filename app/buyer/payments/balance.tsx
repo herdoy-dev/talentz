@@ -1,39 +1,45 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import useBalance from "@/hooks/useBalance";
+import { Input } from "@/components/ui/input";
 import useMe from "@/hooks/useMe";
+import apiClient from "@/services/api-client";
 import { Flex, Grid } from "@radix-ui/themes";
-import Image from "next/image";
+import { useState } from "react";
 
 export default function MyBalance() {
-  const { data } = useBalance();
+  const [amount, setAmount] = useState<number | null>(null);
   const { data: user } = useMe();
   if (!user) return null;
+
+  const handleDeposit = async () => {
+    const res = await apiClient.post("/deposit/create-checkout-session", {
+      amount,
+      userId: user._id, // Fetch from auth context/session
+    });
+    window.location.href = res.data.url;
+  };
+
   return (
     <Grid columns="2fr 3fr" gap="5">
       <div className="border shadow rounded-2xl p-4">
         <h4>My Balance</h4>
-        <h2> {data ? data.balance : 0} </h2>
-      </div>
-      <div className="border shadow rounded-2xl p-4 space-y-3">
-        <h4>Payment Method</h4>
-        <Flex align="center" gap="3">
-          <Image
-            src="/paypal.png"
-            width={100}
-            height={50}
-            className="max-w-[100px] h-full"
-            alt="paypal"
+        <h2> ${user.walletBalance} </h2>
+        <Flex
+          align="center"
+          justify="center"
+          className="border overflow-hidden border-primary rounded-2xl w-[300px]"
+        >
+          <Input
+            value={amount ? amount : ""}
+            onChange={(e) => setAmount(parseInt(e.target.value))}
+            className="border-none"
+            placeholder="Enter Amount"
           />
-          <div>
-            <p className="font-semibold !text-[15px]"> {user.email} </p>
-            <p className="text-gray-500 !text-[12px]"> Expire 03/2028 </p>
-          </div>
+          <Button onClick={handleDeposit} className="px-8 rounded-none">
+            Deposit
+          </Button>
         </Flex>
-        <Button variant="outline" size="sm" className="px-8">
-          Update
-        </Button>
       </div>
     </Grid>
   );

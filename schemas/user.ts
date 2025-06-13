@@ -2,6 +2,7 @@ export interface User {
   _id: string;
   firstName: string;
   lastName: string;
+  walletBalance: number;
   email: string;
   role: string;
   createdAt: Date;

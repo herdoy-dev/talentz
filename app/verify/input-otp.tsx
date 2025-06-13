@@ -5,7 +5,6 @@ import { useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { logout } from "@/actions/logout";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -54,7 +53,7 @@ export function InputOTPForm() {
         });
         if (res.data.success) {
           toast.success("Email Verification Completed");
-          await logout();
+          await apiClient.post("/auth/log-out");
           form.reset();
           window.location.href = "/log-in";
         } else if (!res.data.success) {

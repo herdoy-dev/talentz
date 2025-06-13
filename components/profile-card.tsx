@@ -1,5 +1,4 @@
 "use client";
-import { logout } from "@/actions/logout";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,21 +23,11 @@ import { MdOutlineAccountBalanceWallet, MdOutlineStars } from "react-icons/md";
 import { TiDocumentText } from "react-icons/ti";
 import Avatar from "./ui/avatar";
 import Text from "./ui/text";
+import apiClient from "@/services/api-client";
 
 export function ProfileCard() {
   const { data: user } = useMe();
-
-  const handleLogout = async () => {
-    try {
-      await logout();
-      window.location.href = "/";
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   if (!user) return null;
-
   const setProfileUrl = (role: string) => {
     if (role === "admin") return "/profile-admin";
     else if (role === "client") return "/profile-buyer";
@@ -126,7 +115,14 @@ export function ProfileCard() {
 
         <hr className="text-gray-300" />
         <DropdownMenuItem
-          onClick={() => handleLogout()}
+          onClick={async () => {
+            try {
+              await apiClient.post("/auth/log-out");
+              window.location.reload();
+            } catch (error) {
+              console.log(error);
+            }
+          }}
           className="flex items-center justify-center py-4 hover:bg-gray-200"
         >
           Log out

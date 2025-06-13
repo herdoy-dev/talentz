@@ -7,6 +7,7 @@ interface User {
   lastName: string;
   email: string;
   skills?: [string];
+  walletBalance: number;
   languages?: [string];
   role: "freelancer" | "client" | "admin";
   image?: string;
