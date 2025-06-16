@@ -9,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import useMe from "@/hooks/useMe";
+import Cookies from "js-cookie";
 import Link from "next/link";
 import { BiSolidChevronDown } from "react-icons/bi";
 import { BsShieldLock } from "react-icons/bs";
@@ -23,7 +24,6 @@ import { MdOutlineAccountBalanceWallet, MdOutlineStars } from "react-icons/md";
 import { TiDocumentText } from "react-icons/ti";
 import Avatar from "./ui/avatar";
 import Text from "./ui/text";
-import apiClient from "@/services/api-client";
 
 export function ProfileCard() {
   const { data: user } = useMe();
@@ -117,7 +117,7 @@ export function ProfileCard() {
         <DropdownMenuItem
           onClick={async () => {
             try {
-              await apiClient.post("/auth/log-out");
+              Cookies.remove("token");
               window.location.reload();
             } catch (error) {
               console.log(error);
