@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import Cookies from "js-cookie";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -53,7 +54,7 @@ export function InputOTPForm() {
         });
         if (res.data.success) {
           toast.success("Email Verification Completed");
-          await apiClient.post("/auth/log-out");
+          Cookies.remove("token");
           form.reset();
           window.location.href = "/log-in";
         } else if (!res.data.success) {
