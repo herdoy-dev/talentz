@@ -38,17 +38,17 @@ export async function middleware(req: NextRequest) {
       return NextResponse.redirect(new URL("/seller", req.url));
   }
 
-  if (!session && pathname.startsWith("/dashboard")) {
-    return NextResponse.redirect(new URL("/login", req.url));
+  if (
+    !session &&
+    (pathname === "/seller" ||
+      pathname.startsWith("/buyer") ||
+      pathname.startsWith("/admin"))
+  ) {
+    return NextResponse.redirect(new URL("/", req.url));
   }
 
-  if (
-    (!session && pathname.startsWith("/buyer")) ||
-    pathname.startsWith("/profile") ||
-    pathname.startsWith("/seller") ||
-    pathname.startsWith("/admin")
-  ) {
-    return NextResponse.redirect(new URL("/log-in", req.url));
+  if (!session && pathname.startsWith("/dashboard")) {
+    return NextResponse.redirect(new URL("/login", req.url));
   }
 
   if (session && pathname.startsWith("/admin")) {

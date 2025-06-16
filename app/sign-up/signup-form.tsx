@@ -7,6 +7,7 @@ import { AxiosError } from "axios";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
+import Cookies from "js-cookie";
 
 interface Props {
   role: "freelancer" | "client";
@@ -23,6 +24,7 @@ import {
 import Link from "next/link";
 import { useState } from "react";
 import { BeatLoader } from "react-spinners";
+import AuthResponse from "@/schemas/auth-response";
 
 const FormSchema = z
   .object({
@@ -59,15 +61,21 @@ export default function SignupForm({ role }: Props) {
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     setLoading(true);
     try {
-      await apiClient.post("/auth/sign-up", {
+      const res = await apiClient.post<AuthResponse>("/auth/sign-up", {
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.email,
         password: data.password,
         role: role,
       });
+      toast.success(res.data.message);
+      Cookies.set("token", res.data.data, {
+        expires: 7,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        path: "/",
+      });
       form.reset();
-      toast.success("Account created successfully");
       window.location.reload();
       setLoading(false);
     } catch (error) {

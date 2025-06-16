@@ -17,6 +17,8 @@ import {
 } from "@/components/ui/form";
 import { useState } from "react";
 import { BeatLoader } from "react-spinners";
+import AuthResponse from "@/schemas/auth-response";
+import Cookies from "js-cookie";
 
 const FormSchema = z.object({
   email: z
@@ -42,9 +44,18 @@ export default function LoginForm() {
   async function onSubmit(values: z.infer<typeof FormSchema>) {
     setLoading(true);
     try {
-      await apiClient.post("/auth/log-in", values);
+      const { data } = await apiClient.post<AuthResponse>(
+        "/auth/log-in",
+        values
+      );
       form.reset();
-      toast.success("Login Success");
+      toast.success(data.message);
+      Cookies.set("token", data.data, {
+        expires: 7,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        path: "/",
+      });
       window.location.reload();
       setLoading(false);
     } catch (error) {
