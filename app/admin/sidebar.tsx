@@ -1,5 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
+import { Component } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BsChatRightDotsFill } from "react-icons/bs";
@@ -13,6 +14,12 @@ const items = [
   { id: 2, label: "Salse", path: "/admin/salse", icon: <GoGraph /> },
   { id: 3, label: "Users", path: "/admin/users", icon: <HiUsers /> },
   { id: 4, label: "Jobs", path: "/admin/jobs", icon: <IoBriefcase /> },
+  {
+    id: 6,
+    label: "Categorys",
+    path: "/admin/categorys",
+    icon: <Component />,
+  },
   {
     id: 5,
     label: "Messages",
