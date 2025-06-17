@@ -32,7 +32,7 @@ interface Props {
   jobId: string;
 }
 
-export function CreateApplication({ jobId }: Props) {
+export function CreateJobApplication({ jobId }: Props) {
   const [isOpen, setOpen] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const { data: user } = useMe();
@@ -52,6 +52,7 @@ export function CreateApplication({ jobId }: Props) {
         author: user._id,
         jobId,
       });
+      queryClient.invalidateQueries({ queryKey: ["myjobapplication"] });
       queryClient.invalidateQueries({ queryKey: ["applications"] });
       toast.success("Applyed");
       form.reset();

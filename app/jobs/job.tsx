@@ -6,6 +6,7 @@ import { GrLocation } from "react-icons/gr";
 import { IoTimerOutline } from "react-icons/io5";
 import { PiBuildingApartmentDuotone } from "react-icons/pi";
 import { TbListDetails } from "react-icons/tb";
+import { JobDetails } from "./job-details";
 
 interface Props {
   job: JobSchema;
@@ -18,9 +19,8 @@ export default function Job({ job }: Props) {
         <Text variant="gray" size="small">
           Posted {formatDate(job.createdAt)}
         </Text>
-        {/* <Badge variant="gray">Applied</Badge> */}
       </div>
-      <h4 className="text-primary">{job.title}</h4>
+      <JobDetails job={job} title={job.title} />
       <div className="flex items-center gap-5">
         <IconBadge text="LA, US">
           <GrLocation />
