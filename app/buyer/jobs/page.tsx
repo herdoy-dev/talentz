@@ -8,15 +8,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import useMe from "@/hooks/useMe";
 import useMyJobs from "@/hooks/useMyJobs";
 import { formatDate } from "@/lib/utils";
 import { JobDetails } from "./job-details";
 
 export default function JobManagemnet() {
-  const { data: user } = useMe();
-
-  const { data } = useMyJobs(user?._id as string, "IN_PROGRESS");
+  const { data } = useMyJobs("IN_PROGRESS");
   if (!data) return null;
   return (
     <>

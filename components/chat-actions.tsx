@@ -1,4 +1,5 @@
 "use client";
+import { Hire } from "@/app/buyer/hire";
 import { queryClient } from "@/app/query-client-provider";
 import { Button } from "@/components/ui/button";
 import useMe from "@/hooks/useMe";
@@ -49,11 +50,7 @@ export default function ChatActions() {
         </p>
       </Flex>
       <Flex align="center" gap="3">
-        {chatUser.role === "freelancer" && (
-          <Button size="sm" className="px-8">
-            Hire
-          </Button>
-        )}
+        {chatUser.role === "freelancer" && <Hire sellerId={chatUser._id} />}
         <Button
           variant="ghost"
           className="cursor-pointer"

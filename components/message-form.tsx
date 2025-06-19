@@ -19,9 +19,6 @@ export default function MessageForm() {
     <Flex align="center" className="border-t px-3">
       <Flex align="center" className="w-full h-full">
         <Flex align="center">
-          <Button variant="outline" size="sm">
-            Custom Offer
-          </Button>
           <Button variant="ghost" size="sm" className="cursor-pointer">
             <BsPaperclip />
           </Button>

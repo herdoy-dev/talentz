@@ -3,7 +3,6 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { IoBriefcaseOutline } from "react-icons/io5";
-import { LuSearchCode } from "react-icons/lu";
 import { MdOutlineMessage } from "react-icons/md";
 import { RiDashboardLine } from "react-icons/ri";
 
@@ -14,12 +13,6 @@ const items = [
     label: "Job Management",
     path: "/seller/jobs",
     icon: <IoBriefcaseOutline />,
-  },
-  {
-    id: 3,
-    label: "Talents",
-    path: "/seller/talents",
-    icon: <LuSearchCode />,
   },
   {
     id: 4,

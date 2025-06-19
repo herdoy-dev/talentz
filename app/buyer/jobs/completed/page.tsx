@@ -8,13 +8,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import useMe from "@/hooks/useMe";
 import useMyJobs from "@/hooks/useMyJobs";
 import { formatDate } from "@/lib/utils";
 
 export default function CompletedJob() {
-  const { data: user } = useMe();
-  const { data } = useMyJobs(user?._id as string, "COMPLETED");
+  const { data } = useMyJobs("COMPLETED");
   if (!data) return null;
   return (
     <>

@@ -19,6 +19,7 @@ import { Avatar, Flex } from "@radix-ui/themes";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaAngleLeft } from "react-icons/fa6";
+import { Hire } from "../../hire";
 
 interface Props {
   job: Job;
@@ -115,7 +116,7 @@ export function JobDetails({ job, title }: Props) {
                           >
                             Message
                           </Button>
-                          <Button className="px-8">Hire</Button>
+                          <Hire sellerId={application.author._id} />
                         </div>
                       </div>
                     </div>

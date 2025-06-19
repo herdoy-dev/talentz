@@ -8,7 +8,7 @@ export default function DepositSuccess() {
   const router = useRouter();
 
   useEffect(() => {
-    const timer = setTimeout(() => router.push("/buyer/payments"), 3000);
+    const timer = setTimeout(() => router.push("/buyer/jobs"), 3000);
     return () => clearTimeout(timer);
   }, [router]);
 
@@ -50,7 +50,7 @@ export default function DepositSuccess() {
             transition={{ delay: 0.4 }}
             className="text-2xl font-bold text-gray-800 mb-2"
           >
-            Deposit Successful!
+            Checkout Successful!
           </motion.h1>
 
           <motion.p
@@ -59,7 +59,7 @@ export default function DepositSuccess() {
             transition={{ delay: 0.6 }}
             className="text-gray-600 mb-6"
           >
-            Your funds have been added to your account.
+            Your Order have been placed successfully.
           </motion.p>
 
           <motion.div
