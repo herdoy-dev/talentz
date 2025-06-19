@@ -21,7 +21,7 @@ export default function JobTable({ data }: Props) {
       <table className="table">
         <TableHead columns={columns} />
         <tbody>
-          {data.result.map((job) => (
+          {data.data.map((job) => (
             <tr key={job._id}>
               <td> {job.title} </td>
               <td> {job.category.name} </td>

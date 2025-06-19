@@ -8,11 +8,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import useJobs from "@/hooks/useJobs";
+import useMe from "@/hooks/useMe";
+import useMyJobs from "@/hooks/useMyJobs";
 import { formatDate } from "@/lib/utils";
 
 export default function CompletedJob() {
-  const { data } = useJobs();
+  const { data: user } = useMe();
+  const { data } = useMyJobs(user?._id as string, "COMPLETED");
   if (!data) return null;
   return (
     <>
@@ -29,7 +31,7 @@ export default function CompletedJob() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.result.map((job) => (
+          {data.data.map((job) => (
             <TableRow key={job._id}>
               <TableCell className="w-[200px]">{job.title}</TableCell>
               <TableCell>{formatDate(job.createdAt)}</TableCell>

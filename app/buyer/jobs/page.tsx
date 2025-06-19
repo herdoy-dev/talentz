@@ -8,12 +8,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import useJobs from "@/hooks/useJobs";
+import useMe from "@/hooks/useMe";
+import useMyJobs from "@/hooks/useMyJobs";
 import { formatDate } from "@/lib/utils";
 import { JobDetails } from "./job-details";
 
 export default function JobManagemnet() {
-  const { data } = useJobs();
+  const { data: user } = useMe();
+
+  const { data } = useMyJobs(user?._id as string, "IN_PROGRESS");
   if (!data) return null;
   return (
     <>
@@ -27,7 +30,7 @@ export default function JobManagemnet() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.result.map((job) => (
+          {data.data.map((job) => (
             <TableRow key={job._id}>
               <JobDetails job={job} title={job.title} />
               <TableCell>{formatDate(job.createdAt)}</TableCell>

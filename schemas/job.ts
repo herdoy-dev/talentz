@@ -13,11 +13,9 @@ export interface Job {
 }
 
 export interface JobResponse {
-  result: Job[];
+  data: Job[];
   count: number;
-  pagination: {
-    currentPage: number;
-    pageCount: number;
-    pageSize: number;
-  };
+  currentPage: number;
+  pageCount: number;
+  pageSize: number;
 }

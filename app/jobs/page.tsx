@@ -28,7 +28,7 @@ export default async function JobsPage({ searchParams }: Props) {
         <SearchBox />
       </div>
       <div className="space-y-2 md:ps-6">
-        {data?.result.map((job) => (
+        {data?.data.map((job) => (
           <Job job={job} key={job._id} />
         ))}
       </div>

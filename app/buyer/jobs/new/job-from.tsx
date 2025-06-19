@@ -94,7 +94,7 @@ export default function JobForm() {
       const payload = { ...data, requiredSkills: skills, author: user._id };
       await apiClient.post("/jobs", payload);
       toast.success("Job posted successfully");
-      queryClient.invalidateQueries({ queryKey: ["jobs"] });
+      queryClient.invalidateQueries({ queryKey: ["my_jobs"] });
       form.reset();
       setSkills([]);
     } catch (error) {

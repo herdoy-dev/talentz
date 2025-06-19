@@ -1,13 +1,15 @@
 "use client";
 
 import { buttonVariants } from "@/components/ui/button";
-import useJobs from "@/hooks/useJobs";
+import useMe from "@/hooks/useMe";
+import useMyJobs from "@/hooks/useMyJobs";
 import { Flex } from "@radix-ui/themes";
 import Link from "next/link";
 import Job from "./job";
 
 export default function OpenJobs() {
-  const { data } = useJobs();
+  const { data: user } = useMe();
+  const { data } = useMyJobs(user?._id as string, "OPEN");
   if (!data) return null;
   return (
     <div>
@@ -18,7 +20,7 @@ export default function OpenJobs() {
         </Link>
       </Flex>
       <div className="space-y-2">
-        {data?.result.map((job) => (
+        {data?.data.map((job) => (
           <Job job={job} key={job._id} />
         ))}
       </div>

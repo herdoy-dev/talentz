@@ -24,10 +24,7 @@ export default async function Jobs({ searchParams }: Props) {
   return (
     <div className="table">
       <JobTable data={data} />
-      <Pagination
-        currentPage={data.pagination.currentPage}
-        pageCount={data.pagination.pageCount}
-      />
+      <Pagination currentPage={data.currentPage} pageCount={data.pageCount} />
     </div>
   );
 }
