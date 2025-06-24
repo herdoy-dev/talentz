@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import useMe from "@/hooks/useMe";
-import { Job } from "@/schemas/job";
+import Job from "@/schemas/Job";
 import { FaAngleLeft } from "react-icons/fa";
 import { CreateJobApplication } from "./create-job-application";
 
@@ -23,7 +23,7 @@ function JobAction({ job, handleOpen, isApplied }: Props) {
       >
         <FaAngleLeft /> Back
       </Button>
-      {user?.role === "freelancer" && (
+      {user?.data.role === "freelancer" && (
         <div>
           {isApplied && <Button variant="light">Applied</Button>}
           {!isApplied && <CreateJobApplication jobId={job._id} />}

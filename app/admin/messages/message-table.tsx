@@ -1,11 +1,13 @@
 import DeleteTableItem from "@/components/delete-table-item";
 import TableHead from "@/components/table-head";
 import { formatDate } from "@/lib/utils";
-import { ContactResponse } from "@/schemas/contact";
+
 import MessageDetails from "./message";
+import { Contact } from "@/schemas/Contact";
 
 interface Props {
-  data: ContactResponse;
+  data: Contact[];
+  count: number;
 }
 
 const columns = [
@@ -17,13 +19,13 @@ const columns = [
   { _id: 6, value: "", label: "Action" },
 ];
 
-export default function MessageTable({ data }: Props) {
+export default function MessageTable({ data, count }: Props) {
   return (
     <div>
       <table className="table">
         <TableHead columns={columns} />
         <tbody>
-          {data.result.map((contact) => (
+          {data.map((contact) => (
             <tr key={contact._id}>
               <td> {contact.firstName} </td>
               <td> {contact.lastName} </td>
@@ -34,7 +36,7 @@ export default function MessageTable({ data }: Props) {
                 <MessageDetails message={contact} />
                 <DeleteTableItem
                   id={contact._id}
-                  count={data.count}
+                  count={count}
                   path="/contacts"
                 />
               </td>

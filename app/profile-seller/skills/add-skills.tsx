@@ -28,14 +28,14 @@ export default function AddSkills() {
       return;
     }
 
-    if (user.skills && user.skills.includes(skill)) {
+    if (user.data.skills && user.data.skills.includes(skill)) {
       toast.error("Skill already added.");
       return;
     }
 
     try {
-      await apiClient.put(`/users/${user._id}`, {
-        skills: user.skills ? [...user.skills, skill] : [skill],
+      await apiClient.put(`/users/${user.data._id}`, {
+        skills: user.data.skills ? [...user.data.skills, skill] : [skill],
       });
       setSkill("");
       queryClient.invalidateQueries({ queryKey: ["me"] });
@@ -48,8 +48,8 @@ export default function AddSkills() {
 
   const handleRemoveSkill = async (skillToRemove: string) => {
     try {
-      await apiClient.put(`/users/${user._id}`, {
-        skills: user.skills?.filter((s) => s !== skillToRemove),
+      await apiClient.put(`/users/${user.data._id}`, {
+        skills: user.data.skills?.filter((s) => s !== skillToRemove),
       });
       await queryClient.invalidateQueries({ queryKey: ["me"] });
       toast.success("Skill removed successfully.");
@@ -92,11 +92,11 @@ export default function AddSkills() {
           ))}
         </div>
       </div>
-      {user.skills && user.skills.length >= 1 && (
+      {user.data.skills && user.data.skills.length >= 1 && (
         <div className="py-4">
           <Text size="small">Added Skills</Text>
           <div className="flex items-center gap-4 py-3">
-            {user.skills.map((skill, i) => (
+            {user.data.skills.map((skill, i) => (
               <Button
                 onClick={() => handleRemoveSkill(skill)}
                 size="sm"

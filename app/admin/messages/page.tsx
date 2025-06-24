@@ -1,5 +1,6 @@
 import Pagination from "@/components/pagination";
-import { ContactResponse } from "@/schemas/contact";
+import ApiResponse from "@/schemas/ApiRespose";
+import { Contact } from "@/schemas/Contact";
 import apiClient from "@/services/api-client";
 import MessageTable from "./message-table";
 
@@ -15,7 +16,7 @@ export default async function Messages({ searchParams }: Props) {
   const setPage = parseInt(params.page);
   const orderBy = params.orderBy ? params.orderBy : null;
   const page = setPage ? setPage : null;
-  const { data } = await apiClient.get<ContactResponse>("/contacts", {
+  const { data } = await apiClient.get<ApiResponse<Contact[]>>("/contacts", {
     params: {
       orderBy,
       page,
@@ -23,11 +24,8 @@ export default async function Messages({ searchParams }: Props) {
   });
   return (
     <div className="table">
-      <MessageTable data={data} />
-      <Pagination
-        currentPage={data.pagination.currentPage}
-        pageCount={data.pagination.pageCount}
-      />
+      <MessageTable data={data.data} count={data.count} />
+      <Pagination currentPage={data.currentPage} pageCount={data.pageCount} />
     </div>
   );
 }

@@ -15,7 +15,7 @@ import { z } from "zod";
 import { queryClient } from "@/app/query-client-provider";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import Text from "@/components/ui/text";
-import useMe from "@/hooks/useMe";
+import Job from "@/schemas/Job";
 import apiClient from "@/services/api-client";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -29,13 +29,13 @@ const FormSchema = z.object({
 });
 
 interface Props {
-  jobId: string;
+  job: Job;
 }
 
-export function CreateJobApplication({ jobId }: Props) {
+export function CreateJobApplication({ job }: Props) {
   const [isOpen, setOpen] = useState(false);
   const [isLoading, setLoading] = useState(false);
-  const { data: user } = useMe();
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -44,13 +44,13 @@ export function CreateJobApplication({ jobId }: Props) {
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    if (!user || !jobId) return;
+    if (!job._id) return;
     setLoading(true);
     try {
       await apiClient.post("/applications", {
         ...data,
-        author: user._id,
-        jobId,
+        buyer: job.author._id,
+        jobId: job._id,
       });
       queryClient.invalidateQueries({ queryKey: ["myjobapplication"] });
       queryClient.invalidateQueries({ queryKey: ["applications"] });

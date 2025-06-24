@@ -35,7 +35,7 @@ export default function MessageForm() {
               await apiClient.post("/messages", {
                 chatId: currentChat._id,
                 message,
-                sender: user._id,
+                sender: user.data._id,
               });
               setMessage("");
               queryClient.invalidateQueries({

@@ -1,4 +1,5 @@
-import { JobResponse } from "@/schemas/job";
+import ApiResponse from "@/schemas/ApiRespose";
+import JobInterface from "@/schemas/Job";
 import apiClient from "@/services/api-client";
 import Job from "./job";
 import SearchBox from "./search-box";
@@ -14,7 +15,7 @@ export default async function JobsPage({ searchParams }: Props) {
   const params = await searchParams;
   const search = params.search ? params.search : null;
   const orderBy = params.orderBy ? params.orderBy : null;
-  const { data } = await apiClient.get<JobResponse>("/jobs", {
+  const { data } = await apiClient.get<ApiResponse<JobInterface[]>>("/jobs", {
     params: {
       search,
       orderBy,

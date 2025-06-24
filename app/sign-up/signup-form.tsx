@@ -4,10 +4,10 @@ import { Input } from "@/components/ui/input";
 import apiClient from "@/services/api-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AxiosError } from "axios";
+import Cookies from "js-cookie";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
-import Cookies from "js-cookie";
 
 interface Props {
   role: "freelancer" | "client";
@@ -21,10 +21,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import ApiResponse from "@/schemas/ApiRespose";
 import Link from "next/link";
 import { useState } from "react";
 import { BeatLoader } from "react-spinners";
-import AuthResponse from "@/schemas/auth-response";
 
 const FormSchema = z
   .object({
@@ -61,7 +61,7 @@ export default function SignupForm({ role }: Props) {
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     setLoading(true);
     try {
-      const res = await apiClient.post<AuthResponse>("/auth/sign-up", {
+      const res = await apiClient.post<ApiResponse<string>>("/auth/sign-up", {
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.email,

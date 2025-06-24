@@ -1,7 +1,7 @@
 import IconBadge from "@/components/ui/icon-badge";
 import Text from "@/components/ui/text";
 import { formatDate } from "@/lib/utils";
-import { Job as JobSchema } from "@/schemas/job";
+import JobSchema from "@/schemas/Job";
 import { GrLocation } from "react-icons/gr";
 import { IoTimerOutline } from "react-icons/io5";
 import { PiBuildingApartmentDuotone } from "react-icons/pi";

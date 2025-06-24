@@ -21,7 +21,7 @@ import { Input } from "@/components/ui/input";
 import Text from "@/components/ui/text";
 import { Textarea } from "@/components/ui/textarea";
 import { storage } from "@/firebase";
-import Portfolio from "@/schemas/portfolio";
+import Portfolio from "@/schemas/Portfolio";
 import apiClient from "@/services/api-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Grid } from "@radix-ui/themes";

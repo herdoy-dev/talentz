@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button";
 import IconBadge from "@/components/ui/icon-badge";
 import Text from "@/components/ui/text";
 import useMe from "@/hooks/useMe";
-import { Chat } from "@/schemas/chat";
-import { Talent } from "@/schemas/talent";
+import { Chat } from "@/schemas/Chat";
+import { Talent } from "@/schemas/Talent";
 import apiClient from "@/services/api-client";
 import { useChatStore } from "@/store";
 import Image from "next/image";
@@ -68,7 +68,7 @@ export default function TalentCard({ talent }: Props) {
                 <FaRegHeart className="text-primary text-sm md:text-[16px]" />
               )}
             </div>
-            {user?._id === talent._id ? null : (
+            {user?.data._id === talent._id ? null : (
               <Button
                 variant="outline"
                 className="py-[2px] px-2 md:py-[4px] md:px-4 border cursor-pointer"
@@ -76,7 +76,7 @@ export default function TalentCard({ talent }: Props) {
                   if (!user) return router.push("/log-in");
                   try {
                     const { data } = await apiClient.post<Chat>("/chats", {
-                      buyer: user._id,
+                      buyer: user.data._id,
                       seller: talent._id,
                     });
                     setCurrentChat(data);
@@ -85,7 +85,9 @@ export default function TalentCard({ talent }: Props) {
                     });
                     router.push(
                       `/${
-                        user.role === "freelancer" ? "seller" : user.role
+                        user.data.role === "freelancer"
+                          ? "seller"
+                          : user.data.role
                       }/messages`
                     );
                   } catch (error) {

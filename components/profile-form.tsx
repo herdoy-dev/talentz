@@ -79,20 +79,20 @@ export default function ProfileForm() {
   useEffect(() => {
     if (user) {
       form.reset({
-        firstName: user.firstName || "",
-        lastName: user.lastName || "",
-        email: user.email || "",
-        phone: user.phone || "",
-        title: user.title || "",
-        location: user.location || "",
-        about: user.about || "",
+        firstName: user.data.firstName || "",
+        lastName: user.data.lastName || "",
+        email: user.data.email || "",
+        phone: user.data.phone || "",
+        title: user.data.title || "",
+        location: user.data.location || "",
+        about: user.data.about || "",
       });
     }
   }, [user, form]);
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
-      await apiClient.put(`/users/${user?._id}`, data);
+      await apiClient.put(`/users/${user?.data._id}`, data);
       toast.success("Profile updated successfully");
       queryClient.invalidateQueries({ queryKey: ["me"] });
     } catch (error) {

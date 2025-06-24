@@ -3,15 +3,15 @@ import { cn } from "@/lib/utils";
 import { Flex } from "@radix-ui/themes";
 import Link from "next/link";
 
-const actions = [
+const requestActions = [
   {
     id: 1,
-    title: "Website Design - Figma",
+    title:
+      "Designer interview- For UX designer, product designer, user researcher, UI designer",
   },
   {
     id: 2,
-    title:
-      "Looking for a creative UX/UI designer to redesign our website landing page in figma",
+    title: "Science Writer Needed for Historical Narratives Integration",
   },
   { id: 3, title: "History research proofreading and editing" },
 ];
@@ -20,9 +20,7 @@ function RequestActions() {
   return (
     <div className="border rounded-3xl p-6">
       <Flex align="center" justify="between" mb="3">
-        <p className="!text-xl font-semibold text-primary-dark">
-          Request Action
-        </p>
+        <p className="!text-xl font-semibold text-primary-dark">New Actions</p>
         <Link
           href="/buyer"
           className="underline font-semibold text-primary-dark"
@@ -32,15 +30,16 @@ function RequestActions() {
       </Flex>
 
       <div className="space-y-3">
-        {actions.map((item, index) => (
+        {requestActions.map((item, index) => (
           <div
             className={cn(
               "space-y-3 pb-3",
-              actions.length - 1 !== index && "border-b border-[#333]"
+              requestActions.length - 1 !== index && "border-b border-[#333]"
             )}
             key={item.id}
           >
             <Flex align="center" gap="2">
+              <p className="text-gray-500">Posted 51 minute ago</p>
               <Badge className="bg-yellow text-primary-dark">
                 New Application
               </Badge>

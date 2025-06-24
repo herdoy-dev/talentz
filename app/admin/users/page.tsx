@@ -1,5 +1,6 @@
 import Pagination from "@/components/pagination";
-import { UsersResponse } from "@/schemas/user";
+import ApiResponse from "@/schemas/ApiRespose";
+import User from "@/schemas/User";
 import apiClient from "@/services/api-client";
 import UserTable from "./user-table";
 
@@ -15,7 +16,7 @@ export default async function Messages({ searchParams }: Props) {
   const setPage = parseInt(params.page);
   const orderBy = params.orderBy ? params.orderBy : null;
   const page = setPage ? setPage : null;
-  const { data } = await apiClient.get<UsersResponse>("/users", {
+  const { data } = await apiClient.get<ApiResponse<User[]>>("/users", {
     params: {
       orderBy,
       page,
@@ -23,11 +24,8 @@ export default async function Messages({ searchParams }: Props) {
   });
   return (
     <div className="table">
-      <UserTable data={data} />
-      <Pagination
-        currentPage={data.pagination.currentPage}
-        pageCount={data.pagination.pageCount}
-      />
+      <UserTable data={data.data} count={data.count} />
+      <Pagination currentPage={data.currentPage} pageCount={data.pageCount} />
     </div>
   );
 }

@@ -17,23 +17,23 @@ export default function PreviewPage() {
     <div className="space-y-10 h-[80dvh] overflow-y-auto pb-20 px-10">
       <Flex gap="5">
         <Avatar
-          src={user.image}
-          fallback={user.firstName}
+          src={user.data.image}
+          fallback={user.data.firstName}
           size="9"
           radius="full"
         />
         <div className="space-y-5">
           <div>
-            <h2> {user.firstName + " " + user.lastName} </h2>
+            <h2> {user.data.firstName + " " + user.data.lastName} </h2>
             <Flex align="center" gap="6">
-              <Text className="text-gray-500"> {user.title} </Text>
+              <Text className="text-gray-500"> {user.data.title} </Text>
               <Text className="text-gray-500 flex items-center gap-1">
-                <SlLocationPin /> {user.location}
+                <SlLocationPin /> {user.data.location}
               </Text>
             </Flex>
           </div>
           <Flex wrap="wrap" gap="2">
-            {user.skills?.map((skill, i) => (
+            {user.data.skills?.map((skill, i) => (
               <Badge className="bg-primary/60 rounded-full" key={i}>
                 {skill}
               </Badge>
@@ -43,7 +43,7 @@ export default function PreviewPage() {
       </Flex>
 
       <Grid columns={{ initial: "1", md: "2" }} align="center" gap="5">
-        {educations?.map((education) => (
+        {educations?.data.map((education) => (
           <div
             className="rounded-3xl border shadow-2xl p-5 space-y-3"
             key={education._id}
@@ -62,7 +62,7 @@ export default function PreviewPage() {
         <div className="rounded-3xl border shadow-2xl p-5">
           <p className="font-bold mb-3">Languages</p>
           <ul>
-            {user.languages?.map((language, i) => (
+            {user.data.languages?.map((language, i) => (
               <li key={i}> {language} </li>
             ))}
           </ul>
@@ -71,7 +71,7 @@ export default function PreviewPage() {
 
       <div>
         <p className="font-bold mb-3">About</p>
-        <p> {user.about} </p>
+        <p> {user.data.about} </p>
       </div>
       <Services />
       <Portfolios />

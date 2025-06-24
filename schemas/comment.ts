@@ -1,4 +1,4 @@
-export interface Comment {
+export default interface Comment {
   _id: string;
   message: string;
   jobId: string;
@@ -10,9 +10,4 @@ export interface Comment {
   files?: string[];
   createdAt: string;
   updatedAt: string;
-}
-
-export interface GetCommentsResponse {
-  result: Comment[];
-  count: number;
 }

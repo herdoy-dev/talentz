@@ -36,7 +36,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { queryClient } from "@/app/query-client-provider";
 import { storage } from "@/firebase";
 import useMe from "@/hooks/useMe";
-import { Service } from "@/schemas/service";
+import Service from "@/schemas/Service";
 import apiClient from "@/services/api-client";
 
 const MAX_FILE_SIZE = 1 * 1024 * 1024; // 1MB
@@ -134,7 +134,7 @@ export default function ServiceForm({ service }: EditServiceProps) {
 
     const serviceData = {
       ...formData,
-      userId: userData._id,
+      userId: userData.data._id,
     };
 
     try {

@@ -9,7 +9,7 @@ import ServiceForm from "./service-form";
 
 export default function Services() {
   const { data } = useServices();
-  const services = data?.result;
+  const services = data?.data;
   if (!services) return null;
 
   return (

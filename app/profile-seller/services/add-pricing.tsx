@@ -108,7 +108,7 @@ export default function AddPricing({ serviceId }: Props) {
   };
 
   const { data } = usePackages(serviceId);
-  const existingLabels = data?.result?.map((pkg) => pkg.label) || [];
+  const existingLabels = data?.data.map((pkg) => pkg.label) || [];
 
   return (
     <Dialog>
@@ -223,9 +223,9 @@ export default function AddPricing({ serviceId }: Props) {
               </DialogFooter>
             </form>
           </Form>
-          {data && data.result && (
+          {data && data.data && (
             <div className="space-y-5 max-h-[60dvh] overflow-auto">
-              {data.result.map((d) => (
+              {data.data.map((d) => (
                 <div key={d._id} className="border p-3 shadow rounded-2xl">
                   <div className="flex w-full items-center justify-between">
                     <h3> {d.label} </h3>

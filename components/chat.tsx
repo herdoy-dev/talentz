@@ -1,7 +1,7 @@
 "use client";
 import useMe from "@/hooks/useMe";
 import { cn } from "@/lib/utils";
-import { Chat } from "@/schemas/chat";
+import { Chat } from "@/schemas/Chat";
 import { useChatStore } from "@/store";
 import { Avatar, Flex } from "@radix-ui/themes";
 
@@ -14,7 +14,7 @@ export default function ChatDetails({ chat }: Props) {
   const setCurrent = useChatStore((s) => s.setCurrentChat);
   const { data: user } = useMe();
   const setChatUser = () => {
-    if (user?._id === chat.buyer._id) return chat.seller;
+    if (user?.data._id === chat.buyer._id) return chat.seller;
     return chat.buyer;
   };
   const chatUser = setChatUser();

@@ -18,7 +18,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import Education from "@/schemas/education";
+import Education from "@/schemas/Education";
 import apiClient from "@/services/api-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
@@ -133,7 +133,7 @@ export function EditEducation({ education }: EditEducationProps) {
                     <FormLabel>Start Date*</FormLabel>
                     <FormControl>
                       <DatePicker
-                        className="border border-primary py-1 px-2 rounded-md"
+                        className="border border-primary py-1 px-2 rounded-md focus:outline-none max-w-[150px]"
                         placeholderText="Start Date..."
                         selected={field.value}
                         onChange={field.onChange}
@@ -152,7 +152,7 @@ export function EditEducation({ education }: EditEducationProps) {
                     <FormLabel>End Date</FormLabel>
                     <FormControl>
                       <DatePicker
-                        className="border border-primary py-1 px-2 rounded-md"
+                        className="border border-primary py-1 px-2 rounded-md focus:outline-none max-w-[150px]"
                         placeholderText="Finished Date..."
                         selected={field.value}
                         onChange={field.onChange}

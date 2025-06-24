@@ -1,5 +1,6 @@
 import Pagination from "@/components/pagination";
-import { JobResponse } from "@/schemas/job";
+import ApiResponse from "@/schemas/ApiRespose";
+import JobSchema from "@/schemas/Job";
 import apiClient from "@/services/api-client";
 import JobTable from "./job-table";
 
@@ -15,7 +16,7 @@ export default async function Jobs({ searchParams }: Props) {
   const setPage = parseInt(params.page);
   const orderBy = params.orderBy ? params.orderBy : null;
   const page = setPage ? setPage : null;
-  const { data } = await apiClient.get<JobResponse>("/jobs", {
+  const { data } = await apiClient.get<ApiResponse<JobSchema[]>>("/jobs", {
     params: {
       orderBy,
       page,
@@ -23,7 +24,7 @@ export default async function Jobs({ searchParams }: Props) {
   });
   return (
     <div className="table">
-      <JobTable data={data} />
+      <JobTable data={data.data} count={data.count} />
       <Pagination currentPage={data.currentPage} pageCount={data.pageCount} />
     </div>
   );

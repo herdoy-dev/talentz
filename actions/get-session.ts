@@ -1,6 +1,6 @@
 "use server";
 
-import Session from "@/schemas/session";
+import Session from "@/schemas/Session";
 import { jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers";
 

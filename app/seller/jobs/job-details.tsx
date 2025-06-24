@@ -10,7 +10,7 @@ import {
 import { TableCell } from "@/components/ui/table";
 import Text from "@/components/ui/text";
 import useComments from "@/hooks/useComments";
-import { Job } from "@/schemas/job";
+import Job from "@/schemas/Job";
 import { Avatar, Flex } from "@radix-ui/themes";
 import { useState } from "react";
 import { FaAngleLeft } from "react-icons/fa6";
@@ -62,7 +62,7 @@ export function JobDetails({ job, title }: Props) {
           </div>
           <div className="space-y-6 mt-8">
             <CreateComment jobId={job._id} />
-            {data?.result.map((comment) => (
+            {data?.data.map((comment) => (
               <div key={comment._id}>
                 <div className="flex-1 p-3 border rounded-2xl">
                   <Flex

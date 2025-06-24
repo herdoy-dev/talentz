@@ -16,7 +16,7 @@ export default function ChatActions() {
   if (!currentChat) return <div />;
 
   const setChatUser = () => {
-    if (user?._id === currentChat.buyer._id) return currentChat.seller;
+    if (user?.data._id === currentChat.buyer._id) return currentChat.seller;
     return currentChat.buyer;
   };
 

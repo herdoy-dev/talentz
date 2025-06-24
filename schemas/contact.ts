@@ -6,13 +6,3 @@ export interface Contact {
   message: string;
   createdAt: Date;
 }
-
-export interface ContactResponse {
-  result: Contact[];
-  count: number;
-  pagination: {
-    currentPage: number;
-    pageCount: number;
-    pageSize: number;
-  };
-}

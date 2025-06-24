@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Chat } from "./schemas/chat";
+import { Chat } from "./schemas/Chat";
 
 type ChatStoreType = {
   currentChat: Chat | undefined;

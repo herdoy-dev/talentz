@@ -91,7 +91,11 @@ export default function JobForm() {
   const handleSubmit = async (data: JobFormValues) => {
     if (!user) return null;
     try {
-      const payload = { ...data, requiredSkills: skills, author: user._id };
+      const payload = {
+        ...data,
+        requiredSkills: skills,
+        author: user.data._id,
+      };
       await apiClient.post("/jobs", payload);
       toast.success("Job posted successfully");
       queryClient.invalidateQueries({ queryKey: ["my_jobs"] });
@@ -143,7 +147,7 @@ export default function JobForm() {
                   <SelectContent>
                     <SelectGroup>
                       <SelectLabel>Categories</SelectLabel>
-                      {categorys?.map((category) => (
+                      {categorys?.data.map((category) => (
                         <SelectItem key={category._id} value={category._id}>
                           {category.name}
                         </SelectItem>

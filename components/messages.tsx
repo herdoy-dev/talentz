@@ -33,7 +33,7 @@ export default function Messages() {
       className="bg-gray-100 !overflow-y-auto p-4"
       gap="8"
     >
-      {messages.result.map((message) => (
+      {messages.data.map((message) => (
         <Flex className="w-full" gap="2" key={message._id}>
           <Avatar
             src={message.sender.image}

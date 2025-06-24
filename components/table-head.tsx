@@ -1,5 +1,5 @@
 "use client";
-import Column from "@/schemas/column";
+import Column from "@/schemas/Column";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FaSortUp } from "react-icons/fa";
 

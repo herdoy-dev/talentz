@@ -1,4 +1,4 @@
-export interface Package {
+export default interface Package {
   _id: string;
   serviceId: string;
   price: string;
@@ -6,9 +6,4 @@ export interface Package {
   features: string[];
   createdAt: string;
   updatedAt: string;
-}
-
-export interface GetPackageResponse {
-  result: Package[];
-  count: number;
 }

@@ -1,4 +1,5 @@
 "use client";
+import { queryClient } from "@/app/query-client-provider";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -10,12 +11,11 @@ import {
 import Text from "@/components/ui/text";
 import useMyApplication from "@/hooks/useApplication";
 import { formatDate } from "@/lib/utils";
-import { Job } from "@/schemas/job";
+import Job from "@/schemas/Job";
 import { Avatar, Flex } from "@radix-ui/themes";
 import { useEffect, useState } from "react";
 import { BiEdit } from "react-icons/bi";
 import JobAction from "./job-action";
-import { queryClient } from "@/app/query-client-provider";
 
 interface JobDetailsProps {
   job: Job;
@@ -41,7 +41,9 @@ export function JobDetails({ job, title }: JobDetailsProps) {
             <JobAction
               job={job}
               handleOpen={() => setIsOpen(false)}
-              isApplied={myApplication && myApplication.author ? true : false}
+              isApplied={
+                myApplication && myApplication.data.author ? true : false
+              }
             />
           </SheetTitle>
         </SheetHeader>
@@ -53,7 +55,7 @@ export function JobDetails({ job, title }: JobDetailsProps) {
             <div className="my-6">
               <h3 className="mb-3">My Application</h3>
               <div className="space-y-6">
-                <div key={myApplication._id}>
+                <div key={myApplication.data._id}>
                   <div className="flex-1 p-3 pt-0 border rounded-2xl">
                     <Flex
                       align="center"
@@ -62,7 +64,7 @@ export function JobDetails({ job, title }: JobDetailsProps) {
                     >
                       <div className="flex items-center gap-3">
                         <Avatar
-                          src={myApplication.author.image}
+                          src={myApplication.data.author.image}
                           fallback="User"
                           radius="full"
                           style={{
@@ -73,10 +75,10 @@ export function JobDetails({ job, title }: JobDetailsProps) {
                           }}
                         />
                         <span>
-                          {`${myApplication.author.firstName} ${myApplication.author.lastName}`}
+                          {`${myApplication.data.author.firstName} ${myApplication.data.author.lastName}`}
                         </span>
                         <Text className="text-gray-500" size="small">
-                          {formatDate(myApplication.createdAt)}
+                          {formatDate(myApplication.data.createdAt)}
                         </Text>
                       </div>
 

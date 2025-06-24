@@ -1,13 +1,14 @@
-import { GetPackageResponse } from "@/schemas/package";
+import ApiResponse from "@/schemas/ApiRespose";
+import Package from "@/schemas/Package";
 import apiClient from "@/services/api-client";
 import { useQuery } from "@tanstack/react-query";
 
 const usePackages = (serviceId: string) => {
-  return useQuery<GetPackageResponse, Error>({
+  return useQuery<ApiResponse<Package[]>, Error>({
     queryKey: ["packages", serviceId],
     queryFn: () =>
       apiClient
-        .get<GetPackageResponse>("/packages", {
+        .get<ApiResponse<Package[]>>("/packages", {
           params: {
             serviceId,
           },

@@ -1,13 +1,14 @@
-import { Application } from "@/schemas/application";
+import ApiResponse from "@/schemas/ApiRespose";
+import Application from "@/schemas/Application";
 import apiClient from "@/services/api-client";
 import { useQuery } from "@tanstack/react-query";
 
 const useMyApplication = (jobId: string) => {
-  return useQuery<Application, Error>({
+  return useQuery<ApiResponse<Application>, Error>({
     queryKey: ["myjobapplication", jobId],
     queryFn: () =>
       apiClient
-        .get<Application>("/applications/my", {
+        .get<ApiResponse<Application>>("/applications/my", {
           params: {
             jobId,
           },

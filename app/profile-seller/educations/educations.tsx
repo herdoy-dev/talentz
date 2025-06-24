@@ -10,11 +10,13 @@ export default function Educations() {
   const { data } = useEducations();
   if (!data) return null;
 
+  const educations = data.data;
+
   return (
     <div>
       <h3 className="text-primary mb-2">Added education</h3>
       <div className="flex items-center flex-wrap gap-3">
-        {data.map((education) => (
+        {educations.map((education) => (
           <div
             key={education._id}
             className="px-4 max-w-[350px] border border-gray-400 rounded-2xl relative my-3"

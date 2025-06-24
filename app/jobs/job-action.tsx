@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import useMe from "@/hooks/useMe";
-import { Job } from "@/schemas/job";
+import Job from "@/schemas/Job";
 import { FaAngleLeft } from "react-icons/fa";
 import { CreateJobApplication } from "./create-job-application";
 
@@ -12,7 +12,7 @@ interface Props {
 }
 
 function JobAction({ job, handleOpen, isApplied }: Props) {
-  const { data: user } = useMe();
+  const { data } = useMe();
 
   return (
     <div className="flex items-center justify-between">
@@ -23,10 +23,10 @@ function JobAction({ job, handleOpen, isApplied }: Props) {
       >
         <FaAngleLeft /> Back
       </Button>
-      {user?.role === "freelancer" && (
+      {data?.data.role === "freelancer" && (
         <div>
           {isApplied && <Button variant="light">Applied</Button>}
-          {!isApplied && <CreateJobApplication jobId={job._id} />}
+          {!isApplied && <CreateJobApplication job={job} />}
         </div>
       )}
     </div>

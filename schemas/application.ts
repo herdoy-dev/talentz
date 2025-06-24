@@ -1,7 +1,8 @@
-export interface Application {
+export default interface Application {
   _id: string;
   message: string;
   jobId: string;
+  buyer: string;
   author: {
     _id: string;
     firstName: string;
@@ -11,9 +12,4 @@ export interface Application {
   files?: string[];
   createdAt: Date;
   updatedAt: Date;
-}
-
-export interface GetApplicationResponse {
-  result: Application[];
-  count: number;
 }

@@ -1,6 +1,6 @@
 import DeleteTableItem from "@/components/delete-table-item";
 import TableHead from "@/components/table-head";
-import { Category } from "@/schemas/category";
+import Category from "@/schemas/Category";
 
 interface Props {
   data: Category[];

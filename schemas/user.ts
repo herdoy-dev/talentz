@@ -1,19 +1,16 @@
-export interface User {
+export default interface User {
   _id: string;
   firstName: string;
   lastName: string;
-  walletBalance: number;
   email: string;
-  role: string;
+  skills?: [string];
+  walletBalance: number;
+  languages?: [string];
+  role: "freelancer" | "client" | "admin";
+  image: string;
+  phone?: string;
+  location?: string;
+  title?: string;
+  about?: string;
   createdAt: Date;
-}
-
-export interface UsersResponse {
-  result: User[];
-  count: number;
-  pagination: {
-    currentPage: number;
-    pageCount: number;
-    pageSize: number;
-  };
 }

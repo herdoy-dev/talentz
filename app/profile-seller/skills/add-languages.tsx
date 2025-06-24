@@ -28,14 +28,16 @@ export default function AddLanguages() {
       return;
     }
 
-    if (user.languages?.includes(language)) {
+    if (user.data.languages?.includes(language)) {
       toast.error("Language already added.");
       return;
     }
 
     try {
-      await apiClient.put(`/users/${user._id}`, {
-        languages: user.languages ? [...user.languages, language] : [language],
+      await apiClient.put(`/users/${user.data._id}`, {
+        languages: user.data.languages
+          ? [...user.data.languages, language]
+          : [language],
       });
       setLanguage("");
       await queryClient.invalidateQueries({ queryKey: ["me"] });
@@ -48,8 +50,10 @@ export default function AddLanguages() {
 
   const handleRemoveLanguage = async (languageToRemove: string) => {
     try {
-      await apiClient.put(`/users/${user._id}`, {
-        languages: user.languages?.filter((lang) => lang !== languageToRemove),
+      await apiClient.put(`/users/${user.data._id}`, {
+        languages: user.data.languages?.filter(
+          (lang) => lang !== languageToRemove
+        ),
       });
       await queryClient.invalidateQueries({ queryKey: ["me"] });
       toast.success("Language removed successfully.");
@@ -94,11 +98,11 @@ export default function AddLanguages() {
         </div>
       </div>
 
-      {user.languages && user.languages.length > 0 && (
+      {user.data.languages && user.data.languages.length > 0 && (
         <div className="py-4">
           <Text size="small">Added Languages</Text>
           <div className="flex items-center gap-4 py-3 flex-wrap">
-            {user.languages.map((lang) => (
+            {user.data.languages.map((lang) => (
               <Button
                 onClick={() => handleRemoveLanguage(lang)}
                 size="sm"

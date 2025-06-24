@@ -1,7 +1,7 @@
-import { Category } from "./category";
-import { User } from "./user";
+import Category from "./Category";
+import User from "./User";
 
-export interface Job {
+export default interface Job {
   _id: string;
   author: User;
   title: string;
@@ -10,12 +10,4 @@ export interface Job {
   jobSize: "large" | "medium" | "small";
   description: string;
   createdAt: Date;
-}
-
-export interface JobResponse {
-  data: Job[];
-  count: number;
-  currentPage: number;
-  pageCount: number;
-  pageSize: number;
 }

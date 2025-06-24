@@ -1,10 +1,11 @@
 import DeleteTableItem from "@/components/delete-table-item";
 import TableHead from "@/components/table-head";
 import { formatDate } from "@/lib/utils";
-import { UsersResponse } from "@/schemas/user";
+import User from "@/schemas/User";
 
 interface Props {
-  data: UsersResponse;
+  data: User[];
+  count: number;
 }
 
 const columns = [
@@ -16,13 +17,13 @@ const columns = [
   { _id: 6, value: "", label: "Action" },
 ];
 
-export default function UserTable({ data }: Props) {
+export default function UserTable({ data, count }: Props) {
   return (
     <div>
       <table className="table">
         <TableHead columns={columns} />
         <tbody>
-          {data.result.map((user) => (
+          {data.map((user) => (
             <tr key={user._id}>
               <td> {user.firstName} </td>
               <td> {user.lastName} </td>
@@ -30,11 +31,7 @@ export default function UserTable({ data }: Props) {
               <td> {user.role}</td>
               <td> {formatDate(user.createdAt)} </td>
               <td className="space-x-1">
-                <DeleteTableItem
-                  count={data.count}
-                  id={user._id}
-                  path="/users"
-                />
+                <DeleteTableItem count={count} id={user._id} path="/users" />
               </td>
             </tr>
           ))}

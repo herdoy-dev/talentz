@@ -16,8 +16,3 @@ export interface Chat {
   };
   lastMessage: string;
 }
-
-export interface getChatsResponse {
-  result: Chat[];
-  count: number;
-}

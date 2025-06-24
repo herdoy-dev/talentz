@@ -15,10 +15,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import ApiResponse from "@/schemas/ApiRespose";
+import Cookies from "js-cookie";
 import { useState } from "react";
 import { BeatLoader } from "react-spinners";
-import AuthResponse from "@/schemas/auth-response";
-import Cookies from "js-cookie";
 
 const FormSchema = z.object({
   email: z
@@ -44,7 +44,7 @@ export default function LoginForm() {
   async function onSubmit(values: z.infer<typeof FormSchema>) {
     setLoading(true);
     try {
-      const { data } = await apiClient.post<AuthResponse>(
+      const { data } = await apiClient.post<ApiResponse<string>>(
         "/auth/log-in",
         values
       );

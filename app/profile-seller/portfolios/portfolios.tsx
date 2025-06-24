@@ -7,8 +7,11 @@ import Image from "next/image";
 import { EditPortfolio } from "./edit-portfolio";
 
 export default function Portfolios() {
-  const { data: portfolios } = usePortfolios();
-  if (!portfolios) return null;
+  const { data } = usePortfolios();
+  if (!data) return null;
+
+  const portfolios = data.data;
+
   return (
     <div>
       <h3 className="mb-4">Added project</h3>

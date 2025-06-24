@@ -1,4 +1,4 @@
-export interface Service {
+export default interface Service {
   _id: string;
   userId: string;
   title: string;
@@ -9,9 +9,4 @@ export interface Service {
   features: string[];
   createdAt: string;
   updatedAt: string;
-}
-
-export interface GetServicesResponse {
-  result: Service[];
-  count: number;
 }

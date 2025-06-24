@@ -1,5 +1,5 @@
 import getSession from "@/actions/get-session";
-import Session from "@/schemas/session";
+import Session from "@/schemas/Session";
 import { useEffect, useState } from "react";
 
 const useSession = () => {

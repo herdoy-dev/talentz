@@ -11,8 +11,8 @@ import {
 import Text from "@/components/ui/text";
 import useApplications from "@/hooks/useApplications";
 import useMe from "@/hooks/useMe";
-import { Chat } from "@/schemas/chat";
-import { Job } from "@/schemas/job";
+import { Chat } from "@/schemas/Chat";
+import Job from "@/schemas/Job";
 import apiClient from "@/services/api-client";
 import { useChatStore } from "@/store";
 import { Avatar, Flex } from "@radix-ui/themes";
@@ -62,7 +62,7 @@ export function JobDetails({ job, title }: Props) {
             <div className="space-y-6 border p-6 mt-6 rounded-3xl">
               <h3>Applications</h3>
               <div className="space-y-6">
-                {data?.result.map((application) => (
+                {data?.data.map((application) => (
                   <div key={application._id}>
                     <div className="flex-1 p-3 border rounded-2xl">
                       <Flex
@@ -100,7 +100,6 @@ export function JobDetails({ job, title }: Props) {
                                 const { data } = await apiClient.post<Chat>(
                                   "/chats",
                                   {
-                                    buyer: user._id,
                                     seller: application.author._id,
                                   }
                                 );

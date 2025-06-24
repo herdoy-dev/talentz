@@ -1,12 +1,15 @@
-import Portfolio from "@/schemas/portfolio";
+import ApiResponse from "@/schemas/ApiRespose";
+import Portfolio from "@/schemas/Portfolio";
 import apiClient from "@/services/api-client";
 import { useQuery } from "@tanstack/react-query";
 
 const usePortfolios = () => {
-  return useQuery<Portfolio[], Error>({
+  return useQuery<ApiResponse<Portfolio[]>, Error>({
     queryKey: ["portfolios"],
     queryFn: () =>
-      apiClient.get<Portfolio[]>("/portfolios").then((res) => res.data),
+      apiClient
+        .get<ApiResponse<Portfolio[]>>("/portfolios")
+        .then((res) => res.data),
     staleTime: 5 * 60 * 1000,
     retry: 1,
   });

@@ -48,7 +48,11 @@ export function CreateComment({ jobId }: Props) {
     if (!user || !jobId) return;
     setLoading(true);
     try {
-      await apiClient.post("/comments", { ...data, author: user._id, jobId });
+      await apiClient.post("/comments", {
+        ...data,
+        author: user.data._id,
+        jobId,
+      });
       queryClient.invalidateQueries({ queryKey: ["comments"] });
       toast.success("Comment Added.");
       form.reset();

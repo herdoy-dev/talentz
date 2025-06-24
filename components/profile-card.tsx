@@ -27,6 +27,7 @@ import Text from "./ui/text";
 
 export function ProfileCard() {
   const { data: user } = useMe();
+  console.log(user?.data);
   if (!user) return null;
   const setProfileUrl = (role: string) => {
     if (role === "admin") return "/profile-admin";
@@ -38,11 +39,7 @@ export function ProfileCard() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <div className="flex items-center gap-1 bg-[#FFFFFF4D] p-1 pr-2 rounded-2xl cursor-pointer">
-          <Avatar
-            src={user.image ? user.image : "/me.jpg"}
-            alt="me"
-            className="!w-6 !h-6"
-          />
+          <Avatar src={user.data.image} alt="me" className="!w-6 !h-6" />
           <BiSolidChevronDown />
         </div>
       </DropdownMenuTrigger>
@@ -50,16 +47,16 @@ export function ProfileCard() {
         <DropdownMenuLabel>
           <div className="flex items-center gap-2 mb">
             <Avatar
-              src={user.image ? user.image : "/me.jpg"}
+              src={user.data.image ? user.data.image : "/me.jpg"}
               alt="me"
               className="!w-10 !h-10"
             />
             <div>
               <Text>
-                {user.firstName} {user.lastName}
+                {user.data.firstName} {user.data.lastName}
               </Text>
               <Text variant="gray" size="small">
-                {user.email}
+                {user.data.email}
               </Text>
             </div>
           </div>
@@ -67,13 +64,13 @@ export function ProfileCard() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <Link href={setProfileUrl(user.role)}>
+          <Link href={setProfileUrl(user.data.role)}>
             <DropdownMenuItem>
               <FaRegUserCircle />
               Profile
             </DropdownMenuItem>
           </Link>
-          {user.role === "freelancer" && (
+          {user.data.role === "freelancer" && (
             <Link href="/profile-seller/portfolios">
               <DropdownMenuItem>
                 <TiDocumentText />
@@ -81,7 +78,7 @@ export function ProfileCard() {
               </DropdownMenuItem>
             </Link>
           )}
-          {user.role === "freelancer" && (
+          {user.data.role === "freelancer" && (
             <Link href="/">
               <DropdownMenuItem>
                 <MdOutlineAccountBalanceWallet />

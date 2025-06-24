@@ -10,8 +10,3 @@ export interface Message {
   files: string[];
   createdAt: Date;
 }
-
-export interface getMessagesResponse {
-  result: Message[];
-  count: number;
-}

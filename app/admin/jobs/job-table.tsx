@@ -1,11 +1,12 @@
 import DeleteTableItem from "@/components/delete-table-item";
 import TableHead from "@/components/table-head";
 import { formatDate } from "@/lib/utils";
-import { JobResponse } from "@/schemas/job";
+import Job from "@/schemas/Job";
 import JobDetails from "./job";
 
 interface Props {
-  data: JobResponse;
+  data: Job[];
+  count: number;
 }
 
 const columns = [
@@ -15,20 +16,20 @@ const columns = [
   { _id: 5, value: "", label: "Action" },
 ];
 
-export default function JobTable({ data }: Props) {
+export default function JobTable({ data, count }: Props) {
   return (
     <div>
       <table className="table">
         <TableHead columns={columns} />
         <tbody>
-          {data.data.map((job) => (
+          {data.map((job) => (
             <tr key={job._id}>
               <td> {job.title} </td>
               <td> {job.category.name} </td>
               <td> {formatDate(job.createdAt)} </td>
               <td className="space-x-1">
                 <JobDetails job={job} />
-                <DeleteTableItem count={data.count} id={job._id} path="/jobs" />
+                <DeleteTableItem count={count} id={job._id} path="/jobs" />
               </td>
             </tr>
           ))}

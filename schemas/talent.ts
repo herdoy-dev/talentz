@@ -11,13 +11,3 @@ export interface Talent {
   role: string;
   createdAt: Date;
 }
-
-export interface TalentsResponse {
-  result: Talent[];
-  count: number;
-  pagination: {
-    currentPage: number;
-    pageCount: number;
-    pageSize: number;
-  };
-}

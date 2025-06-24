@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import Text from "@/components/ui/text";
 import { formatDate } from "@/lib/utils";
-import { Job } from "@/schemas/job";
+import Job from "@/schemas/Job";
 
 interface Props {
   job: Job;

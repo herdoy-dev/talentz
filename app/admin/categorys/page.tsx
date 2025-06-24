@@ -21,7 +21,7 @@ export default function Categorys() {
       </Flex>
 
       <div>
-        <CategoryTable data={data} />
+        <CategoryTable data={data.data} />
       </div>
     </div>
   );
