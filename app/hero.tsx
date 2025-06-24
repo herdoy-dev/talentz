@@ -5,7 +5,10 @@ import SearchBox from "./search-box";
 export default function Hero() {
   return (
     <Container className="flex items-center justify-center my-16">
-      <div className="max-w-[663px] flex items-center justify-center flex-col gap-8">
+      <div
+        className="max-w-[663px] flex items-center justify-center flex-col gap-8"
+        id="how-we-work"
+      >
         <h1 className="text-center px-6 md:px-0">
           Connect with Top Talent or Find Your Dream Freelance Job!
         </h1>

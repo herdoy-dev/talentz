@@ -11,16 +11,18 @@ export default function Testimonials() {
     useState<(typeof options)[number]>("Freelancer");
 
   return (
-    <Container className="py-10 my-10 flex items-center justify-center flex-col">
-      <h1 className="mb-6">What Our Users Say</h1>
-      <Switch options={options} selected={current} onChange={setCurrent} />
+    <section id="what-out-users-say">
+      <Container className="py-10 my-10 flex items-center justify-center flex-col">
+        <h1 className="mb-6">What Our Users Say</h1>
+        <Switch options={options} selected={current} onChange={setCurrent} />
 
-      <div className="w-full gap-8 md:gap-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 mt-12">
-        <TestimonialCard />
-        <TestimonialCard />
-        <TestimonialCard />
-        <TestimonialCard />
-      </div>
-    </Container>
+        <div className="w-full gap-8 md:gap-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 mt-12">
+          <TestimonialCard />
+          <TestimonialCard />
+          <TestimonialCard />
+          <TestimonialCard />
+        </div>
+      </Container>
+    </section>
   );
 }

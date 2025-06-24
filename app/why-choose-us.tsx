@@ -33,30 +33,32 @@ const items = [
 
 export default function WhyChooseUs() {
   return (
-    <Container className="flex flex-col md:flex-row items-center justify-between gap-10 my-16">
-      <div>
-        <Image
-          src="/why_choose_us.png"
-          width={495}
-          height={617}
-          alt="why_choose_us"
-        />
-      </div>
-      <div>
-        <h1 className="mb-4">Why Choose Us?</h1>
-        <div className="flex flex-col gap-6">
-          {items.map((item) => (
-            <div key={item.id}>
-              <div className="flex items-center gap-2">
-                <FaCheckCircle className="text-primary text-xl" />
-                <h4 className="text-primary">{item.title}</h4>
-              </div>
-              <Text> {item.description} </Text>
-            </div>
-          ))}
+    <section id="why-choose-us">
+      <Container className="flex flex-col md:flex-row items-center justify-between gap-10 my-16">
+        <div>
+          <Image
+            src="/why_choose_us.png"
+            width={495}
+            height={617}
+            alt="why_choose_us"
+          />
         </div>
-        <ActionButtons className="mt-7" />
-      </div>
-    </Container>
+        <div>
+          <h1 className="mb-4">Why Choose Us?</h1>
+          <div className="flex flex-col gap-6">
+            {items.map((item) => (
+              <div key={item.id}>
+                <div className="flex items-center gap-2">
+                  <FaCheckCircle className="text-primary text-xl" />
+                  <h4 className="text-primary">{item.title}</h4>
+                </div>
+                <Text> {item.description} </Text>
+              </div>
+            ))}
+          </div>
+          <ActionButtons className="mt-7" />
+        </div>
+      </Container>
+    </section>
   );
 }

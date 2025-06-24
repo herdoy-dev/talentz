@@ -1,6 +1,7 @@
 "use client";
 import useSession from "@/hooks/useSession";
 import { cn } from "@/lib/utils";
+import Cookies from "js-cookie";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useState } from "react";
@@ -9,10 +10,10 @@ import { Button } from "./ui/button";
 import Container from "./ui/container";
 
 const navItems = [
-  { id: 1, label: "How We Work", path: "/how-we-work" },
-  { id: 2, label: "Why Choose Us", path: "/why-choose-us" },
-  { id: 3, label: "What Our Users Say", path: "/what-out-users-say" },
-  { id: 4, label: "Contact Us", path: "/contact" },
+  { id: 1, label: "How We Work", path: "#how-we-work" },
+  { id: 2, label: "Why Choose Us", path: "#why-choose-us" },
+  { id: 3, label: "What Our Users Say", path: "#what-out-users-say" },
+  { id: 4, label: "Contact Us", path: "#contact" },
 ];
 
 const toggleLineClasses = "h-[2px] bg-white w-[26px] transition-all";
@@ -46,34 +47,45 @@ const HamburgerMenu = ({
   </div>
 );
 
-const NavMenu = ({ isActive }: { isActive: boolean }) => (
-  <ul
-    className={cn(
-      flexClasses,
-      "nav-menu shadow-xl md:shadow-none transition-all",
-      isActive && "nav-show"
-    )}
-  >
-    {navItems.map((item) => (
-      <li key={item.id}>
-        <Link className="text-dark md:text-white text-[13px]" href={item.path}>
-          {item.label}
-        </Link>
-      </li>
-    ))}
-    <div className="flex flex-col gap-6 items-center justify-center w-full md:hidden">
-      <Link className="w-full" href="/sign-up">
-        <Button className="py-[8px] px-8 text-[13px] w-full">Sign Up</Button>
-      </Link>
-      <Link
-        href="/log-in"
-        className="text-[13px] text-primary font-semibold w-full text-center"
-      >
-        Log In
-      </Link>
-    </div>
-  </ul>
-);
+const NavMenu = ({ isActive }: { isActive: boolean }) => {
+  const { session } = useSession();
+
+  return (
+    <ul
+      className={cn(
+        flexClasses,
+        "nav-menu shadow-xl md:shadow-none transition-all",
+        isActive && "nav-show"
+      )}
+    >
+      {navItems.map((item) => (
+        <li key={item.id}>
+          <Link
+            className="text-dark md:text-white text-[13px]"
+            href={item.path}
+          >
+            {item.label}
+          </Link>
+        </li>
+      ))}
+      {!session && (
+        <div className="flex flex-col gap-6 items-center justify-center w-full md:hidden">
+          <Link className="w-full" href="/sign-up">
+            <Button className="py-[8px] px-8 text-[13px] w-full">
+              Sign Up
+            </Button>
+          </Link>
+          <Link
+            href="/log-in"
+            className="text-[13px] text-primary font-semibold w-full text-center"
+          >
+            Log In
+          </Link>
+        </div>
+      )}
+    </ul>
+  );
+};
 
 export default function Navbar() {
   const { session, loading } = useSession();
@@ -125,11 +137,29 @@ export default function Navbar() {
                     >
                       Dashboard
                     </Link>
+                    <span
+                      className="text-white"
+                      onClick={async () => {
+                        try {
+                          Cookies.remove("token");
+                          window.location.reload();
+                        } catch (error) {
+                          console.log(error);
+                        }
+                      }}
+                    >
+                      Log Out
+                    </span>
                     <ProfileCard />
                   </div>
                 )}
               </div>
-              <HamburgerMenu isActive={isActive} onClick={toggleMenu} />
+              <div className="flex items-center gap-6">
+                <div className="block md:hidden">
+                  {session && <ProfileCard />}
+                </div>
+                <HamburgerMenu isActive={isActive} onClick={toggleMenu} />
+              </div>
             </div>
           </nav>
         </Container>
