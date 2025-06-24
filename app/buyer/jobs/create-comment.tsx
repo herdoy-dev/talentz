@@ -50,7 +50,6 @@ export function CreateComment({ jobId }: Props) {
     try {
       await apiClient.post("/comments", {
         ...data,
-        author: user.data._id,
         jobId,
       });
       queryClient.invalidateQueries({ queryKey: ["comments"] });

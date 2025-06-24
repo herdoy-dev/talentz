@@ -55,7 +55,7 @@ export function JobDetails({ job, title }: JobDetailsProps) {
             <div className="my-6">
               <h3 className="mb-3">My Application</h3>
               <div className="space-y-6">
-                <div key={myApplication.data._id}>
+                <div>
                   <div className="flex-1 p-3 pt-0 border rounded-2xl">
                     <Flex
                       align="center"
@@ -88,7 +88,7 @@ export function JobDetails({ job, title }: JobDetailsProps) {
                     </Flex>
                     <div className="relative">
                       <div className="pb-5 pt-2">
-                        <p>{myApplication.message}</p>
+                        <p>{myApplication.data.message}</p>
                       </div>
                     </div>
                   </div>

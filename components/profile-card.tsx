@@ -27,7 +27,6 @@ import Text from "./ui/text";
 
 export function ProfileCard() {
   const { data: user } = useMe();
-  console.log(user?.data);
   if (!user) return null;
   const setProfileUrl = (role: string) => {
     if (role === "admin") return "/profile-admin";

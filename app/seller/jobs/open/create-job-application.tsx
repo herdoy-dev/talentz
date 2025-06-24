@@ -49,7 +49,6 @@ export function CreateJobApplication({ jobId }: Props) {
     try {
       await apiClient.post("/applications", {
         ...data,
-        author: user.data._id,
         jobId,
       });
       queryClient.invalidateQueries({ queryKey: ["myjobapplication"] });
