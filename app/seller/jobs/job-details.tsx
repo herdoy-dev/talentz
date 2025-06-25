@@ -8,7 +8,6 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { TableCell } from "@/components/ui/table";
-import Text from "@/components/ui/text";
 import useComments from "@/hooks/useComments";
 import Job from "@/schemas/Job";
 import { Flex } from "@radix-ui/themes";
