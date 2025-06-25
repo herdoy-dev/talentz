@@ -22,6 +22,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import useMe from "@/hooks/useMe";
 import apiClient from "@/services/api-client";
@@ -34,13 +35,21 @@ const FormSchema = z.object({
   message: z.string().min(2, {
     message: "Comment must be at least 2 characters.",
   }),
+  reqFund: z
+    .number()
+    .min(5, {
+      message: "Minimum amount is $5",
+    })
+    .max(10000, {
+      message: "Maximum amount is $10,000",
+    }),
 });
 
 interface Props {
   jobId: string;
 }
 
-export function CreateComment({ jobId }: Props) {
+export function RequestFund({ jobId }: Props) {
   const [isOpen, setOpen] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const { data: user } = useMe();
@@ -48,6 +57,7 @@ export function CreateComment({ jobId }: Props) {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       message: "",
+      reqFund: 0,
     },
   });
 
@@ -58,16 +68,16 @@ export function CreateComment({ jobId }: Props) {
       await apiClient.post("/comments", {
         ...data,
         job: jobId,
-        reqType: "comment",
+        reqType: "request_fund",
       });
       queryClient.invalidateQueries({ queryKey: ["comments"] });
-      toast.success("Comment added successfully");
+      toast.success("Fund request submitted successfully!");
       form.reset();
       setLoading(false);
       setOpen(false);
     } catch (error) {
-      toast.error("Unable to send comment");
-      console.error(error);
+      toast.error("Failed to submit fund request");
+      console.log(error);
       setLoading(false);
     }
   }
@@ -76,7 +86,7 @@ export function CreateComment({ jobId }: Props) {
     <Dialog open={isOpen} onOpenChange={setOpen}>
       <DialogTrigger asChild className="bg-transparent">
         <div className="flex-1 flex items-center gap-2 cursor-pointer p-3 border rounded-2xl">
-          <LuPlus /> <span>Create Comment</span>
+          <LuPlus /> <span>Request Fund</span>
         </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md rounded-lg">
@@ -89,6 +99,26 @@ export function CreateComment({ jobId }: Props) {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <div className="space-y-4">
+              <FormField
+                control={form.control}
+                name="reqFund"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Amount ($)</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="Enter amount"
+                        {...field}
+                        onChange={(e) => field.onChange(Number(e.target.value))}
+                        className="rounded-lg"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
               <FormField
                 control={form.control}
                 name="message"

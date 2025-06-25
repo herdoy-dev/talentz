@@ -22,7 +22,7 @@ export default function JobManagemnet() {
         <TableHeader>
           <TableRow>
             <TableHead>Job Title</TableHead>
-            <TableHead>Start Date</TableHead>
+            <TableHead>Price</TableHead>
             <TableHead>Deliver Date</TableHead>
           </TableRow>
         </TableHeader>
@@ -30,8 +30,10 @@ export default function JobManagemnet() {
           {data.data.map((job) => (
             <TableRow key={job._id}>
               <JobDetails job={job} title={job.title} />
-              <TableCell>{formatDate(job.createdAt)}</TableCell>
-              <TableCell>{formatDate(job.createdAt)}</TableCell>
+              <TableCell className="text-2xl font-semibold text-primary-dark">
+                ${job.budgetAmount}
+              </TableCell>
+              <TableCell>{formatDate(job.deliveryDate)}</TableCell>
             </TableRow>
           ))}
         </TableBody>

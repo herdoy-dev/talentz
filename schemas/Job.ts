@@ -8,6 +8,9 @@ export default interface Job {
   category: Category;
   type: "fixed" | "hourly";
   jobSize: "large" | "medium" | "small";
+  deliveryDate: Date;
+  budgetAmount: number;
+  seller: string;
   description: string;
   createdAt: Date;
 }

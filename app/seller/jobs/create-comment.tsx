@@ -14,8 +14,15 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { queryClient } from "@/app/query-client-provider";
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-import Text from "@/components/ui/text";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Textarea } from "@/components/ui/textarea";
 import useMe from "@/hooks/useMe";
 import apiClient from "@/services/api-client";
 import { useState } from "react";
@@ -50,71 +57,85 @@ export function CreateComment({ jobId }: Props) {
     try {
       await apiClient.post("/comments", {
         ...data,
-        author: user.data._id,
-        jobId,
+        job: jobId,
+        reqType: "comment",
       });
       queryClient.invalidateQueries({ queryKey: ["comments"] });
-      toast.success("Comment Added.");
+      toast.success("Comment added successfully");
       form.reset();
       setLoading(false);
       setOpen(false);
     } catch (error) {
-      toast.error("Unable to sent Comment");
-      console.log(error);
+      toast.error("Unable to send comment");
+      console.error(error);
       setLoading(false);
     }
   }
+
   return (
     <Dialog open={isOpen} onOpenChange={setOpen}>
       <DialogTrigger asChild className="bg-transparent">
         <div className="flex-1 flex items-center gap-2 cursor-pointer p-3 border rounded-2xl">
-          <LuPlus /> <span>Create Comments</span>
+          <LuPlus /> <span>Create Comment</span>
         </div>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-md rounded-lg">
         <DialogHeader>
-          <DialogTitle>Create Comment</DialogTitle>
+          <DialogTitle className="text-xl font-semibold">
+            Request Additional Funds
+          </DialogTitle>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="w-full space-y-6"
-            >
-              <div className="border p-2 rounded-xl relative pb-5 overflow-hidden">
-                <FormField
-                  control={form.control}
-                  name="message"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <textarea
-                          placeholder="Comments"
-                          {...field}
-                          className="border-none !focus:outline-none outline-none pb-10"
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <div className="absolute bottom-0 py-2 bg-white w-full">
-                  <div className="relative">
-                    <div className="flex items-center gap-1 cursor-pointer">
-                      <BsPaperclip /> <Text size="small">Attachment</Text>
-                    </div>
-                    <input
-                      type="file"
-                      className="absolute top-0 left-0 opacity-0 border-none focus:outline-none outline-none w-full h-full"
-                    />
-                  </div>
-                </div>
+
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <div className="space-y-4">
+              <FormField
+                control={form.control}
+                name="message"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Reason for Request</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Explain why you need additional funds..."
+                        {...field}
+                        rows={4}
+                        className="rounded-lg"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div className="flex items-center gap-3">
+                <label className="flex items-center gap-2 text-sm text-muted-foreground cursor-pointer hover:text-primary transition-colors">
+                  <BsPaperclip className="h-4 w-4" />
+                  <span>Add Attachment</span>
+                  <input type="file" className="hidden" />
+                </label>
               </div>
-              <Button type="submit" className="px-10">
-                {isLoading ? <BeatLoader /> : "Post"}
+            </div>
+
+            <div className="flex justify-end gap-3">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setOpen(false)}
+                disabled={isLoading}
+              >
+                Cancel
               </Button>
-            </form>
-          </Form>
-        </div>
+              <Button type="submit" disabled={isLoading}>
+                {isLoading ? (
+                  <BeatLoader size={8} color="#ffffff" />
+                ) : (
+                  "Submit Request"
+                )}
+              </Button>
+            </div>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   );

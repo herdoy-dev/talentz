@@ -22,6 +22,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import useMe from "@/hooks/useMe";
 import apiClient from "@/services/api-client";
@@ -32,7 +33,10 @@ import { BeatLoader } from "react-spinners";
 
 const FormSchema = z.object({
   message: z.string().min(2, {
-    message: "Comment must be at least 2 characters.",
+    message: "Reason must be at least 2 characters.",
+  }),
+  reqTime: z.string().refine((val) => !isNaN(new Date(val).getTime()), {
+    message: "Please select a valid date",
   }),
 });
 
@@ -40,7 +44,7 @@ interface Props {
   jobId: string;
 }
 
-export function CreateComment({ jobId }: Props) {
+export function RequestTime({ jobId }: Props) {
   const [isOpen, setOpen] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const { data: user } = useMe();
@@ -48,6 +52,7 @@ export function CreateComment({ jobId }: Props) {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       message: "",
+      reqTime: "",
     },
   });
 
@@ -58,15 +63,15 @@ export function CreateComment({ jobId }: Props) {
       await apiClient.post("/comments", {
         ...data,
         job: jobId,
-        reqType: "comment",
+        reqType: "request_time",
       });
       queryClient.invalidateQueries({ queryKey: ["comments"] });
-      toast.success("Comment added successfully");
+      toast.success("Time extension request submitted successfully!");
       form.reset();
       setLoading(false);
       setOpen(false);
     } catch (error) {
-      toast.error("Unable to send comment");
+      toast.error("Failed to submit time request");
       console.error(error);
       setLoading(false);
     }
@@ -76,13 +81,13 @@ export function CreateComment({ jobId }: Props) {
     <Dialog open={isOpen} onOpenChange={setOpen}>
       <DialogTrigger asChild className="bg-transparent">
         <div className="flex-1 flex items-center gap-2 cursor-pointer p-3 border rounded-2xl">
-          <LuPlus /> <span>Create Comment</span>
+          <LuPlus /> <span>Request Time Extension</span>
         </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md rounded-lg">
         <DialogHeader>
           <DialogTitle className="text-xl font-semibold">
-            Request Additional Funds
+            Request Time Extension
           </DialogTitle>
         </DialogHeader>
 
@@ -91,13 +96,32 @@ export function CreateComment({ jobId }: Props) {
             <div className="space-y-4">
               <FormField
                 control={form.control}
+                name="reqTime"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>New Deadline</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="date"
+                        {...field}
+                        min={new Date().toISOString().split("T")[0]}
+                        className="rounded-lg"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
                 name="message"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Reason for Request</FormLabel>
+                    <FormLabel>Reason for Extension</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="Explain why you need additional funds..."
+                        placeholder="Explain why you need additional time..."
                         {...field}
                         rows={4}
                         className="rounded-lg"
@@ -111,7 +135,7 @@ export function CreateComment({ jobId }: Props) {
               <div className="flex items-center gap-3">
                 <label className="flex items-center gap-2 text-sm text-muted-foreground cursor-pointer hover:text-primary transition-colors">
                   <BsPaperclip className="h-4 w-4" />
-                  <span>Add Attachment</span>
+                  <span>Add Supporting Documents</span>
                   <input type="file" className="hidden" />
                 </label>
               </div>
@@ -123,15 +147,16 @@ export function CreateComment({ jobId }: Props) {
                 variant="outline"
                 onClick={() => setOpen(false)}
                 disabled={isLoading}
+                className="min-w-[100px]"
               >
                 Cancel
               </Button>
-              <Button type="submit" disabled={isLoading}>
-                {isLoading ? (
-                  <BeatLoader size={8} color="#ffffff" />
-                ) : (
-                  "Submit Request"
-                )}
+              <Button
+                type="submit"
+                disabled={isLoading}
+                className="min-w-[100px]"
+              >
+                {isLoading ? <BeatLoader size={8} color="#ffffff" /> : "Submit"}
               </Button>
             </div>
           </form>

@@ -8,12 +8,12 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { TableCell } from "@/components/ui/table";
-import Text from "@/components/ui/text";
 import useComments from "@/hooks/useComments";
 import Job from "@/schemas/Job";
-import { Avatar, Flex } from "@radix-ui/themes";
+import { Flex } from "@radix-ui/themes";
 import { useState } from "react";
 import { FaAngleLeft } from "react-icons/fa6";
+import Comment from "./comment";
 import { CreateComment } from "./create-comment";
 
 interface Props {
@@ -24,86 +24,60 @@ interface Props {
 export function JobDetails({ job, title }: Props) {
   const [isOpen, setOpen] = useState(false);
   const { data } = useComments(job._id);
+
   return (
     <Sheet open={isOpen} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <TableCell className="w-[200px]">{title}</TableCell>
-      </SheetTrigger>
-      <SheetContent style={{ minWidth: "800px" }}>
-        <SheetHeader>
+        <TableCell className="w-[200px] hover:bg-gray-50 transition-colors cursor-pointer">
           <SheetTitle asChild>
-            <div className="flex items-center justify-between">
-              <Button
-                onClick={() => setOpen(false)}
-                variant="link"
-                style={{ textDecoration: "none", cursor: "pointer" }}
-              >
-                <FaAngleLeft /> Back
-              </Button>
-              <Button
-                size="sm"
-                variant="outline"
-                className="px-8 cursor-pointer"
-              >
-                Message
-              </Button>
-            </div>
+            <h3>{title}</h3>
           </SheetTitle>
+        </TableCell>
+      </SheetTrigger>
+      <SheetContent className="w-full sm:max-w-3xl lg:max-w-4xl pb-28">
+        <SheetHeader className="mb-6">
+          <Flex justify="between" align="center" className="px-1">
+            <Button
+              onClick={() => setOpen(false)}
+              variant="ghost"
+              className="gap-2 text-gray-600 hover:text-gray-900"
+            >
+              <FaAngleLeft className="h-4 w-4" />
+              Back
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              className="px-6 border-gray-300 hover:bg-gray-50"
+            >
+              Message
+            </Button>
+          </Flex>
         </SheetHeader>
-        <div className="px-4 pb-10 overflow-y-scroll">
-          <h2 className="mb-2"> {job.title} </h2>
-          <div className="w-[300px] flex items-center justify-between h-8 rounded-full overflow-hidden border shadow-primary p-[2px]">
-            <div className="flex-1 flex items-center justify-center h-full bg-primary rounded-full text-white">
-              Activity
-            </div>
-            <div className="flex-1 flex items-center justify-center h-full rounded-full">
-              Dispute
+
+        <div className="px-4 pb-10 h-full flex flex-col">
+          {/* Job Header */}
+          <div className="mb-6">
+            <h2 className="text-2xl font-semibold mb-4">{job.title}</h2>
+            <div className="w-full max-w-md flex items-center justify-between h-10 rounded-full overflow-hidden border border-gray-200 shadow-sm">
+              <div className="flex-1 flex items-center justify-center h-full bg-primary rounded-full text-white font-medium">
+                Activity
+              </div>
+              <div className="flex-1 flex items-center justify-center h-full rounded-full font-medium text-gray-600 hover:bg-gray-50">
+                Dispute
+              </div>
             </div>
           </div>
-          <div className="space-y-6 mt-8">
+
+          {/* Action Buttons */}
+          <div className="flex items-center gap-4 mb-8">
             <CreateComment jobId={job._id} />
+          </div>
+
+          {/* Comments Section */}
+          <div className="space-y-6 flex-1 overflow-y-auto pr-2">
             {data?.data.map((comment) => (
-              <div key={comment._id}>
-                <div className="flex-1 p-3 border rounded-2xl">
-                  <Flex
-                    align="center"
-                    justify="between"
-                    className="border-b py-2"
-                  >
-                    <div className="flex items-center gap-3">
-                      <Avatar
-                        src={comment.author.image}
-                        fallback="User"
-                        radius="full"
-                        className="!w-8 !h-8 !rounded-full"
-                      />
-                      <span>
-                        {comment.author.firstName +
-                          " " +
-                          comment.author.lastName}
-                      </span>
-                    </div>
-                    <Text className="text-gray-500" size="small">
-                      12 Jan 2025
-                    </Text>
-                  </Flex>
-                  <div className="relative pb-10">
-                    <div className="pb-5 pt-2">
-                      <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Aperiam, odio ex. Quidem, eligendi velit eum vel officia
-                        reprehenderit consequuntur nesciunt cupiditate excepturi
-                        incidunt numquam asperiores suscipit deserunt quia,
-                        harum explicabo?
-                      </p>
-                    </div>
-                    <div className="absolute bottom-0 right-0 flex items-center gap-3">
-                      <Button variant="light">Decline</Button>
-                      <Button>Approve</Button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <Comment key={comment._id} comment={comment} />
             ))}
           </div>
         </div>

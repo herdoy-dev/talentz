@@ -3,14 +3,14 @@ import Comment from "@/schemas/Comment";
 import apiClient from "@/services/api-client";
 import { useQuery } from "@tanstack/react-query";
 
-const useComments = (jobId: string) => {
+const useComments = (job: string) => {
   return useQuery<ApiResponse<Comment[]>, Error>({
-    queryKey: ["comments", jobId],
+    queryKey: ["comments", job],
     queryFn: () =>
       apiClient
         .get<ApiResponse<Comment[]>>("/comments", {
           params: {
-            jobId,
+            job,
           },
         })
         .then((res) => res.data),
