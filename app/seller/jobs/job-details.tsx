@@ -20,7 +20,6 @@ import { useState } from "react";
 import { FaAngleLeft } from "react-icons/fa6";
 import Comment from "./comment";
 import { CreateComment } from "./create-comment";
-import { RequestFund } from "./request-fund";
 import { RequestTime } from "./request-time";
 
 interface Props {
@@ -95,7 +94,7 @@ export function JobDetails({ job, title }: Props) {
           {/* Action Buttons */}
           <div className="flex items-center gap-4 mb-8">
             <CreateComment jobId={job._id} />
-            <RequestFund jobId={job._id} />
+            {/* <RequestFund jobId={job._id} /> */}
             <RequestTime jobId={job._id} />
           </div>
 
