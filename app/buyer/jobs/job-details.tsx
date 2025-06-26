@@ -1,4 +1,5 @@
 "use client";
+import { queryClient } from "@/app/query-client-provider";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -9,8 +10,12 @@ import {
 } from "@/components/ui/sheet";
 import { TableCell } from "@/components/ui/table";
 import useComments from "@/hooks/useComments";
+import { Chat } from "@/schemas/Chat";
 import Job from "@/schemas/Job";
+import apiClient from "@/services/api-client";
+import { useChatStore } from "@/store";
 import { Flex } from "@radix-ui/themes";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaAngleLeft } from "react-icons/fa6";
 import Comment from "./comment";
@@ -24,6 +29,8 @@ interface Props {
 export function JobDetails({ job, title }: Props) {
   const [isOpen, setOpen] = useState(false);
   const { data } = useComments(job._id);
+  const setCurrentChat = useChatStore((s) => s.setCurrentChat);
+  const router = useRouter();
 
   return (
     <Sheet open={isOpen} onOpenChange={setOpen}>
@@ -48,7 +55,21 @@ export function JobDetails({ job, title }: Props) {
             <Button
               size="sm"
               variant="outline"
-              className="px-6 border-gray-300 hover:bg-gray-50"
+              className="px-6 border-gray-300 hover:bg-gray-50 cursor-pointer"
+              onClick={async () => {
+                try {
+                  const { data } = await apiClient.post<Chat>("/chats", {
+                    seller: job.seller,
+                  });
+                  setCurrentChat(data);
+                  queryClient.invalidateQueries({
+                    queryKey: ["chats"],
+                  });
+                  router.push("/buyer/messages");
+                } catch (error) {
+                  console.log(error);
+                }
+              }}
             >
               Message
             </Button>
