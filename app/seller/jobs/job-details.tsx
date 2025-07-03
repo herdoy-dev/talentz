@@ -20,6 +20,7 @@ import { useState } from "react";
 import { FaAngleLeft } from "react-icons/fa6";
 import Comment from "./comment";
 import { CreateComment } from "./create-comment";
+import { Delivery } from "./request-delivery";
 import { RequestTime } from "./request-time";
 
 interface Props {
@@ -96,6 +97,7 @@ export function JobDetails({ job, title }: Props) {
             <CreateComment jobId={job._id} />
             {/* <RequestFund jobId={job._id} /> */}
             <RequestTime jobId={job._id} />
+            <Delivery jobId={job._id} />
           </div>
 
           {/* Comments Section */}

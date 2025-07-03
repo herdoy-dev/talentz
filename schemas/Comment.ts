@@ -8,7 +8,7 @@ export default interface Comment {
   reqFund: number;
   reqTime: Date;
   status: "pending" | "approve" | "cancel";
-  reqType: "comment" | "request_fund" | "request_time";
+  reqType: "comment" | "request_fund" | "request_time" | "delivery";
   author: {
     _id: string;
     firstName: string;

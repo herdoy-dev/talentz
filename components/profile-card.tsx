@@ -37,8 +37,13 @@ export function ProfileCard() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <div className="flex items-center gap-1 bg-[#FFFFFF4D] p-1 pr-2 rounded-2xl cursor-pointer">
+        <div className="flex items-center gap-1 bg-[#ffffff83] p-1 pr-2 rounded-2xl cursor-pointer">
           <Avatar src={user.data.image} alt="me" className="!w-6 !h-6" />
+          {user.data.role === "freelancer" && (
+            <h5 className="font-semibold text-primary-dark">
+              ${user.data.walletBalance}
+            </h5>
+          )}
           <BiSolidChevronDown />
         </div>
       </DropdownMenuTrigger>

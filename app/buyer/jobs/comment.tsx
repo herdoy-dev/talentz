@@ -36,6 +36,7 @@ interface Props {
 
 export default function Comment({ comment }: Props) {
   const [isApproving, setApproving] = useState(false);
+  const [isAccepting, setAccepting] = useState(false);
   const [isDeclining, setDeclining] = useState(false);
   const { data } = useMe();
 
@@ -145,6 +146,7 @@ export default function Comment({ comment }: Props) {
 
         {/* Action Buttons */}
         {comment.reqType !== "comment" &&
+          comment.reqType !== "delivery" &&
           comment.status === "pending" &&
           comment.author._id !== data?.data._id && (
             <Flex justify="end" gap="3" className="pt-2 border-t !gap-3">
@@ -201,6 +203,72 @@ export default function Comment({ comment }: Props) {
                 }}
               >
                 {isApproving ? <BeatLoader size={8} /> : "Approve"}
+              </Button>
+            </Flex>
+          )}
+
+        {/* Action Buttons */}
+        {comment.reqType === "delivery" &&
+          comment.status === "pending" &&
+          comment.author._id !== data?.data._id && (
+            <Flex justify="end" gap="3" className="pt-2 border-t !gap-3">
+              <Button
+                disabled={isDeclining}
+                onClick={async () => {
+                  setDeclining(true);
+                  try {
+                    await apiClient.put(`/comments/${comment._id}`, {
+                      status: "cancel",
+                    });
+                    toast.success("Declined");
+                    queryClient.invalidateQueries({
+                      queryKey: ["comments"],
+                    });
+                    setDeclining(false);
+                  } catch (error) {
+                    console.log(error);
+                    toast.error("Failed to decline request");
+                    setDeclining(false);
+                  }
+                }}
+                variant="outline"
+                className="text-gray-700"
+              >
+                {isDeclining ? <BeatLoader size={8} /> : "Decline"}
+              </Button>
+
+              <Button
+                disabled={isAccepting}
+                onClick={async () => {
+                  setAccepting(true); // Consider renaming to setIsApproving for clarity
+                  try {
+                    await apiClient.post("/comments/delivery", {
+                      commentId: comment._id,
+                      jobId: comment.job._id,
+                      sellerId: comment.author._id,
+                    });
+
+                    // Invalidate relevant queries
+
+                    queryClient.invalidateQueries({ queryKey: ["comments"] }),
+                      queryClient.invalidateQueries({ queryKey: ["jobs"] }),
+                      queryClient.invalidateQueries({
+                        queryKey: ["me"],
+                      }),
+                      toast.success("Delivery approved successfully!");
+                    setAccepting(false);
+                    window.location.reload();
+                  } catch (error) {
+                    console.error("Delivery approval error:", error);
+                    toast.error(
+                      "Failed to approve delivery. Please try again."
+                    );
+                  } finally {
+                    setAccepting(false);
+                  }
+                }}
+              >
+                {isAccepting ? <BeatLoader size={8} /> : "Accept"}
               </Button>
             </Flex>
           )}
