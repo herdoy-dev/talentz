@@ -248,14 +248,13 @@ export default function Comment({ comment }: Props) {
                       sellerId: comment.author._id,
                     });
 
-                    // Invalidate relevant queries
-
-                    queryClient.invalidateQueries({ queryKey: ["comments"] }),
+                    await Promise.all([
+                      queryClient.invalidateQueries({ queryKey: ["comments"] }),
                       queryClient.invalidateQueries({ queryKey: ["jobs"] }),
-                      queryClient.invalidateQueries({
-                        queryKey: ["me"],
-                      }),
-                      toast.success("Delivery approved successfully!");
+                      queryClient.invalidateQueries({ queryKey: ["me"] }),
+                    ]);
+
+                    toast.success("Delivery approved successfully!");
                     setAccepting(false);
                     window.location.reload();
                   } catch (error) {
