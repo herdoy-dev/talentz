@@ -1,6 +1,5 @@
 "use client";
 import { queryClient } from "@/app/query-client-provider";
-import Avatar from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import IconBadge from "@/components/ui/icon-badge";
 import Text from "@/components/ui/text";
@@ -9,6 +8,7 @@ import { Chat } from "@/schemas/Chat";
 import { Talent } from "@/schemas/Talent";
 import apiClient from "@/services/api-client";
 import { useChatStore } from "@/store";
+import { Avatar } from "@radix-ui/themes";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -41,7 +41,8 @@ export default function TalentCard({ talent }: Props) {
             <Avatar
               className="w-8 h-8 md:w-10 md:h-10"
               src={talent.image ? talent.image : "/card-1.png"}
-              alt="me"
+              fallback="me"
+              radius="full"
             />
             <div>
               <h5 className="text-sm md:text-xl">

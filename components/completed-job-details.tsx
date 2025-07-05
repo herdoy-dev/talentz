@@ -53,6 +53,7 @@ export function CompletedJobDetails({ job, title }: Props) {
       );
     } catch (error) {
       toast.error("Failed to start conversation");
+      console.log(error);
     }
   };
 
