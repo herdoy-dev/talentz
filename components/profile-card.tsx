@@ -22,8 +22,8 @@ import {
 import { IoExitOutline } from "react-icons/io5";
 import { MdOutlineAccountBalanceWallet, MdOutlineStars } from "react-icons/md";
 import { TiDocumentText } from "react-icons/ti";
-import Avatar from "./ui/avatar";
 import Text from "./ui/text";
+import { Avatar } from "@radix-ui/themes";
 
 export function ProfileCard() {
   const { data: user } = useMe();
@@ -44,7 +44,12 @@ export function ProfileCard() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <div className="flex items-center gap-1 bg-[#ffffff83] p-1 pr-2 rounded-2xl cursor-pointer">
-          <Avatar src={user.data.image} alt="me" className="!w-6 !h-6" />
+          <Avatar
+            src={user.data.image}
+            fallback="me"
+            className="!w-6 !h-6"
+            radius="full"
+          />
           {user.data.role === "freelancer" && user.data.walletBalance > 0 && (
             <h5 className="font-semibold text-primary-dark">
               ${user.data.walletBalance}
@@ -58,7 +63,7 @@ export function ProfileCard() {
           <div className="flex items-center gap-2 mb">
             <Avatar
               src={user.data.image ? user.data.image : "/me.jpg"}
-              alt="me"
+              fallback="me"
               className="!w-10 !h-10"
             />
             <div>

@@ -138,6 +138,7 @@ export default function Comment({ comment }: Props) {
 
         {/* Action Buttons */}
         {comment.reqType !== "comment" &&
+          comment.status === "pending" &&
           comment.author._id !== data?.data._id && (
             <Flex justify="end" gap="3" className="pt-2 border-t">
               <Button variant="outline" className="text-gray-700">

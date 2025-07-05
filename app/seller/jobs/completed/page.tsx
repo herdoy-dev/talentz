@@ -1,5 +1,6 @@
 "use client";
 
+import { CompletedJobDetails } from "@/components/completed-job-details";
 import { Badge } from "@/components/ui/badge";
 import {
   Table,
@@ -11,7 +12,6 @@ import {
 } from "@/components/ui/table";
 import useMyJobs from "@/hooks/useMyJobs";
 import { formatDate } from "@/lib/utils";
-import { JobDetails } from "./job-details";
 
 export default function CompletedJob() {
   const { data } = useMyJobs("COMPLETED");
@@ -36,7 +36,7 @@ export default function CompletedJob() {
           {data.data.map((job) => (
             <TableRow key={job._id} className="hover:bg-gray-50">
               <TableCell>
-                <JobDetails job={job} title={job.title} />
+                <CompletedJobDetails job={job} title={job.title} />
               </TableCell>
               <TableCell className="text-right font-semibold text-green-600">
                 ${job.budgetAmount.toLocaleString()}

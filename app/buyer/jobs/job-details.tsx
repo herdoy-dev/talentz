@@ -1,5 +1,6 @@
 "use client";
 import { queryClient } from "@/app/query-client-provider";
+import { CreateComment } from "@/components/create-activity";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -19,12 +20,17 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaAngleLeft } from "react-icons/fa6";
 import Comment from "./comment";
-import { CreateComment } from "./create-comment";
 
 interface Props {
   job: Job;
   title: string;
 }
+
+const commentTypes = [
+  { value: "comment", label: "Comment" },
+  { value: "delivery", label: "Submit Work" },
+  { value: "request_time", label: "Extend Delivery Date" },
+];
 
 export function JobDetails({ job, title }: Props) {
   const [isOpen, setOpen] = useState(false);
@@ -92,7 +98,7 @@ export function JobDetails({ job, title }: Props) {
 
           {/* Action Buttons */}
           <div className="flex items-center gap-4 mb-8">
-            <CreateComment jobId={job._id} />
+            <CreateComment jobId={job._id} commentTypes={commentTypes} />
           </div>
 
           {/* Comments Section */}

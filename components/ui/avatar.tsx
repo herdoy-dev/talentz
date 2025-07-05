@@ -1,23 +1,53 @@
-import { cn } from "@/lib/utils";
-import Image from "next/image";
+"use client"
 
-interface Props {
-  src: string;
-  alt: string;
-  className?: string;
-}
+import * as React from "react"
+import * as AvatarPrimitive from "@radix-ui/react-avatar"
 
-export default function Avatar({ src, alt, className }: Props) {
+import { cn } from "@/lib/utils"
+
+function Avatar({
+  className,
+  ...props
+}: React.ComponentProps<typeof AvatarPrimitive.Root>) {
   return (
-    <Image
-      src={src}
-      width={40}
-      height={40}
-      alt={alt}
+    <AvatarPrimitive.Root
+      data-slot="avatar"
       className={cn(
-        "rounded-full object-cover w-[40px] h-[40px] md:w-[50px] md:h-[50px]",
+        "relative flex size-8 shrink-0 overflow-hidden rounded-full",
         className
       )}
+      {...props}
     />
-  );
+  )
 }
+
+function AvatarImage({
+  className,
+  ...props
+}: React.ComponentProps<typeof AvatarPrimitive.Image>) {
+  return (
+    <AvatarPrimitive.Image
+      data-slot="avatar-image"
+      className={cn("aspect-square size-full", className)}
+      {...props}
+    />
+  )
+}
+
+function AvatarFallback({
+  className,
+  ...props
+}: React.ComponentProps<typeof AvatarPrimitive.Fallback>) {
+  return (
+    <AvatarPrimitive.Fallback
+      data-slot="avatar-fallback"
+      className={cn(
+        "bg-muted flex size-full items-center justify-center rounded-full",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+export { Avatar, AvatarImage, AvatarFallback }

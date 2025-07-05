@@ -1,11 +1,11 @@
-import Avatar from "@/components/ui/avatar";
 import Text from "@/components/ui/text";
+import { Avatar } from "@radix-ui/themes";
 
 export default function TestimonialCard() {
   return (
     <div className="border border-gray-300 p-4 md:p-2 rounded-2xl space-y-2">
       <div className="flex items-center gap-2">
-        <Avatar src="/me.jpg" alt="Me" />
+        <Avatar src="/me.jpg" fallback="Me" />
         <div className="-space-y-1">
           <h4>Herdoy Almamun</h4>
           <Text variant="gray">Web Developer</Text>
