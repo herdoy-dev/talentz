@@ -4,6 +4,7 @@ import { Component } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BsChatRightDotsFill } from "react-icons/bs";
+import { FaGear } from "react-icons/fa6";
 import { GoGraph } from "react-icons/go";
 import { HiUsers } from "react-icons/hi";
 import { IoBriefcase } from "react-icons/io5";
@@ -25,6 +26,12 @@ const items = [
     label: "Messages",
     path: "/admin/messages",
     icon: <BsChatRightDotsFill />,
+  },
+  {
+    id: 7,
+    label: "Settings",
+    path: "/admin/settings",
+    icon: <FaGear />,
   },
 ];
 

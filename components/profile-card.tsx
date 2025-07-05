@@ -34,12 +34,18 @@ export function ProfileCard() {
     return "/profile-seller";
   };
 
+  const setSettingUrl = (role: string) => {
+    if (role === "admin") return "/admin/settings";
+    else if (role === "client") return "/buyer/settings";
+    return "/seller/settings";
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <div className="flex items-center gap-1 bg-[#ffffff83] p-1 pr-2 rounded-2xl cursor-pointer">
           <Avatar src={user.data.image} alt="me" className="!w-6 !h-6" />
-          {user.data.role === "freelancer" && (
+          {user.data.role === "freelancer" && user.data.walletBalance > 0 && (
             <h5 className="font-semibold text-primary-dark">
               ${user.data.walletBalance}
             </h5>
@@ -83,27 +89,31 @@ export function ProfileCard() {
             </Link>
           )}
           {user.data.role === "freelancer" && (
-            <Link href="/">
+            <Link href="/seller/earnings">
               <DropdownMenuItem>
                 <MdOutlineAccountBalanceWallet />
                 Wallet
               </DropdownMenuItem>
             </Link>
           )}
-          <DropdownMenuItem>
-            <BsShieldLock />
-            Password
-          </DropdownMenuItem>
+          <Link href={setSettingUrl(user.data.role)}>
+            <DropdownMenuItem>
+              <BsShieldLock />
+              Password
+            </DropdownMenuItem>
+          </Link>
           <hr className="text-gray-300" />
           <DropdownMenuItem className="py-4">
             <MdOutlineStars />
             Royalty Program
           </DropdownMenuItem>
           <hr className="text-gray-300" />
-          <DropdownMenuItem>
-            <IoMdNotificationsOutline />
-            Notification Settings
-          </DropdownMenuItem>
+          <Link href={setSettingUrl(user.data.role)}>
+            <DropdownMenuItem>
+              <IoMdNotificationsOutline />
+              Notification Settings
+            </DropdownMenuItem>
+          </Link>
           <DropdownMenuItem>
             <IoMdHelpCircleOutline />
             Help
@@ -119,7 +129,7 @@ export function ProfileCard() {
           onClick={async () => {
             try {
               Cookies.remove("token");
-              window.location.reload();
+              window.location.href = "/";
             } catch (error) {
               console.log(error);
             }

@@ -27,6 +27,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { storage } from "@/firebase";
 import useMe from "@/hooks/useMe";
 import apiClient from "@/services/api-client";
+import { AxiosError } from "axios";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import Image from "next/image";
 import { ChangeEvent, useRef, useState } from "react";
@@ -138,8 +139,10 @@ export function CreateComment({ jobId }: Props) {
       setLoading(false);
       setOpen(false);
     } catch (error) {
+      if (error instanceof AxiosError && error.response) {
+        return toast.error(error.response.data.message);
+      }
       toast.error("Unable to send comment");
-      console.error(error);
       setLoading(false);
     }
   }

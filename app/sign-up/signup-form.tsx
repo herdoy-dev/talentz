@@ -79,13 +79,8 @@ export default function SignupForm({ role }: Props) {
       window.location.reload();
       setLoading(false);
     } catch (error) {
-      if (
-        error instanceof AxiosError &&
-        error.response &&
-        error.response.data
-      ) {
-        toast.error(error.response.data);
-        return;
+      if (error instanceof AxiosError && error.response) {
+        return toast.error(error.response.data.message);
       }
       toast.error("Oops! Something went wrong. Please try again.");
     } finally {

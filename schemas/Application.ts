@@ -3,13 +3,13 @@ export default interface Application {
   message: string;
   jobId: string;
   buyer: string;
+  attachments: string[];
   author: {
     _id: string;
     firstName: string;
     lastName: string;
     image: string;
   };
-  files?: string[];
   createdAt: Date;
   updatedAt: Date;
 }

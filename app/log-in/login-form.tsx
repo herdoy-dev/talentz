@@ -19,6 +19,7 @@ import ApiResponse from "@/schemas/ApiRespose";
 import Cookies from "js-cookie";
 import { useState } from "react";
 import { BeatLoader } from "react-spinners";
+import { AxiosError } from "axios";
 
 const FormSchema = z.object({
   email: z
@@ -59,7 +60,9 @@ export default function LoginForm() {
       window.location.reload();
       setLoading(false);
     } catch (error) {
-      console.log(error);
+      if (error instanceof AxiosError && error.response) {
+        return toast.error(error.response.data.message);
+      }
     } finally {
       setLoading(false);
     }

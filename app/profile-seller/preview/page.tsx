@@ -1,5 +1,5 @@
 "use client";
-import Badge from "@/components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 import Text from "@/components/ui/text";
 import useEducations from "@/hooks/useEducations";
 import useMe from "@/hooks/useMe";

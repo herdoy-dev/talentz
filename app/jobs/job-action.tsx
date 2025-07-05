@@ -1,9 +1,9 @@
 "use client";
+import { CreateJobApplication } from "@/components/create-job-application";
 import { Button } from "@/components/ui/button";
 import useMe from "@/hooks/useMe";
 import Job from "@/schemas/Job";
 import { FaAngleLeft } from "react-icons/fa";
-import { CreateJobApplication } from "./create-job-application";
 
 interface Props {
   job: Job;

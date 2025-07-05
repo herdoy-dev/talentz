@@ -2,11 +2,11 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { FaGear } from "react-icons/fa6";
 import { IoBriefcaseOutline } from "react-icons/io5";
 import { LuSearchCode } from "react-icons/lu";
 import { MdOutlineMessage } from "react-icons/md";
 import { RiDashboardLine } from "react-icons/ri";
-import { LiaMoneyCheckSolid } from "react-icons/lia";
 
 const items = [
   { id: 1, label: "Dashboard", path: "/buyer", icon: <RiDashboardLine /> },
@@ -29,10 +29,10 @@ const items = [
     icon: <MdOutlineMessage />,
   },
   {
-    id: 5,
-    label: "Payments",
-    path: "/buyer/payments",
-    icon: <LiaMoneyCheckSolid />,
+    id: 6,
+    label: "Settings",
+    path: "/buyer/settings",
+    icon: <FaGear />,
   },
 ];
 

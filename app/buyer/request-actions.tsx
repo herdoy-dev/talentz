@@ -1,4 +1,4 @@
-import Badge from "@/components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { Flex } from "@radix-ui/themes";
 import Link from "next/link";

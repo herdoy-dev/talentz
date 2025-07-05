@@ -2,6 +2,7 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { FaGear, FaMoneyCheckDollar } from "react-icons/fa6";
 import { IoBriefcaseOutline } from "react-icons/io5";
 import { MdOutlineMessage } from "react-icons/md";
 import { RiDashboardLine } from "react-icons/ri";
@@ -19,6 +20,18 @@ const items = [
     label: "Messages",
     path: "/seller/messages",
     icon: <MdOutlineMessage />,
+  },
+  {
+    id: 6,
+    label: "Earnings",
+    path: "/seller/earnings",
+    icon: <FaMoneyCheckDollar />,
+  },
+  {
+    id: 7,
+    label: "Settings",
+    path: "/seller/settings",
+    icon: <FaGear />,
   },
 ];
 
