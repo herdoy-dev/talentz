@@ -1,15 +1,15 @@
 "use client";
+import { Calendar } from "@/components/calender";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Flex, Grid } from "@radix-ui/themes";
 import Link from "next/link";
 import { useState } from "react";
+import RoyaltyProgress from "../../components/royalty-progress";
 import Switch from "../switch";
-import BuyerCalendar from "./calendar";
 import JobChart from "./job-chart";
 import NewApplications from "./new-applications";
 import RequestActions from "./request-actions";
-import RoyaltyProgress from "./royalty-progress";
 import SpendChart from "./spend-chart";
 
 const options = ["Monthly", "Yearly"] as const;
@@ -34,7 +34,7 @@ export default function BuyerPage() {
       <Grid columns={"1fr 1fr 1fr"} gap="6" mb="9">
         <NewApplications />
         <RequestActions />
-        <BuyerCalendar />
+        <Calendar />
       </Grid>
       <Grid columns={"3fr 4fr"} gap="6">
         <div className="space-y-6">

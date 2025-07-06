@@ -1,6 +1,5 @@
 import { Flex, Slider } from "@radix-ui/themes";
 import Link from "next/link";
-import React from "react";
 
 function RoyaltyProgress() {
   return (
