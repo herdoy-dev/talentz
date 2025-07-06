@@ -1,4 +1,5 @@
 "use client";
+import { queryClient } from "@/app/query-client-provider";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -7,14 +8,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Progress } from "@/components/ui/progress";
-import Text from "@/components/ui/text";
-
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-
-import { queryClient } from "@/app/query-client-provider";
 import {
   Form,
   FormControl,
@@ -22,16 +15,20 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { storage } from "@/firebase";
+import { Progress } from "@/components/ui/progress";
+import Text from "@/components/ui/text";
+import { useFilesUpload } from "@/hooks/useFilesUpload";
+import Job from "@/schemas/Job";
 import apiClient from "@/services/api-client";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
-import { ChangeEvent, useRef, useState } from "react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { BsPaperclip, BsX } from "react-icons/bs";
 import { FiLoader } from "react-icons/fi";
 import { BeatLoader } from "react-spinners";
-import Job from "@/schemas/Job";
+import { z } from "zod";
 
 const FormSchema = z.object({
   message: z.string().min(2, {
@@ -46,13 +43,6 @@ interface Props {
 export function CreateJobApplication({ job }: Props) {
   const [isOpen, setOpen] = useState(false);
   const [isLoading, setLoading] = useState(false);
-  const [files, setFiles] = useState<File[]>([]);
-  const [uploadProgress, setUploadProgress] = useState<{
-    [key: string]: number;
-  }>({});
-  const [isUploading, setIsUploading] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -60,78 +50,34 @@ export function CreateJobApplication({ job }: Props) {
     },
   });
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const selectedFiles = Array.from(e.target.files);
-      setFiles((prev) => [...prev, ...selectedFiles]);
-    }
-  };
-
-  const handleUpload = async (filesToUpload: File[]) => {
-    if (!filesToUpload.length) return [];
-
-    setIsUploading(true);
-    try {
-      const uploadPromises = filesToUpload.map(async (file) => {
-        const filename = `${Date.now()}-${file.name}`;
-        const storageRef = ref(storage, `applications/${job._id}/${filename}`);
-
-        // Reset progress for this file
-        setUploadProgress((prev) => ({
-          ...prev,
-          [file.name]: 0,
-        }));
-
-        // Get download URL after upload completes
-        const snapshot = await uploadBytes(storageRef, file);
-        const downloadURL = await getDownloadURL(snapshot.ref);
-
-        return {
-          name: file.name,
-          url: downloadURL,
-        };
-      });
-
-      const results = await Promise.all(uploadPromises);
-      return results.map((r) => r.url);
-    } catch (error) {
-      console.error("Error uploading files:", error);
-      return [];
-    } finally {
-      setIsUploading(false);
-      setUploadProgress({});
-    }
-  };
-
-  const removeFile = (index: number) => {
-    setFiles((prev) => prev.filter((_, i) => i !== index));
-  };
+  // Using the filesUpload hook
+  const {
+    fileInputRef,
+    isUploading,
+    attachments,
+    handleFileChange,
+    triggerFileInput,
+    removeAttachment,
+    resetAttachments,
+    uploadProgress,
+  } = useFilesUpload(`applications/${job._id}`);
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     if (!job._id) return;
     setLoading(true);
 
     try {
-      let attachments: string[] = [];
-
-      if (files.length > 0) {
-        attachments = (await handleUpload(files)) || [];
-      }
-
       await apiClient.post("/applications", {
         message: data.message,
         jobId: job._id,
-        attachments: attachments,
+        attachments: attachments.map((a) => a.url),
       });
 
       queryClient.invalidateQueries({ queryKey: ["myjobapplication"] });
       queryClient.invalidateQueries({ queryKey: ["applications"] });
       toast.success("Application submitted successfully");
       form.reset();
-      setFiles([]);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
+      resetAttachments();
       setLoading(false);
       setOpen(false);
     } catch (error) {
@@ -177,17 +123,17 @@ export function CreateJobApplication({ job }: Props) {
                   )}
                 />
 
-                {/* Preview area for selected files */}
-                {(files.length > 0 || isUploading) && (
+                {/* Preview area for attachments */}
+                {(attachments.length > 0 || isUploading) && (
                   <div className="px-3 py-2 bg-gray-50 border rounded-lg flex gap-2 overflow-x-auto mb-2">
-                    {files.map((file, index) => (
+                    {attachments.map((file, index) => (
                       <div
-                        key={`${file.name}-${index}`}
+                        key={`${file.url}-${index}`}
                         className="relative flex-shrink-0 w-16 h-16 rounded-md border overflow-hidden bg-gray-100"
                       >
                         {file.type.startsWith("image/") ? (
                           <Image
-                            src={URL.createObjectURL(file)}
+                            src={file.url}
                             alt={file.name}
                             width={64}
                             height={64}
@@ -201,32 +147,29 @@ export function CreateJobApplication({ job }: Props) {
                           </div>
                         )}
 
-                        {/* Upload progress indicator */}
-                        {uploadProgress[file.name] !== undefined &&
-                          uploadProgress[file.name] < 100 && (
-                            <div className="absolute bottom-0 left-0 right-0 p-1">
-                              <Progress
-                                value={uploadProgress[file.name]}
-                                className="h-1"
-                              />
-                            </div>
-                          )}
+                        {uploadProgress[file.name] !== undefined && (
+                          <div className="absolute bottom-0 left-0 right-0 p-1">
+                            <Progress
+                              value={uploadProgress[file.name]}
+                              className="h-1"
+                            />
+                          </div>
+                        )}
 
-                        {/* Remove button */}
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            removeFile(index);
+                            removeAttachment(index);
                           }}
                           className="absolute top-0 right-0 p-1 bg-black/50 rounded-full hover:bg-black/70"
+                          disabled={isUploading}
                         >
                           <BsX className="text-white text-xs" />
                         </button>
                       </div>
                     ))}
 
-                    {/* Loading indicator for new uploads */}
-                    {isUploading && files.length === 0 && (
+                    {isUploading && attachments.length === 0 && (
                       <div className="flex items-center justify-center w-full py-2">
                         <FiLoader className="animate-spin text-gray-500 mr-2" />
                         <span className="text-sm text-gray-500">
@@ -239,9 +182,14 @@ export function CreateJobApplication({ job }: Props) {
 
                 <div className="absolute bottom-0 py-2 bg-white w-full">
                   <div className="relative">
-                    <label className="flex items-center gap-1 cursor-pointer">
+                    <button
+                      type="button"
+                      onClick={triggerFileInput}
+                      className="flex items-center gap-1 cursor-pointer"
+                      disabled={isUploading}
+                    >
                       <BsPaperclip /> <Text size="small">Attachment</Text>
-                    </label>
+                    </button>
                     <input
                       type="file"
                       ref={fileInputRef}
@@ -260,7 +208,8 @@ export function CreateJobApplication({ job }: Props) {
                   disabled={
                     isLoading ||
                     isUploading ||
-                    (!form.getValues("message").trim() && files.length === 0)
+                    (!form.getValues("message").trim() &&
+                      attachments.length === 0)
                   }
                 >
                   {isLoading || isUploading ? (

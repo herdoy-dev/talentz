@@ -9,7 +9,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Progress } from "@/components/ui/progress";
 import {
   Select,
   SelectContent,
@@ -18,16 +17,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { storage } from "@/firebase";
+import { useFilesUpload } from "@/hooks/useFilesUpload";
 import useMe from "@/hooks/useMe";
 import apiClient from "@/services/api-client";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import Image from "next/image";
-import { ChangeEvent, useRef, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { BsPaperclip, BsX } from "react-icons/bs";
 import { LuPlus } from "react-icons/lu";
 import { BeatLoader } from "react-spinners";
+
 interface CommentType {
   value: string;
   label: string;
@@ -44,59 +43,18 @@ export function CreateComment({ jobId, commentTypes }: Props) {
   const [message, setMessage] = useState("");
   const [reqTime, setReqTime] = useState("");
   const [selectedOption, setSelectedOption] = useState("comment");
-  const [files, setFiles] = useState<File[]>([]);
-  const [uploadProgress, setUploadProgress] = useState<Record<string, number>>(
-    {}
-  );
-  const [isUploading, setIsUploading] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const { data: user } = useMe();
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const selectedFiles = Array.from(e.target.files);
-      setFiles((prev) => [...prev, ...selectedFiles]);
-    }
-  };
-
-  const handleUpload = async (filesToUpload: File[]) => {
-    if (!filesToUpload.length) return [];
-
-    setIsUploading(true);
-    try {
-      const uploadPromises = filesToUpload.map(async (file) => {
-        const filename = `${Date.now()}-${file.name}`;
-        const storageRef = ref(storage, `comments/${jobId}/${filename}`);
-
-        setUploadProgress((prev) => ({
-          ...prev,
-          [file.name]: 0,
-        }));
-
-        const snapshot = await uploadBytes(storageRef, file);
-        const downloadURL = await getDownloadURL(snapshot.ref);
-
-        return {
-          name: file.name,
-          url: downloadURL,
-        };
-      });
-
-      const results = await Promise.all(uploadPromises);
-      return results.map((r) => r.url);
-    } catch (error) {
-      console.error("Error uploading files:", error);
-      toast.error("Failed to upload files");
-      return [];
-    } finally {
-      setIsUploading(false);
-      setUploadProgress({});
-    }
-  };
-
-  const removeFile = (index: number) => {
-    setFiles((prev) => prev.filter((_, i) => i !== index));
-  };
+  // Using the filesUpload hook
+  const {
+    fileInputRef,
+    isUploading,
+    attachments,
+    handleFileChange,
+    triggerFileInput,
+    removeAttachment,
+    resetAttachments,
+  } = useFilesUpload(`comments/${jobId}`);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -104,28 +62,19 @@ export function CreateComment({ jobId, commentTypes }: Props) {
     setLoading(true);
 
     try {
-      let attachments: string[] = [];
-
-      if (files.length > 0) {
-        attachments = (await handleUpload(files)) || [];
-      }
-
       await apiClient.post("/comments", {
         job: jobId,
         reqType: selectedOption,
         message,
         reqTime: selectedOption === "request_time" ? reqTime : undefined,
-        attachments,
+        attachments: attachments.map((a) => a.url),
       });
 
       queryClient.invalidateQueries({ queryKey: ["comments"] });
       toast.success("Comment added successfully");
-      setFiles([]);
+      resetAttachments();
       setMessage("");
       setReqTime("");
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
       setLoading(false);
       setOpen(false);
     } catch (error) {
@@ -223,21 +172,21 @@ export function CreateComment({ jobId, commentTypes }: Props) {
               </div>
             )}
 
-            {/* File preview section */}
-            {(files.length > 0 || isUploading) && (
+            {/* File preview section using hook's attachments */}
+            {attachments.length > 0 && (
               <div className="space-y-2">
                 <label className="text-sm font-medium leading-none">
                   Attachments
                 </label>
                 <div className="flex flex-wrap gap-2 p-3 bg-muted/50 border rounded-lg">
-                  {files.map((file, index) => (
+                  {attachments.map((file, index) => (
                     <div
-                      key={`${file.name}-${index}`}
+                      key={`${file.url}-${index}`}
                       className="relative w-20 h-20 rounded-md border overflow-hidden bg-background"
                     >
                       {file.type.startsWith("image/") ? (
                         <Image
-                          src={URL.createObjectURL(file)}
+                          src={file.url}
                           alt={file.name}
                           width={80}
                           height={80}
@@ -252,21 +201,13 @@ export function CreateComment({ jobId, commentTypes }: Props) {
                         </div>
                       )}
 
-                      {uploadProgress[file.name] !== undefined && (
-                        <div className="absolute bottom-0 left-0 right-0 p-1">
-                          <Progress
-                            value={uploadProgress[file.name]}
-                            className="h-1"
-                          />
-                        </div>
-                      )}
-
                       <button
                         onClick={(e) => {
                           e.preventDefault();
-                          removeFile(index);
+                          removeAttachment(index);
                         }}
                         className="absolute top-1 right-1 p-1 bg-foreground/50 rounded-full hover:bg-foreground/70"
+                        disabled={isUploading}
                       >
                         <BsX className="text-background text-xs" />
                       </button>
@@ -277,7 +218,14 @@ export function CreateComment({ jobId, commentTypes }: Props) {
             )}
 
             <div className="flex items-center gap-3">
-              <label className="flex items-center gap-2 text-sm text-muted-foreground cursor-pointer hover:text-primary transition-colors">
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+                onClick={triggerFileInput}
+                disabled={isUploading}
+              >
                 <BsPaperclip className="h-4 w-4" />
                 <span>Add Attachment</span>
                 <input
@@ -288,7 +236,7 @@ export function CreateComment({ jobId, commentTypes }: Props) {
                   className="hidden"
                   disabled={isUploading}
                 />
-              </label>
+              </Button>
             </div>
           </div>
 
@@ -296,13 +244,23 @@ export function CreateComment({ jobId, commentTypes }: Props) {
             <Button
               type="button"
               variant="outline"
-              onClick={() => setOpen(false)}
+              onClick={() => {
+                setOpen(false);
+                resetAttachments();
+              }}
               disabled={isLoading || isUploading}
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={isLoading || isUploading}>
-              {isLoading || isUploading ? (
+            <Button
+              type="submit"
+              disabled={
+                isLoading ||
+                isUploading ||
+                (!message.trim() && attachments.length === 0)
+              }
+            >
+              {isLoading ? (
                 <BeatLoader size={8} color="#ffffff" />
               ) : selectedOption === "comment" ? (
                 "Post Comment"
