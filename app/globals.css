@@ -123,6 +123,10 @@
   --sidebar-ring: oklch(0.541 0.281 293.009);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: "Poppins", sans-serif;
 }
