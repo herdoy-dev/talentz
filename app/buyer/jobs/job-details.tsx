@@ -1,6 +1,5 @@
 "use client";
 import { queryClient } from "@/app/query-client-provider";
-import { CreateComment } from "@/components/create-activity";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -11,6 +10,7 @@ import {
 } from "@/components/ui/sheet";
 import { TableCell } from "@/components/ui/table";
 import useComments from "@/hooks/useComments";
+import { cn } from "@/lib/utils";
 import { Chat } from "@/schemas/Chat";
 import Job from "@/schemas/Job";
 import apiClient from "@/services/api-client";
@@ -19,21 +19,17 @@ import { Flex } from "@radix-ui/themes";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaAngleLeft } from "react-icons/fa6";
-import Comment from "./comment";
+import { Activity } from "./activity";
+import Disput from "./disput";
 
 interface Props {
   job: Job;
   title: string;
 }
 
-const commentTypes = [
-  { value: "comment", label: "Comment" },
-  { value: "delivery", label: "Submit Work" },
-  { value: "request_time", label: "Extend Delivery Date" },
-];
-
 export function JobDetails({ job, title }: Props) {
   const [isOpen, setOpen] = useState(false);
+  const [current, setCurrent] = useState<"details" | "disput">("details");
   const { data } = useComments(job._id);
   const setCurrentChat = useChatStore((s) => s.setCurrentChat);
   const router = useRouter();
@@ -73,7 +69,7 @@ export function JobDetails({ job, title }: Props) {
                   });
                   router.push("/buyer/messages");
                 } catch (error) {
-                  console.log(error);
+                  console.error(error);
                 }
               }}
             >
@@ -81,33 +77,36 @@ export function JobDetails({ job, title }: Props) {
             </Button>
           </Flex>
         </SheetHeader>
-
-        <div className="px-4 pb-10 h-full flex flex-col">
-          {/* Job Header */}
-          <div className="mb-6">
-            <h2 className="text-2xl font-semibold mb-4">{job.title}</h2>
-            <div className="w-full max-w-md flex items-center justify-between h-10 rounded-full overflow-hidden border border-gray-200 shadow-sm">
-              <div className="flex-1 flex items-center justify-center h-full bg-primary rounded-full text-white font-medium">
-                Activity
-              </div>
-              <div className="flex-1 flex items-center justify-center h-full rounded-full font-medium text-gray-600 hover:bg-gray-50">
-                Dispute
-              </div>
-            </div>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex items-center gap-4 mb-8">
-            <CreateComment jobId={job._id} commentTypes={commentTypes} />
-          </div>
-
-          {/* Comments Section */}
-          <div className="space-y-6 flex-1 overflow-y-auto pr-2">
-            {data?.data.map((comment) => (
-              <Comment key={comment._id} comment={comment} />
-            ))}
+        <div className="mb-6">
+          <h2 className="text-2xl font-semibold mb-4">{job.title}</h2>
+          <div className="w-full max-w-md flex items-center justify-between h-10 rounded-full overflow-hidden border border-gray-200 shadow-sm">
+            <button
+              type="button"
+              onClick={() => setCurrent("details")}
+              className={cn(
+                "flex-1 flex items-center justify-center h-full rounded-full font-medium",
+                current === "details" && "bg-primary text-white"
+              )}
+            >
+              Activity
+            </button>
+            <button
+              type="button"
+              onClick={() => setCurrent("disput")}
+              className={cn(
+                "flex-1 flex items-center justify-center h-full rounded-full font-medium",
+                current === "disput" && "bg-primary text-white"
+              )}
+            >
+              Dispute
+            </button>
           </div>
         </div>
+        {current === "details" ? (
+          <Activity job={job} comments={data?.data || []} />
+        ) : (
+          <Disput />
+        )}
       </SheetContent>
     </Sheet>
   );
