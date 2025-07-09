@@ -1,4 +1,5 @@
 "use client";
+import useChatSocket from "@/hooks/useChatSocket";
 import useMessages from "@/hooks/useMessages";
 import { formatDate } from "@/lib/utils";
 import FILE_ICONS from "@/schemas/FileIcons";
@@ -7,8 +8,6 @@ import { Avatar, Flex } from "@radix-ui/themes";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { FiDownload, FiFilePlus } from "react-icons/fi";
-
-// File type to icon mapping
 
 const getFileIcon = (url: string) => {
   const extension = url.split(".").pop()?.toLowerCase() || "";
@@ -29,7 +28,7 @@ export default function Messages() {
   const currentChat = useChatStore((s) => s.currentChat);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { data: messages } = useMessages(currentChat?._id as string);
-
+  useChatSocket(currentChat?._id as string);
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
