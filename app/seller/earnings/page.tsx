@@ -22,6 +22,8 @@ import {
 } from "@/components/ui/table";
 import useMe from "@/hooks/useMe";
 import useMyWithdraws from "@/hooks/useMyWithdraws";
+import usePendingEarning from "@/hooks/usePendingEarnings";
+import useTotalEarning from "@/hooks/useTotalEarning";
 import { formatDate } from "@/lib/utils";
 import apiClient from "@/services/api-client";
 import { AxiosError } from "axios";
@@ -51,6 +53,8 @@ export default function EarningsPage() {
   const [withdrawAmount, setWithdrawAmount] = useState<string>("");
   const [selectedMethod, setSelectedMethod] = useState<string>("");
   const { data } = useMyWithdraws();
+  const { data: earnings } = useTotalEarning();
+  const { data: pendingEarnings } = usePendingEarning();
 
   if (isLoading)
     return <div className="container mx-auto py-8">Loading...</div>;
@@ -134,7 +138,9 @@ export default function EarningsPage() {
             <History className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$0.00</div>
+            <div className="text-2xl font-bold">
+              ${pendingEarnings ? pendingEarnings.data.toFixed() : 0}
+            </div>
             <p className="text-xs text-muted-foreground mt-1">
               No pending clearance at this time
             </p>
@@ -151,7 +157,7 @@ export default function EarningsPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              ${userData.data.walletBalance.toFixed(2)}
+              ${earnings ? earnings.data.toFixed() : 0}
             </div>
           </CardContent>
         </Card>
