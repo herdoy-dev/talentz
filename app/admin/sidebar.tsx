@@ -4,7 +4,7 @@ import { Component } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BsChatRightDotsFill } from "react-icons/bs";
-import { FaGear } from "react-icons/fa6";
+import { FaGear, FaMoneyBillTransfer } from "react-icons/fa6";
 import { GoGraph } from "react-icons/go";
 import { HiUsers } from "react-icons/hi";
 import { IoBriefcase } from "react-icons/io5";
@@ -13,6 +13,12 @@ import { MdDashboard } from "react-icons/md";
 const items = [
   { id: 1, label: "Dashboard", path: "/admin", icon: <MdDashboard /> },
   { id: 2, label: "Salse", path: "/admin/salse", icon: <GoGraph /> },
+  {
+    id: 10,
+    label: "Withdraws",
+    path: "/admin/withdraws",
+    icon: <FaMoneyBillTransfer />,
+  },
   { id: 3, label: "Users", path: "/admin/users", icon: <HiUsers /> },
   { id: 4, label: "Jobs", path: "/admin/jobs", icon: <IoBriefcase /> },
   {

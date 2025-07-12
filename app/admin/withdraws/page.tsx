@@ -1,8 +1,8 @@
 import Pagination from "@/components/pagination";
 import ApiResponse from "@/schemas/ApiRespose";
-import JobSchema from "@/schemas/Job";
+import Withdraw from "@/schemas/Withdraw";
 import apiClient from "@/services/api-client";
-import JobTable from "./job-table";
+import WithdrawTable from "./withdraw-table";
 
 interface Props {
   searchParams: Promise<{
@@ -12,13 +12,13 @@ interface Props {
   }>;
 }
 
-export default async function Jobs({ searchParams }: Props) {
+export default async function Withdraws({ searchParams }: Props) {
   const params = await searchParams;
   const setPage = parseInt(params.page);
   const orderBy = params.orderBy ? params.orderBy : null;
   const page = setPage ? setPage : null;
   const status = params.status ? params.status : null;
-  const { data } = await apiClient.get<ApiResponse<JobSchema[]>>("/jobs", {
+  const { data } = await apiClient.get<ApiResponse<Withdraw[]>>("/withdraws", {
     params: {
       orderBy,
       page,
@@ -27,7 +27,7 @@ export default async function Jobs({ searchParams }: Props) {
   });
   return (
     <div className="table">
-      <JobTable data={data.data} count={data.count} />
+      <WithdrawTable data={data.data} count={data.count} />
       <Pagination currentPage={data.currentPage} pageCount={data.pageCount} />
     </div>
   );

@@ -3,6 +3,7 @@ import TableHead from "@/components/table-head";
 import { formatDate } from "@/lib/utils";
 import Job from "@/schemas/Job";
 import JobDetails from "./job";
+import JobActions from "./job-actions";
 
 interface Props {
   data: Job[];
@@ -19,6 +20,7 @@ const columns = [
 export default function JobTable({ data, count }: Props) {
   return (
     <div>
+      <JobActions />
       <table className="table">
         <TableHead columns={columns} />
         <tbody>
