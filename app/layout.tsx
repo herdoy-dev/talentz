@@ -2,10 +2,10 @@ import { Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
+import "react-calendar/dist/Calendar.css";
+import "react-datepicker/dist/react-datepicker.css";
 import { Toaster } from "react-hot-toast";
 import "react-image-crop/dist/ReactCrop.css";
-import "react-datepicker/dist/react-datepicker.css";
-import "react-calendar/dist/Calendar.css";
 import "./globals.css";
 import QueryClientProvider from "./query-client-provider";
 
