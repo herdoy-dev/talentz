@@ -1,8 +1,8 @@
 import { AppBarChart } from "@/components/app-bar-chart";
 import { AppLineChart } from "@/components/app-line-chart";
-import { AppPieChart } from "@/components/app-pie-chart";
 import { Calendar } from "@/components/calender";
 import RoyaltyProgress from "@/components/royalty-progress";
+import ActiveJobs from "./active-jobs";
 import MyBalance from "./my-balance";
 
 function SellerDashboard() {
@@ -10,22 +10,22 @@ function SellerDashboard() {
     <div>
       <h1>Dashboard</h1>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="col-span-2 p-4 shadow space-y-6">
-          <div>
+        <div className="col-span-2 space-y-10 p-4">
+          <div className="p-4 border shadow rounded-3xl">
             <AppBarChart />
           </div>
-          <div>
+          <div className="p-4 border shadow rounded-3xl">
             <AppLineChart />
           </div>
           <div>
             <RoyaltyProgress />
           </div>
         </div>
-        <div className="col-span-1 p-4 shadow space-y-6">
+        <div className="col-span-1 p-4 space-y-6">
           <MyBalance />
           <Calendar />
           <div>
-            <AppPieChart />
+            <ActiveJobs />
           </div>
         </div>
       </div>

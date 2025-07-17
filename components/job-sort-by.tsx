@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function SortBy() {
+export default function JobSortBy() {
   const router = useRouter();
   const searchParams = useSearchParams();
 

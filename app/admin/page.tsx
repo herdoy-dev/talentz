@@ -1,20 +1,35 @@
 "use client";
+import { AppAreaChart } from "@/components/app-area-chart";
+import { AppBarChart } from "@/components/app-bar-chart";
+import { AppLineChart } from "@/components/app-line-chart";
 import { Calendar } from "@/components/calender";
-import { Grid } from "@radix-ui/themes";
-import { SalseChart } from "./salse-chart";
+import CardList from "@/components/card-list";
+import TodoList from "./todo-list";
 
 export default function DashboardPage() {
   return (
-    <div className="space-y-4">
-      <h1>Dashboard</h1>
-      <Grid columns={{ initial: "1", md: "4fr 2fr" }} gap="6">
-        <div className="space-y-6">
-          <SalseChart />
+    <>
+      <h2>Dashboard</h2>
+      <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-8">
+        <div className="p-4 border shadow rounded-3xl bg-primary/5">
+          <AppBarChart />
         </div>
-        <div className="space-y-6">
+        <div className="p-4 border shadow rounded-3xl bg-primary/5">
+          <CardList title="Customers" />
+        </div>
+        <div className="p-4 border shadow rounded-3xl bg-primary/5">
           <Calendar />
         </div>
-      </Grid>
-    </div>
+        <div className="p-4 border shadow rounded-3xl bg-primary/5">
+          <AppAreaChart />
+        </div>
+        <div className="p-4 border shadow rounded-3xl bg-primary/5">
+          <AppLineChart />
+        </div>
+        <div className="p-4 border shadow rounded-3xl bg-primary/5">
+          <TodoList />
+        </div>
+      </div>
+    </>
   );
 }

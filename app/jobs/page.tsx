@@ -1,9 +1,7 @@
+import AllJobs from "@/components/all-jobs";
 import ApiResponse from "@/schemas/ApiRespose";
 import JobSchema from "@/schemas/Job";
 import apiClient from "@/services/api-client";
-import Job from "./job";
-import SearchBox from "./search-box";
-import SortBy from "./sort-by";
 
 interface Props {
   searchParams: Promise<{
@@ -22,17 +20,5 @@ export default async function JobsPage({ searchParams }: Props) {
     },
   });
 
-  return (
-    <div>
-      <div className="flex items-center gap-5 mt-6 md:mt-0">
-        <SortBy />
-        <SearchBox />
-      </div>
-      <div className="space-y-2 md:ps-6">
-        {data?.data.map((job) => (
-          <Job job={job} key={job._id} />
-        ))}
-      </div>
-    </div>
-  );
+  return <AllJobs jobs={data.data} />;
 }

@@ -1,5 +1,4 @@
 "use client";
-import { queryClient } from "@/app/query-client-provider";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -13,9 +12,9 @@ import useMyApplication from "@/hooks/useApplication";
 import { formatDate } from "@/lib/utils";
 import Job from "@/schemas/Job";
 import { Avatar, Flex } from "@radix-ui/themes";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BiEdit } from "react-icons/bi";
-import JobAction from "./job-action";
+import JobActions from "./job-actions";
 
 interface JobDetailsProps {
   job: Job;
@@ -24,12 +23,8 @@ interface JobDetailsProps {
 
 export function JobDetails({ job, title }: JobDetailsProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const { data: myApplication } = useMyApplication(job._id as string);
-
-  useEffect(() => {
-    queryClient.invalidateQueries({ queryKey: ["comments"] });
-  }, []);
-
+  const { data } = useMyApplication(job._id as string);
+  const application = data?.data;
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
@@ -38,12 +33,10 @@ export function JobDetails({ job, title }: JobDetailsProps) {
       <SheetContent className="min-w-[800px]">
         <SheetHeader>
           <SheetTitle>
-            <JobAction
+            <JobActions
               job={job}
               handleOpen={() => setIsOpen(false)}
-              isApplied={
-                myApplication && myApplication.data.author ? true : false
-              }
+              isApplied={data && application?.author ? true : false}
             />
           </SheetTitle>
         </SheetHeader>
@@ -51,11 +44,11 @@ export function JobDetails({ job, title }: JobDetailsProps) {
           <h2 className="mb-2">{job.title}</h2>
           <p>{job.description}</p>
 
-          {myApplication && (
+          {application && (
             <div className="my-6">
               <h3 className="mb-3">My Application</h3>
               <div className="space-y-6">
-                <div>
+                <div key={application.author._id}>
                   <div className="flex-1 p-3 pt-0 border rounded-2xl">
                     <Flex
                       align="center"
@@ -64,7 +57,7 @@ export function JobDetails({ job, title }: JobDetailsProps) {
                     >
                       <div className="flex items-center gap-3">
                         <Avatar
-                          src={myApplication.data.author.image}
+                          src={application.author.image}
                           fallback="User"
                           radius="full"
                           style={{
@@ -75,10 +68,10 @@ export function JobDetails({ job, title }: JobDetailsProps) {
                           }}
                         />
                         <span>
-                          {`${myApplication.data.author.firstName} ${myApplication.data.author.lastName}`}
+                          {`${application.author.firstName} ${application.author.lastName}`}
                         </span>
                         <Text className="text-gray-500" size="small">
-                          {formatDate(myApplication.data.createdAt)}
+                          {formatDate(application.createdAt)}
                         </Text>
                       </div>
 
@@ -88,7 +81,7 @@ export function JobDetails({ job, title }: JobDetailsProps) {
                     </Flex>
                     <div className="relative">
                       <div className="pb-5 pt-2">
-                        <p>{myApplication.data.message}</p>
+                        <p>{application.message}</p>
                       </div>
                     </div>
                   </div>

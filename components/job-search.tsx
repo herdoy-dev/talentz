@@ -3,7 +3,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { IoSearchSharp } from "react-icons/io5";
 
-export default function SearchBox() {
+export default function JobSearch() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [searchText, setSearchText] = useState("");

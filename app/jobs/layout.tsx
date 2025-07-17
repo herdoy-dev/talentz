@@ -1,10 +1,10 @@
 import CallToAction from "@/components/call-to-action";
 import Contact from "@/components/contact";
 import Footer from "@/components/footer";
+import JobFilters from "@/components/job-filters";
 import Navbar from "@/components/navbar";
 import Container from "@/components/ui/container";
 import { PropsWithChildren } from "react";
-import JobFilters from "./job-filters";
 
 export default function JobPageLayout({ children }: PropsWithChildren) {
   return (

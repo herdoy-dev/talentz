@@ -13,41 +13,20 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FaGear } from "react-icons/fa6";
-import { IoBriefcaseOutline } from "react-icons/io5";
-import { LuSearchCode } from "react-icons/lu";
-import { MdOutlineMessage } from "react-icons/md";
-import { RiDashboardLine } from "react-icons/ri";
+import { ReactNode } from "react";
 
-const items = [
-  { id: 1, label: "Dashboard", path: "/buyer", icon: <RiDashboardLine /> },
-  {
-    id: 2,
-    label: "Job Management",
-    path: "/buyer/jobs",
-    icon: <IoBriefcaseOutline />,
-  },
-  {
-    id: 3,
-    label: "Talents",
-    path: "/buyer/talents",
-    icon: <LuSearchCode />,
-  },
-  {
-    id: 4,
-    label: "Messages",
-    path: "/buyer/messages",
-    icon: <MdOutlineMessage />,
-  },
-  {
-    id: 6,
-    label: "Settings",
-    path: "/buyer/settings",
-    icon: <FaGear />,
-  },
-];
+interface Item {
+  id: number;
+  label: string;
+  path: string;
+  icon: ReactNode;
+}
 
-export default function BuyerSidebar() {
+interface Props {
+  items: Item[];
+}
+
+export default function DashboardSidebar({ items }: Props) {
   const currentPath = usePathname();
   return (
     <Sidebar>
@@ -65,7 +44,7 @@ export default function BuyerSidebar() {
                       key={item.id}
                       href={item.path}
                       className={cn(
-                        "group flex items-center px-2 gap-2 py-8 text-sm font-medium text-primary-dark hover:bg-[#AAEBCA4D] hover:text-gray-900",
+                        "group flex items-center px-2 py-6 gap-2 text-sm font-medium text-primary-dark hover:bg-[#AAEBCA4D] hover:text-gray-900",
                         currentPath === item.path && "bg-[#AAEBCA4D]"
                       )}
                     >

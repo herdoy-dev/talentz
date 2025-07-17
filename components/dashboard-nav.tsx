@@ -5,11 +5,11 @@ import { MenuIcon } from "lucide-react";
 import { FaRegHeart } from "react-icons/fa6";
 import { FiBell } from "react-icons/fi";
 
-export default function BuyerNavbar() {
+export default function DashboardNav() {
   const { toggleSidebar } = useSidebar();
   return (
-    <div className="h-[65px] flex items-center justify-between bg-primary-dark px-4">
-      <div className="flex items-center gap-6" onClick={toggleSidebar}>
+    <div className="w-full h-[65px] flex items-center justify-between bg-primary-dark px-4">
+      <div onClick={toggleSidebar}>
         <MenuIcon className="text-white" />
       </div>
       <div className="flex items-center gap-6 text-white">

@@ -6,7 +6,7 @@ interface Props {
   children: ReactNode;
 }
 
-export default function FilterBox({ title, children }: Props) {
+export default function JobFilterBox({ title, children }: Props) {
   return (
     <div className="rounded-xl p-3 border border-gray-400 relative">
       <div className="absolute top-3 right-3 w-3 h-[2px] bg-black cursor-pointer" />

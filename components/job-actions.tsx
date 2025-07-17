@@ -11,8 +11,8 @@ interface Props {
   isApplied: boolean;
 }
 
-function JobAction({ job, handleOpen, isApplied }: Props) {
-  const { data: user } = useMe();
+function JobActions({ job, handleOpen, isApplied }: Props) {
+  const { data } = useMe();
 
   return (
     <div className="flex items-center justify-between">
@@ -23,7 +23,7 @@ function JobAction({ job, handleOpen, isApplied }: Props) {
       >
         <FaAngleLeft /> Back
       </Button>
-      {user?.data.role === "freelancer" && (
+      {data?.data.role === "freelancer" && (
         <div>
           {isApplied && <Button variant="light">Applied</Button>}
           {!isApplied && <CreateJobApplication job={job} />}
@@ -33,4 +33,4 @@ function JobAction({ job, handleOpen, isApplied }: Props) {
   );
 }
 
-export default JobAction;
+export default JobActions;

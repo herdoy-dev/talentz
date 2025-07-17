@@ -12,7 +12,7 @@ interface Props {
   job: JobSchema;
 }
 
-export default function Job({ job }: Props) {
+export default function JobCard({ job }: Props) {
   return (
     <div className="space-y-2 border-b border-gray py-6">
       <div className="flex items-center gap-2">
