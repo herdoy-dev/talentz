@@ -1,49 +1,42 @@
 "use client";
-import * as React from "react";
-import { Label, Pie, PieChart } from "recharts";
+
+import React from "react";
 import {
-  ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { Label, Pie, PieChart, Cell } from "recharts";
 
-export const description = "A donut chart with text";
+export interface ChartConfig {
+  [key: string]: {
+    label: string;
+    color: string;
+  };
+}
 
-const chartData = [
-  { browser: "chrome", visitors: 3, fill: "#28C3AB" },
-  { browser: "safari", visitors: 4, fill: "#39F3BB" },
-  { browser: "firefox", visitors: 3, fill: "#E2F397" },
-  { browser: "edge", visitors: 2, fill: "#1A9395" },
-];
+interface ChartDataItem {
+  [key: string]: string | number;
+}
 
-const chartConfig = {
-  chrome: {
-    label: "Chrome",
-    color: "#39F3BB",
-  },
-  safari: {
-    label: "Safari",
-    color: "#28C3AB",
-  },
-  firefox: {
-    label: "Firefox",
-    color: "#E2F397",
-  },
-  edge: {
-    label: "Edge",
-    color: "#1A9395",
-  },
-} satisfies ChartConfig;
+interface Props {
+  config: ChartConfig;
+  chartData: ChartDataItem[];
+  dataKey: string;
+  nameKey: string;
+}
 
-export function AppPieChart() {
-  const totalVisitors = React.useMemo(() => {
-    return chartData.reduce((acc, curr) => acc + curr.visitors, 0);
-  }, []);
+export function AppPieChart({ config, chartData, dataKey, nameKey }: Props) {
+  const total = React.useMemo(() => {
+    return chartData.reduce(
+      (acc, curr) => acc + ((curr[dataKey] as number) ?? 0),
+      0
+    );
+  }, [chartData, dataKey]);
 
   return (
     <ChartContainer
-      config={chartConfig}
+      config={config}
       className="mx-auto aspect-square max-h-[250px]"
     >
       <PieChart>
@@ -53,11 +46,17 @@ export function AppPieChart() {
         />
         <Pie
           data={chartData}
-          dataKey="visitors"
-          nameKey="browser"
+          dataKey={dataKey}
+          nameKey={nameKey}
           innerRadius={60}
           strokeWidth={5}
+          paddingAngle={3}
         >
+          {chartData.map((entry, index) => {
+            const key = entry[nameKey] as string;
+            const color = config[key]?.color || "#8884d8";
+            return <Cell key={key + index} fill={color} />;
+          })}
           <Label
             content={({ viewBox }) => {
               if (viewBox && "cx" in viewBox && "cy" in viewBox) {
@@ -73,18 +72,19 @@ export function AppPieChart() {
                       y={viewBox.cy}
                       className="fill-foreground text-3xl font-bold"
                     >
-                      {totalVisitors.toLocaleString()}
+                      {total.toLocaleString()}
                     </tspan>
                     <tspan
                       x={viewBox.cx}
-                      y={(viewBox.cy || 0) + 24}
+                      y={viewBox.cy ? viewBox.cy + 24 : 24}
                       className="fill-muted-foreground"
                     >
-                      Visitors
+                      Total
                     </tspan>
                   </text>
                 );
               }
+              return null;
             }}
           />
         </Pie>

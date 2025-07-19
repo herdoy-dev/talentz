@@ -12,7 +12,7 @@ export function Calendar() {
       mode="single"
       selected={date}
       onSelect={setDate}
-      className="!rounded-3xl border shadow-sm w-full"
+      className="border-none w-full"
       captionLayout="dropdown"
     />
   );

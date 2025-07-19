@@ -11,10 +11,7 @@ function NewActions() {
   const router = useRouter();
   if (!data) return null;
   return (
-    <div
-      className="border rounded-3xl p-6 bg-white"
-      onClick={() => router.push("/buyer/jobs")}
-    >
+    <div className="p-6 bg-white" onClick={() => router.push("/buyer/jobs")}>
       <Flex align="center" justify="between" mb="3">
         <p className="!text-xl font-semibold text-primary-dark">New Actions</p>
         <Link

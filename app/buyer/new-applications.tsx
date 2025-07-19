@@ -12,7 +12,7 @@ function NewApplications() {
   if (!data) return null;
   return (
     <div
-      className="border rounded-3xl p-6 cursor-pointer bg-white"
+      className="p-6 cursor-pointer bg-white"
       onClick={() => router.push("/buyer/jobs/open")}
     >
       <Flex align="center" justify="between" mb="3">
