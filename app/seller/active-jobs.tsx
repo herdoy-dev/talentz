@@ -8,40 +8,40 @@ interface Props {
 
 function ActiveJobs({ data }: Props) {
   const config = {
-    [data.rankOneByCategory.category]: {
-      label: data.rankOneByCategory.category,
+    [data.rankOneByCategory?.category ?? ""]: {
+      label: data.rankOneByCategory?.category ?? "",
       color: "#4285F4",
     },
-    [data.rankTwoByCategory.category]: {
-      label: data.rankTwoByCategory.category,
+    [data.rankTwoByCategory?.category ?? ""]: {
+      label: data.rankTwoByCategory?.category ?? "",
       color: "#34A853",
     },
-    [data.rankThreeByCategory.category]: {
-      label: data.rankThreeByCategory.category,
+    [data.rankThreeByCategory?.category ?? ""]: {
+      label: data.rankThreeByCategory?.category ?? "",
       color: "#FBBC05",
     },
-    [data.rankFourByCategory.category]: {
-      label: data.rankFourByCategory.category,
+    [data.rankFourByCategory?.category ?? ""]: {
+      label: data.rankFourByCategory?.category ?? "",
       color: "#EA4335",
     },
   };
 
   const activeJobData = [
     {
-      category: data.rankOneByCategory.category,
-      jobs: data.rankOneByCategory.totalJobs,
+      category: data.rankOneByCategory?.category ?? "",
+      jobs: data.rankOneByCategory?.totalJobs,
     },
     {
-      category: data.rankTwoByCategory.category,
-      jobs: data.rankTwoByCategory.totalJobs,
+      category: data.rankTwoByCategory?.category ?? "",
+      jobs: data.rankTwoByCategory?.totalJobs,
     },
     {
-      category: data.rankThreeByCategory.category,
-      jobs: data.rankThreeByCategory.totalJobs,
+      category: data.rankThreeByCategory?.category ?? "",
+      jobs: data.rankThreeByCategory?.totalJobs,
     },
     {
-      category: data.rankFourByCategory.category,
-      jobs: data.rankFourByCategory.totalJobs,
+      category: data.rankFourByCategory?.category ?? "",
+      jobs: data.rankFourByCategory?.totalJobs,
     },
   ];
 

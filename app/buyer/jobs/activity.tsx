@@ -10,7 +10,6 @@ interface Props {
 
 const commentTypes = [
   { value: "comment", label: "Comment" },
-  { value: "delivery", label: "Submit Work" },
   { value: "request_time", label: "Extend Delivery Date" },
 ];
 

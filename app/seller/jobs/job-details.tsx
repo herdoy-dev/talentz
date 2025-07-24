@@ -18,8 +18,8 @@ import { Flex } from "@radix-ui/themes";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaAngleLeft } from "react-icons/fa6";
-import Comment from "./comment";
 import { CreateComment } from "../../../components/create-activity";
+import Comment from "./comment";
 
 interface Props {
   job: Job;

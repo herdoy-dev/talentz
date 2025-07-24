@@ -22,21 +22,22 @@ function CompletedJobs({ className, data, config }: Props) {
           <div
             className={cn("absolute h-full w-2 rounded-4xl")}
             style={{
-              backgroundColor: config[data.rankOneByCategory.category]?.color,
+              backgroundColor:
+                config[data.rankOneByCategory?.category ?? ""]?.color,
             }}
           />
           <div className="flex-1 flex flex-col ps-4 gap-2">
             <span className="font-semibold text-primary">
-              {data.rankOneByCategory.category}
+              {data.rankOneByCategory?.category ?? ""}
             </span>
             <div className="space-x-3">
               <span
                 className="text-2xl font-semibold"
                 style={{
-                  color: config[data.rankOneByCategory.category]?.color,
+                  color: config[data.rankOneByCategory?.category ?? ""]?.color,
                 }}
               >
-                {data.rankOneByCategory.totalJobs}
+                {data.rankOneByCategory?.totalJobs}
               </span>
               <span className="inline text-gray-500">Jobs</span>
             </div>
@@ -46,21 +47,22 @@ function CompletedJobs({ className, data, config }: Props) {
           <div
             className="absolute h-full w-2 rounded-4xl"
             style={{
-              backgroundColor: config[data.rankTwoByCategory.category]?.color,
+              backgroundColor:
+                config[data.rankTwoByCategory?.category ?? ""]?.color,
             }}
           />
           <div className="flex-1 flex flex-col ps-4 gap-2">
             <span className="font-semibold text-primary">
-              {data.rankTwoByCategory.category}
+              {data.rankTwoByCategory?.category ?? ""}
             </span>
             <div className="space-x-3">
               <span
                 className="text-2xl font-semibold"
                 style={{
-                  color: config[data.rankTwoByCategory.category]?.color,
+                  color: config[data.rankTwoByCategory?.category ?? ""]?.color,
                 }}
               >
-                {data.rankTwoByCategory.totalJobs}
+                {data.rankTwoByCategory?.totalJobs}
               </span>
               <span className="inline text-gray-500">Jobs</span>
             </div>
@@ -72,21 +74,23 @@ function CompletedJobs({ className, data, config }: Props) {
           <div
             className="absolute h-full w-2 rounded-4xl"
             style={{
-              backgroundColor: config[data.rankThreeByCategory.category]?.color,
+              backgroundColor:
+                config[data.rankThreeByCategory?.category ?? ""]?.color,
             }}
           />
           <div className="flex-1 flex flex-col ps-4 gap-2">
             <span className="font-semibold text-primary">
-              {data.rankThreeByCategory.category}
+              {data.rankThreeByCategory?.category ?? ""}
             </span>
             <div className="space-x-3">
               <span
                 className="text-2xl font-semibold"
                 style={{
-                  color: config[data.rankThreeByCategory.category]?.color,
+                  color:
+                    config[data.rankThreeByCategory?.category ?? ""]?.color,
                 }}
               >
-                {data.rankThreeByCategory.totalJobs}
+                {data.rankThreeByCategory?.totalJobs}
               </span>
               <span className="inline text-gray-500">Jobs</span>
             </div>
@@ -96,21 +100,22 @@ function CompletedJobs({ className, data, config }: Props) {
           <div
             className="absolute h-full w-2 rounded-4xl"
             style={{
-              backgroundColor: config[data.rankFourByCategory.category]?.color,
+              backgroundColor:
+                config[data.rankFourByCategory?.category ?? ""]?.color,
             }}
           />
           <div className="flex-1 flex flex-col ps-4 gap-2">
             <span className="font-semibold text-primary">
-              {data.rankFourByCategory.category}
+              {data.rankFourByCategory?.category ?? ""}
             </span>
             <div className="space-x-3">
               <span
                 className="text-2xl font-semibold"
                 style={{
-                  color: config[data.rankFourByCategory.category]?.color,
+                  color: config[data.rankFourByCategory?.category ?? ""]?.color,
                 }}
               >
-                {data.rankFourByCategory.totalJobs}
+                {data.rankFourByCategory?.totalJobs}
               </span>
               <span className="inline text-gray-500">Jobs</span>
             </div>
