@@ -4,15 +4,27 @@ import { Calendar } from "@/components/calender";
 import RoyaltyProgress from "@/components/royalty-progress";
 import ActiveJobReport from "@/schemas/ActiveJobReport";
 import ApiResponse from "@/schemas/ApiRespose";
+import SalseReport from "@/schemas/SalseReport";
 import apiClient from "@/services/api-client";
 import ActiveJobs from "./active-jobs";
 import MyBalance from "./my-balance";
 
 export const dynamic = "force-dynamic";
 
+const monthlyConfig = {
+  earnings: {
+    label: "Monthly Earnings",
+    color: "var(--color-primary)",
+  },
+};
+
 async function SellerDashboard() {
   const { data } = await apiClient.get<ApiResponse<ActiveJobReport>>(
     "/seller/active-jobs-report"
+  );
+
+  const response = await apiClient.get<ApiResponse<SalseReport>>(
+    "/seller/monthly-earnings"
   );
 
   return (
@@ -23,7 +35,12 @@ async function SellerDashboard() {
           <MyBalance />
         </div>
         <div className="p-4 border shadow rounded-3xl">
-          <AppBarChart />
+          <AppBarChart
+            data={response.data.data.chartData}
+            config={monthlyConfig}
+            xAxisKey="month"
+            barKeys={["earnings"]}
+          />
         </div>
         <div className="p-4 border shadow rounded-3xl">
           <AppLineChart />
