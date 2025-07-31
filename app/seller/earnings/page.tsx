@@ -1,17 +1,7 @@
 "use client";
 
-import { queryClient } from "@/app/query-client-provider";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -22,39 +12,22 @@ import {
 } from "@/components/ui/table";
 import useMe from "@/hooks/useMe";
 import useMyWithdraws from "@/hooks/useMyWithdraws";
+import usePaymentMethods from "@/hooks/usePaymentMethods";
 import usePendingEarning from "@/hooks/usePendingEarnings";
 import useTotalEarning from "@/hooks/useTotalEarning";
 import { formatDate } from "@/lib/utils";
-import apiClient from "@/services/api-client";
-import { AxiosError } from "axios";
-import { Banknote, DollarSign, History, Plus, Wallet } from "lucide-react";
-import { useState } from "react";
-import toast from "react-hot-toast";
-import { FaWallet } from "react-icons/fa6";
+import { Banknote, DollarSign, History, Wallet } from "lucide-react";
 import { SiPaypal } from "react-icons/si";
-
-type PaymentMethod = {
-  id: string;
-  name: string;
-  icon: React.ReactNode;
-};
-
-const paymentMethods: PaymentMethod[] = [
-  { id: "PAYPAL", name: "PayPal", icon: <SiPaypal className="w-5 h-5" /> },
-  {
-    id: "BANK",
-    name: "Bank Transfer",
-    icon: <Banknote className="w-5 h-5" />,
-  },
-];
+import { AddPaymentMethodDialog } from "./add-payment-method-dialog";
+import WithdrawForm from "./withdraw-form";
+import WithdrawFund from "./withdraw-fund";
 
 export default function EarningsPage() {
   const { data: userData, isLoading, error } = useMe();
-  const [withdrawAmount, setWithdrawAmount] = useState<string>("");
-  const [selectedMethod, setSelectedMethod] = useState<string>("");
-  const { data } = useMyWithdraws();
+  const { data: withdrawals } = useMyWithdraws();
   const { data: earnings } = useTotalEarning();
   const { data: pendingEarnings } = usePendingEarning();
+  const { data: userPaymentMethods } = usePaymentMethods();
 
   if (isLoading)
     return <div className="container mx-auto py-8">Loading...</div>;
@@ -62,56 +35,12 @@ export default function EarningsPage() {
     return <div className="container mx-auto py-8">Error loading data</div>;
   if (!userData) return null;
 
-  const handleWithdraw = async () => {
-    try {
-      const amount = parseFloat(withdrawAmount);
-
-      if (!selectedMethod) {
-        toast.error("Please select a payment method");
-        return;
-      }
-
-      if (isNaN(amount) || amount <= 0) {
-        toast.error("Please enter a valid amount");
-        return;
-      }
-
-      if (amount > userData.data.walletBalance) {
-        toast.error("Insufficient balance");
-        return;
-      }
-
-      await apiClient.post("/withdraws", {
-        amount,
-        paymentMethod: selectedMethod,
-      });
-
-      toast.success(`Withdrawal request for $${amount.toFixed(2)} submitted`);
-      setWithdrawAmount("");
-      setSelectedMethod("");
-      queryClient.invalidateQueries({ queryKey: ["me"] });
-      queryClient.invalidateQueries({ queryKey: ["my_withdraws"] });
-    } catch (error) {
-      if (error instanceof AxiosError && error.response) {
-        return toast.error(error.response.data.message);
-      }
-      toast.error("Oops! Something went wrong. Please try again.");
-    }
-  };
-
-  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (value === "" || /^\d*\.?\d*$/.test(value)) {
-      setWithdrawAmount(value);
-    }
-  };
-
   return (
     <div className="container mx-auto py-8">
       <h1 className="text-2xl font-bold mb-6">Earnings Dashboard</h1>
 
+      {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        {/* Available Balance */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
@@ -120,16 +49,18 @@ export default function EarningsPage() {
             <Wallet className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-2xl font-bold mb-2">
               ${userData.data.walletBalance.toFixed(2)}
             </div>
-            <Button className="mt-4" variant="outline">
-              <FaWallet className="mr-2 h-4 w-4" /> Withdraw
-            </Button>
+
+            {userPaymentMethods && userPaymentMethods.data.length >= 1 ? (
+              <WithdrawFund />
+            ) : (
+              <AddPaymentMethodDialog />
+            )}
           </CardContent>
         </Card>
 
-        {/* Pending Clearance */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
@@ -139,15 +70,16 @@ export default function EarningsPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              ${pendingEarnings ? pendingEarnings.data.toFixed() : 0}
+              ${pendingEarnings?.data?.toFixed(2) || "0.00"}
             </div>
             <p className="text-xs text-muted-foreground mt-1">
-              No pending clearance at this time
+              {pendingEarnings?.data
+                ? "Pending clearance"
+                : "No pending clearance"}
             </p>
           </CardContent>
         </Card>
 
-        {/* Lifetime Earnings */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
@@ -157,116 +89,114 @@ export default function EarningsPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              ${earnings ? earnings.data.toFixed() : 0}
+              ${earnings?.data?.toFixed(2) || "0.00"}
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Withdrawal Section */}
+      {/* Withdraw Section */}
       <Card className="mb-8">
         <CardHeader>
           <CardTitle>Withdraw Funds</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <Select
-                  value={selectedMethod}
-                  onValueChange={setSelectedMethod}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select payment method" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {paymentMethods.map((method) => (
-                      <SelectItem key={method.id} value={method.id}>
-                        <div className="flex items-center">
-                          {method.icon}
-                          <span className="ml-2">{method.name}</span>
-                        </div>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div>
-                <Input
-                  value={withdrawAmount}
-                  onChange={handleAmountChange}
-                  placeholder="Amount to withdraw"
-                  type="text"
-                  inputMode="decimal"
-                />
-              </div>
-            </div>
-            <Button
-              className="w-full md:w-auto"
-              onClick={handleWithdraw}
-              disabled={!selectedMethod || !withdrawAmount}
-            >
-              <FaWallet className="mr-2 h-4 w-4" /> Request Withdrawal
-            </Button>
-          </div>
+          <WithdrawForm />
         </CardContent>
       </Card>
 
-      {/* Add Payment Method */}
+      {/* Payment Methods */}
       <Card className="mb-8">
-        <CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Payment Methods</CardTitle>
+          <AddPaymentMethodDialog />
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            <div className="flex flex-wrap gap-4">
-              {paymentMethods.map((method) => (
-                <Card key={method.id} className="p-4 flex items-center">
-                  {method.icon}
-                  <span className="ml-2">{method.name}</span>
+          {userPaymentMethods?.data?.length ? (
+            <div className="grid gap-4 md:grid-cols-2">
+              {userPaymentMethods.data.map((method) => (
+                <Card key={method._id}>
+                  <CardHeader className="flex flex-row items-center space-x-4">
+                    {method.methodType === "bank" ? (
+                      <Banknote className="h-6 w-6 text-primary" />
+                    ) : (
+                      <SiPaypal className="h-6 w-6 text-blue-500" />
+                    )}
+                    <CardTitle className="text-lg">
+                      {method.methodType === "bank" ? "Bank Account" : "PayPal"}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    {method.methodType === "bank" ? (
+                      <div className="space-y-2">
+                        <p className="text-sm">
+                          <span className="font-medium">Bank:</span>{" "}
+                          {method.bankName}
+                        </p>
+                        <p className="text-sm">
+                          <span className="font-medium">Account:</span> ****
+                          {method.accountNumber?.slice(-4)}
+                        </p>
+                      </div>
+                    ) : (
+                      <p className="text-sm">
+                        <span className="font-medium">Email:</span>{" "}
+                        {method.email}
+                      </p>
+                    )}
+                  </CardContent>
                 </Card>
               ))}
-              <Button variant="outline">
-                <Plus className="mr-2 h-4 w-4" /> Add Payment Method
-              </Button>
             </div>
-          </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center py-8 text-center">
+              <Wallet className="h-12 w-12 text-muted-foreground mb-4" />
+              <h3 className="text-lg font-medium">No payment methods</h3>
+              <p className="text-sm text-muted-foreground mt-1">
+                Add a payment method to withdraw funds
+              </p>
+            </div>
+          )}
         </CardContent>
       </Card>
 
       {/* Transaction History */}
       <Card>
         <CardHeader>
-          <CardTitle>Transaction History</CardTitle>
+          <CardTitle>Withdrawal History</CardTitle>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
                 <TableHead>Date</TableHead>
-                <TableHead>Description</TableHead>
+                <TableHead>Method</TableHead>
                 <TableHead className="text-right">Amount</TableHead>
                 <TableHead>Status</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data && data.count > 0 ? (
-                data.data.map((transaction) => (
-                  <TableRow key={transaction._id}>
-                    <TableCell>{formatDate(transaction.createdAt)}</TableCell>
-                    <TableCell>{transaction.paymentMethod}</TableCell>
+              {withdrawals?.data?.length ? (
+                withdrawals.data.map((withdrawal) => (
+                  <TableRow key={withdrawal._id}>
+                    <TableCell>{formatDate(withdrawal.createdAt)}</TableCell>
+                    <TableCell className="capitalize">
+                      {withdrawal.paymentMethod}
+                    </TableCell>
                     <TableCell className="text-right">
-                      ${transaction.amount.toFixed(2)}
+                      ${withdrawal.amount.toFixed(2)}
                     </TableCell>
                     <TableCell>
                       <Badge
                         variant={
-                          transaction.status === "COMPLETED"
+                          withdrawal.status === "COMPLETED"
                             ? "default"
-                            : "secondary"
+                            : withdrawal.status === "PENDING"
+                            ? "secondary"
+                            : "destructive"
                         }
                       >
-                        {transaction.status}
+                        {withdrawal.status}
                       </Badge>
                     </TableCell>
                   </TableRow>
@@ -274,7 +204,7 @@ export default function EarningsPage() {
               ) : (
                 <TableRow>
                   <TableCell colSpan={4} className="text-center py-8">
-                    No transactions yet
+                    No withdrawal history yet
                   </TableCell>
                 </TableRow>
               )}
