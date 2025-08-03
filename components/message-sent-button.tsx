@@ -1,5 +1,6 @@
 "use client";
 import { queryClient } from "@/app/query-client-provider";
+import useSession from "@/hooks/useSession";
 import { Chat } from "@/schemas/Chat";
 import apiClient from "@/services/api-client";
 import { useChatStore } from "@/store";
@@ -13,6 +14,10 @@ interface Props {
 export default function MessageSentButton({ seller }: Props) {
   const setCurrentChat = useChatStore((s) => s.setCurrentChat);
   const router = useRouter();
+  const { session } = useSession();
+
+  if (!session) return null;
+
   return (
     <Button
       variant="outline"

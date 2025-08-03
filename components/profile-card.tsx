@@ -9,11 +9,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import useMe from "@/hooks/useMe";
+import { Avatar } from "@radix-ui/themes";
 import Cookies from "js-cookie";
 import Link from "next/link";
 import { BiSolidChevronDown } from "react-icons/bi";
 import { BsShieldLock } from "react-icons/bs";
 import { FaRegUserCircle } from "react-icons/fa";
+import { GrAppsRounded } from "react-icons/gr";
 import {
   IoMdHelpCircleOutline,
   IoMdNotificationsOutline,
@@ -23,7 +25,6 @@ import { IoExitOutline } from "react-icons/io5";
 import { MdOutlineAccountBalanceWallet, MdOutlineStars } from "react-icons/md";
 import { TiDocumentText } from "react-icons/ti";
 import Text from "./ui/text";
-import { Avatar } from "@radix-ui/themes";
 
 export function ProfileCard() {
   const { data: user } = useMe();
@@ -38,6 +39,12 @@ export function ProfileCard() {
     if (role === "admin") return "/admin/settings";
     else if (role === "client") return "/buyer/settings";
     return "/seller/settings";
+  };
+
+  const setDashboardUrl = (role: string) => {
+    if (role === "admin") return "/admin";
+    else if (role === "client") return "/buyer";
+    return "/seller";
   };
 
   return (
@@ -85,6 +92,14 @@ export function ProfileCard() {
               Profile
             </DropdownMenuItem>
           </Link>
+
+          <Link href={setDashboardUrl(user.data.role)}>
+            <DropdownMenuItem>
+              <GrAppsRounded />
+              Dashboard
+            </DropdownMenuItem>
+          </Link>
+
           {user.data.role === "freelancer" && (
             <Link href="/profile-seller/portfolios">
               <DropdownMenuItem>

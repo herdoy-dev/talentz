@@ -26,7 +26,7 @@ function NewActions() {
         {data.data.map((item, index) => (
           <div
             className={cn(
-              "space-y-3 pb-3",
+              "space-y-1 pb-2",
               data.data.length - 1 !== index && "border-b border-[#333]"
             )}
             key={item._id}
@@ -35,7 +35,7 @@ function NewActions() {
               <p className="text-gray-500"> {formatDate(item.createdAt)} </p>
               <Badge className="bg-yellow text-primary-dark">New Action</Badge>
             </Flex>
-            <p>{item.message.slice(0, 80)}...</p>
+            <p className="!text-sm">{item.message.slice(0, 80)}...</p>
           </div>
         ))}
       </div>

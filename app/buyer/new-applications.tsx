@@ -12,7 +12,7 @@ function NewApplications() {
   if (!data) return null;
   return (
     <div
-      className="p-6 cursor-pointer bg-white"
+      className="p-6 bg-white"
       onClick={() => router.push("/buyer/jobs/open")}
     >
       <Flex align="center" justify="between" mb="3">
@@ -32,7 +32,7 @@ function NewApplications() {
           <div
             key={item._id}
             className={cn(
-              "space-y-3 pb-3",
+              "space-y-1 pb-1",
               data.data.length - 1 !== index && "border-b border-[#333]"
             )}
           >
@@ -42,7 +42,7 @@ function NewApplications() {
                 New Application
               </Badge>
             </Flex>
-            <p>{item.message.slice(0, 80)}...</p>
+            <p className="!text-sm">{item.message.slice(0, 80)}...</p>
           </div>
         ))}
       </div>

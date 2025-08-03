@@ -1,7 +1,6 @@
 "use client";
 import useSession from "@/hooks/useSession";
 import { cn } from "@/lib/utils";
-import Cookies from "js-cookie";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useState } from "react";
@@ -92,12 +91,6 @@ export default function Navbar() {
   const [isActive, setActive] = useState(false);
   const toggleMenu = useCallback(() => setActive((prev) => !prev), []);
 
-  const setDashboardUrl = (role: string) => {
-    if (role === "admin") return "/admin";
-    else if (role === "client") return "/buyer";
-    return "/seller";
-  };
-
   return (
     <>
       <div className="fixed w-full top-0 left-0 h-[65px] flex items-center justify-center bg-primary-dark z-50">
@@ -131,25 +124,6 @@ export default function Navbar() {
                 )}
                 {session && (
                   <div className="flex items-center gap-7">
-                    <Link
-                      className="text-white"
-                      href={setDashboardUrl(session.role)}
-                    >
-                      Dashboard
-                    </Link>
-                    <span
-                      className="text-white"
-                      onClick={async () => {
-                        try {
-                          Cookies.remove("token");
-                          window.location.reload();
-                        } catch (error) {
-                          console.log(error);
-                        }
-                      }}
-                    >
-                      Log Out
-                    </span>
                     <ProfileCard />
                   </div>
                 )}

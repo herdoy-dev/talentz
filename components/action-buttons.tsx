@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
-import { Button } from "./ui/button";
+import Link from "next/link";
+import { buttonVariants } from "./ui/button";
 
 interface Props {
   className?: string;
@@ -14,13 +15,21 @@ export default function ActionButtons({ className, isAllSecondary }: Props) {
         className
       )}
     >
-      <Button className="w-full md:w-auto">Join as a Freelancer</Button>
-      <Button
-        className="w-full md:w-auto"
-        variant={isAllSecondary ? "default" : "dark"}
+      <Link
+        href="/sign-up/freelancer"
+        className={cn("w-full md:w-auto", buttonVariants())}
+      >
+        Join as a Freelancer
+      </Link>
+      <Link
+        href="/sign-up/client"
+        className={cn(
+          "w-full md:w-auto",
+          buttonVariants({ variant: isAllSecondary ? "default" : "dark" })
+        )}
       >
         Hire a Freelancer
-      </Button>
+      </Link>
     </div>
   );
 }

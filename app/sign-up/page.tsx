@@ -17,13 +17,13 @@ export default function SignUpPage() {
         <div className="flex items-center justify-center flex-col md:flex-row gap-26 md:gap-6">
           <RoleCard
             title="Job Seeker"
-            imageSrc="/signup_freelancer.png"
+            imageSrc="/signup_client.png"
             altText="Freelancer"
             href="/sign-up/freelancer"
           />
           <RoleCard
             title="Employer"
-            imageSrc="/signup_client.png"
+            imageSrc="/signup_seller.png"
             altText="Client"
             href="/sign-up/client"
           />
@@ -43,16 +43,16 @@ interface RoleCardProps {
 function RoleCard({ title, imageSrc, altText, href }: RoleCardProps) {
   return (
     <Link href={href} passHref>
-      <div className="relative md:w-[300px] h-[232] flex flex-col items-center justify-end rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer group">
+      <div className="relative md:w-[350px] md:h-[350px] w-[250px] h-[230px] flex flex-col items-center ! justify-end rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer group">
         <Image
           src={imageSrc}
           width={300}
           height={300}
           alt={altText}
-          className="w-auto h-auto transition-all group-hover:scale-105 absolute -top-10"
+          className="w-[200px] md:w-[300px] h-auto transition-all group-hover:scale-105 absolute -top-10"
         />
 
-        <div className="w-full py-4 px-6 bg-gray-50 text-center">
+        <div className="w-full py-4 px-6 text-center">
           <h2 className="text-lg md:text-xl font-semibold text-gray-800">
             {title}
           </h2>
