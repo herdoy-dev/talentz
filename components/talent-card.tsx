@@ -1,13 +1,9 @@
 "use client";
-import { queryClient } from "@/app/query-client-provider";
-import { Button } from "@/components/ui/button";
 import IconBadge from "@/components/ui/icon-badge";
 import Text from "@/components/ui/text";
+import useCompletedJobCount from "@/hooks/useCompletedJobCount";
 import useMe from "@/hooks/useMe";
-import { Chat } from "@/schemas/Chat";
 import { Talent } from "@/schemas/Talent";
-import apiClient from "@/services/api-client";
-import { useChatStore } from "@/store";
 import { Avatar } from "@radix-ui/themes";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -15,6 +11,7 @@ import { useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { FaHeart, FaRegHeart } from "react-icons/fa6";
 import { GrLocation } from "react-icons/gr";
+import MessageSentButton from "./message-sent-button";
 
 interface Props {
   talent: Talent;
@@ -22,9 +19,10 @@ interface Props {
 
 export default function TalentCard({ talent }: Props) {
   const [isLiked, setLiked] = useState(false);
-  const setCurrentChat = useChatStore((s) => s.setCurrentChat);
   const router = useRouter();
   const { data: user } = useMe();
+
+  const { data: completedjobs } = useCompletedJobCount(talent._id);
 
   return (
     <div className="rounded-2xl overflow-hidden border border-gray-200 shadow">
@@ -37,7 +35,10 @@ export default function TalentCard({ talent }: Props) {
       />
       <div className="py-4 px-3 space-y-4">
         <div className="flex items-start justify-between">
-          <div className="flex items-center gap-1 md:gap-3">
+          <div
+            className="flex items-center gap-1 md:gap-3 cursor-pointer"
+            onClick={() => router.push(`/preview-seller?userId=${talent._id}`)}
+          >
             <Avatar
               className="w-8 h-8 md:w-10 md:h-10"
               src={talent.image ? talent.image : "/card-1.png"}
@@ -70,40 +71,13 @@ export default function TalentCard({ talent }: Props) {
               )}
             </div>
             {user?.data._id === talent._id ? null : (
-              <Button
-                variant="outline"
-                className="py-[2px] px-2 md:py-[4px] md:px-4 border cursor-pointer"
-                onClick={async () => {
-                  if (!user) return router.push("/log-in");
-                  try {
-                    const { data } = await apiClient.post<Chat>("/chats", {
-                      buyer: user.data._id,
-                      seller: talent._id,
-                    });
-                    setCurrentChat(data);
-                    queryClient.invalidateQueries({
-                      queryKey: ["chats"],
-                    });
-                    router.push(
-                      `/${
-                        user.data.role === "freelancer"
-                          ? "seller"
-                          : user.data.role
-                      }/messages`
-                    );
-                  } catch (error) {
-                    console.log(error);
-                  }
-                }}
-              >
-                Message
-              </Button>
+              <MessageSentButton seller={talent._id} />
             )}
           </div>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
           <div className="flex items-center gap-1 md:gap-3">
-            <Text>93</Text>
+            <Text>93%</Text>
             <Text size="small" variant="gray">
               Job Success
             </Text>
@@ -117,7 +91,7 @@ export default function TalentCard({ talent }: Props) {
             </div>
           </div>
           <div className="flex items-center gap-1 md:gap-3">
-            <Text>18</Text>
+            <Text> {completedjobs?.data} </Text>
             <Text size="small" variant="gray">
               Total Job
             </Text>

@@ -1,9 +1,11 @@
 import { Calendar } from "@/components/calender";
 import RoyaltyProgress from "@/components/royalty-progress";
+import { buttonVariants } from "@/components/ui/button";
 import ActiveJobReport from "@/schemas/ActiveJobReport";
 import ApiResponse from "@/schemas/ApiRespose";
 import SpendReport from "@/schemas/SpendReport";
 import apiClient from "@/services/api-client";
+import Link from "next/link";
 import ActiveJobs from "./active-jobs";
 import NewApplications from "./new-applications";
 import NewActions from "./request-actions";
@@ -20,7 +22,12 @@ async function BuyerDashboard() {
   );
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
+        <Link className={buttonVariants()} href="/buyer/jobs/new">
+          Post New Job
+        </Link>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div className="shadow border rounded-lg p-4 md:col-span-1">
           <NewApplications />

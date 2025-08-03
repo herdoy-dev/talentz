@@ -1,5 +1,5 @@
 "use client";
-import { queryClient } from "@/app/query-client-provider";
+import MessageSentButton from "@/components/message-sent-button";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -11,14 +11,10 @@ import {
 import Text from "@/components/ui/text";
 import useApplications from "@/hooks/useApplications";
 import useMe from "@/hooks/useMe";
-import { Chat } from "@/schemas/Chat";
 import FILE_ICONS from "@/schemas/FileIcons";
 import Job from "@/schemas/Job";
-import apiClient from "@/services/api-client";
-import { useChatStore } from "@/store";
 import { Avatar, Flex } from "@radix-ui/themes";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaAngleLeft } from "react-icons/fa6";
 import { FiDownload, FiFilePlus } from "react-icons/fi";
@@ -30,12 +26,9 @@ interface Props {
 }
 
 export function JobDetails({ job, title }: Props) {
-  const router = useRouter();
   const [isOpen, setOpen] = useState(false);
   const { data } = useApplications(job._id);
-  const setCurrentChat = useChatStore((s) => s.setCurrentChat);
   const { data: user } = useMe();
-
   const getFileIcon = (url: string) => {
     const extension = url.split(".").pop()?.toLowerCase() || "";
     return FILE_ICONS[extension] || <FiFilePlus className="text-gray-500" />;
@@ -168,29 +161,7 @@ export function JobDetails({ job, title }: Props) {
                             </div>
                           )}
                         <div className="absolute bottom-0 right-0 flex items-center gap-3">
-                          <Button
-                            variant="outline"
-                            className="cursor-pointer"
-                            onClick={async () => {
-                              try {
-                                const { data } = await apiClient.post<Chat>(
-                                  "/chats",
-                                  {
-                                    seller: application.author._id,
-                                  }
-                                );
-                                setCurrentChat(data);
-                                queryClient.invalidateQueries({
-                                  queryKey: ["chats"],
-                                });
-                                router.push("/buyer/messages");
-                              } catch (error) {
-                                console.log(error);
-                              }
-                            }}
-                          >
-                            Message
-                          </Button>
+                          <MessageSentButton seller={application.author._id} />
                           <Hire sellerId={application.author._id} />
                         </div>
                       </div>
