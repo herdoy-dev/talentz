@@ -34,6 +34,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { BeatLoader } from "react-spinners";
 import * as z from "zod";
+import usePaymentMethods from "@/hooks/usePaymentMethods";
 
 // Schema definitions
 const baseSchema = z.object({
@@ -63,13 +64,16 @@ type FormValues = z.infer<typeof formSchema>;
 
 interface AddPaymentMethodDialogProps {
   onSuccess?: () => void;
+  hideIfExists?: boolean;
 }
 
 export function AddPaymentMethodDialog({
   onSuccess,
+  hideIfExists = false,
 }: AddPaymentMethodDialogProps) {
   const [open, setOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { data: paymentMethods } = usePaymentMethods();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -84,6 +88,11 @@ export function AddPaymentMethodDialog({
   });
 
   const selectedMethod = form.watch("methodType");
+
+  // Hide the dialog if payment methods exist and hideIfExists is true
+  if (hideIfExists && paymentMethods && paymentMethods.data?.length >= 2) {
+    return null;
+  }
 
   const onSubmit = async (values: FormValues) => {
     setIsSubmitting(true);

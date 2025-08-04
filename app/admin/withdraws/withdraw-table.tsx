@@ -4,6 +4,7 @@ import { formatDate } from "@/lib/utils";
 import Withdraw from "@/schemas/Withdraw";
 import { Flex } from "@radix-ui/themes";
 import WithdrawActions from "./withdraw-actions";
+import { WithdrawDetails } from "./withdraw-details";
 
 interface Props {
   data: Withdraw[];
@@ -27,7 +28,7 @@ export default function WithdrawTable({ data }: Props) {
         <tbody>
           {data.map((job) => (
             <tr key={job._id}>
-              <td> {job.paymentMethod} </td>
+              <td> {job.paymentMethod.methodType} </td>
               <td> ${job.amount} </td>
               <td> {job.user.firstName + " " + job.user.lastName} </td>
               <td> {formatDate(job.createdAt)} </td>
@@ -39,7 +40,7 @@ export default function WithdrawTable({ data }: Props) {
                 )}
                 {job.status !== "COMPLETED" && job.status !== "FAILED" && (
                   <Flex gap="2">
-                    <Button size="sm">Mark as completed</Button>
+                    <WithdrawDetails withdraw={job} />
                     <Button size="sm" variant="destructive">
                       Mark as Failed
                     </Button>

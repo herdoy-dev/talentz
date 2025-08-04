@@ -1,3 +1,5 @@
+import { PaymentMethod } from "./PaymentMethod";
+
 export default interface Withdraw {
   _id: string;
   amount: number;
@@ -6,7 +8,7 @@ export default interface Withdraw {
     firstName: string;
     lastName: string;
   };
-  paymentMethod: string;
+  paymentMethod: PaymentMethod;
   status: "PENDING" | "COMPLETED" | "FAILED";
   createdAt: Date;
 }
