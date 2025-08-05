@@ -1,18 +1,10 @@
-import getSession from "@/actions/get-session";
 import LogoNavbar from "@/components/logoNav";
 import Container from "@/components/ui/container";
 import { Grid } from "@radix-ui/themes";
-import { redirect } from "next/navigation";
 import { PropsWithChildren } from "react";
 import SellerProfileSidebar from "./sidebar";
 
-export const dynamic = "force-dynamic";
-
-export default async function SellerProfileLayout({
-  children,
-}: PropsWithChildren) {
-  const session = await getSession();
-  if (session && session.role !== "freelancer") return redirect("/");
+export default function SellerProfileLayout({ children }: PropsWithChildren) {
   return (
     <>
       <LogoNavbar />

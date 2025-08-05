@@ -4,8 +4,6 @@ import { IoBriefcaseOutline } from "react-icons/io5";
 import { MdOutlineMessage } from "react-icons/md";
 import { RiDashboardLine } from "react-icons/ri";
 import DashboardLayout from "../_components/dashboard-layout";
-import getSession from "@/actions/get-session";
-import { redirect } from "next/navigation";
 
 const items = [
   {
@@ -42,8 +40,6 @@ const items = [
 
 export const dynamic = "force-dynamic";
 
-export default async function BuyerLayout({ children }: PropsWithChildren) {
-  const session = await getSession();
-  if (session && session.role !== "freelancer") return redirect("/");
+export default function BuyerLayout({ children }: PropsWithChildren) {
   return <DashboardLayout navItems={items}>{children}</DashboardLayout>;
 }

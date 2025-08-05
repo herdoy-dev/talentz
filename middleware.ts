@@ -8,17 +8,62 @@ export async function middleware(req: NextRequest) {
     const session = await getSession();
     const { pathname } = req.nextUrl;
 
-    // Skip public files
     if (PUBLIC_FILE.test(pathname)) {
       return NextResponse.next();
     }
 
-    // Redirect unverified users
     if (session && !session.isVerified) {
       return NextResponse.redirect(new URL("/verify", req.url));
     }
 
-    // Protect dashboard routes
+    if (
+      session &&
+      session.role !== "admin" &&
+      pathname.startsWith("/dashboard/admin")
+    ) {
+      return NextResponse.redirect(new URL("/dashboard", req.url));
+    }
+
+    if (
+      session &&
+      session.role !== "freelancer" &&
+      pathname.startsWith("/dashboard/seller")
+    ) {
+      return NextResponse.redirect(new URL("/dashboard", req.url));
+    }
+
+    if (
+      session &&
+      session.role !== "client" &&
+      pathname.startsWith("/dashboard/buyer")
+    ) {
+      return NextResponse.redirect(new URL("/dashboard", req.url));
+    }
+
+    if (
+      session &&
+      session.role !== "admin" &&
+      pathname.startsWith("/profile/admin")
+    ) {
+      return NextResponse.redirect(new URL("/profile", req.url));
+    }
+
+    if (
+      session &&
+      session.role !== "freelancer" &&
+      pathname.startsWith("/profile/seller")
+    ) {
+      return NextResponse.redirect(new URL("/profile", req.url));
+    }
+
+    if (
+      session &&
+      session.role !== "client" &&
+      pathname.startsWith("/profile/buyer")
+    ) {
+      return NextResponse.redirect(new URL("/profile", req.url));
+    }
+
     if (
       !session &&
       (pathname.startsWith("/dashboard/admin") ||
@@ -28,7 +73,6 @@ export async function middleware(req: NextRequest) {
       return NextResponse.redirect(new URL("/log-in", req.url));
     }
 
-    // Protect profile routes
     if (
       !session &&
       (pathname.startsWith("/profile/admin") ||
@@ -38,7 +82,6 @@ export async function middleware(req: NextRequest) {
       return NextResponse.redirect(new URL("/log-in", req.url));
     }
 
-    // Redirect authenticated users away from auth pages
     if (
       session &&
       (pathname.startsWith("/log-in") || pathname.startsWith("/sign-up"))

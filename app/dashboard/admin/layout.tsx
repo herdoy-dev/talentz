@@ -1,6 +1,4 @@
-import getSession from "@/actions/get-session";
 import { Component } from "lucide-react";
-import { redirect } from "next/navigation";
 import { PropsWithChildren } from "react";
 import { BsChatRightDotsFill } from "react-icons/bs";
 import { FaGear, FaMoneyBillTransfer } from "react-icons/fa6";
@@ -51,10 +49,6 @@ const items = [
   },
 ];
 
-export const dynamic = "force-dynamic";
-
-export default async function AdminLayout({ children }: PropsWithChildren) {
-  const session = await getSession();
-  if (session && session.role !== "admin") return redirect("/");
+export default function AdminLayout({ children }: PropsWithChildren) {
   return <DashboardLayout navItems={items}>{children}</DashboardLayout>;
 }
