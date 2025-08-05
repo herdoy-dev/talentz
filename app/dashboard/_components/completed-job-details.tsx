@@ -49,7 +49,9 @@ export function CompletedJobDetails({ job, title }: Props) {
       setCurrentChat(chat);
       queryClient.invalidateQueries({ queryKey: ["chats"] });
       router.push(
-        `/${user.data.role === "client" ? "buyer" : "seller"}/messages`
+        `/${
+          user.data.role === "client" ? "dashboard/buyer" : "dashboard/seller"
+        }/messages`
       );
     } catch (error) {
       toast.error("Failed to start conversation");
