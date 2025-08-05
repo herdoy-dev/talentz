@@ -37,7 +37,7 @@ export default function WhyChooseUs() {
       <Container className="flex flex-col md:flex-row items-center justify-between gap-10 my-16">
         <div>
           <Image
-            src="/why_choose_us.png"
+            src="/login_page_illustration.png"
             width={495}
             height={617}
             alt="why_choose_us"
