@@ -16,36 +16,13 @@ import { BiSolidChevronDown } from "react-icons/bi";
 import { BsShieldLock } from "react-icons/bs";
 import { FaRegUserCircle } from "react-icons/fa";
 import { GrAppsRounded } from "react-icons/gr";
-import {
-  IoMdHelpCircleOutline,
-  IoMdNotificationsOutline,
-  IoMdRemoveCircleOutline,
-} from "react-icons/io";
 import { IoExitOutline } from "react-icons/io5";
-import { MdOutlineAccountBalanceWallet, MdOutlineStars } from "react-icons/md";
-import { TiDocumentText } from "react-icons/ti";
+import { MdOutlineAccountBalanceWallet } from "react-icons/md";
 import Text from "./ui/text";
 
 export function ProfileCard() {
   const { data: user } = useMe();
   if (!user) return null;
-  const setProfileUrl = (role: string) => {
-    if (role === "admin") return "/profile-admin";
-    else if (role === "client") return "/profile-buyer";
-    return "/profile-seller";
-  };
-
-  const setSettingUrl = (role: string) => {
-    if (role === "admin") return "/admin/settings";
-    else if (role === "client") return "/buyer/settings";
-    return "/seller/settings";
-  };
-
-  const setDashboardUrl = (role: string) => {
-    if (role === "admin") return "/admin";
-    else if (role === "client") return "/buyer";
-    return "/seller";
-  };
 
   return (
     <DropdownMenu>
@@ -82,18 +59,17 @@ export function ProfileCard() {
               </Text>
             </div>
           </div>
-          <hr className="text-gray-300 mt-2" />
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <Link href={setProfileUrl(user.data.role)}>
+          <Link href="/profile">
             <DropdownMenuItem>
               <FaRegUserCircle />
               Profile
             </DropdownMenuItem>
           </Link>
 
-          <Link href={setDashboardUrl(user.data.role)}>
+          <Link href="/dashboard">
             <DropdownMenuItem>
               <GrAppsRounded />
               Dashboard
@@ -101,47 +77,19 @@ export function ProfileCard() {
           </Link>
 
           {user.data.role === "freelancer" && (
-            <Link href="/profile-seller/portfolios">
-              <DropdownMenuItem>
-                <TiDocumentText />
-                My Portfolios
-              </DropdownMenuItem>
-            </Link>
-          )}
-          {user.data.role === "freelancer" && (
-            <Link href="/seller/earnings">
+            <Link href="/dashboard/seller/earnings">
               <DropdownMenuItem>
                 <MdOutlineAccountBalanceWallet />
                 Wallet
               </DropdownMenuItem>
             </Link>
           )}
-          <Link href={setSettingUrl(user.data.role)}>
+          <Link href="/dashboard/settings">
             <DropdownMenuItem>
               <BsShieldLock />
               Password
             </DropdownMenuItem>
           </Link>
-          <hr className="text-gray-300" />
-          <DropdownMenuItem className="py-4">
-            <MdOutlineStars />
-            Royalty Program
-          </DropdownMenuItem>
-          <hr className="text-gray-300" />
-          <Link href={setSettingUrl(user.data.role)}>
-            <DropdownMenuItem>
-              <IoMdNotificationsOutline />
-              Notification Settings
-            </DropdownMenuItem>
-          </Link>
-          <DropdownMenuItem>
-            <IoMdHelpCircleOutline />
-            Help
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <IoMdRemoveCircleOutline />
-            Deactivate Account
-          </DropdownMenuItem>
         </DropdownMenuGroup>
 
         <hr className="text-gray-300" />

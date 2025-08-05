@@ -8,7 +8,7 @@ export default function DepositSuccess() {
   const router = useRouter();
 
   useEffect(() => {
-    const timer = setTimeout(() => router.push("/buyer/jobs"), 3000);
+    const timer = setTimeout(() => router.push("/dashboard/buyer/jobs"), 3000);
     return () => clearTimeout(timer);
   }, [router]);
 

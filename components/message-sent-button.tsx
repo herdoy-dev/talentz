@@ -1,11 +1,11 @@
 "use client";
 import { queryClient } from "@/app/query-client-provider";
+import { Button } from "@/components/ui/button";
 import useSession from "@/hooks/useSession";
 import { Chat } from "@/schemas/Chat";
 import apiClient from "@/services/api-client";
 import { useChatStore } from "@/store";
 import { useRouter } from "next/navigation";
-import { Button } from "./ui/button";
 
 interface Props {
   seller: string;

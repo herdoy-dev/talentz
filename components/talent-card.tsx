@@ -37,7 +37,7 @@ export default function TalentCard({ talent }: Props) {
         <div className="flex items-start justify-between">
           <div
             className="flex items-center gap-1 md:gap-3 cursor-pointer"
-            onClick={() => router.push(`/preview-seller?userId=${talent._id}`)}
+            onClick={() => router.push(`/profile/preview?userId=${talent._id}`)}
           >
             <Avatar
               className="w-8 h-8 md:w-10 md:h-10"

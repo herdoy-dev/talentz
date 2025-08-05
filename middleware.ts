@@ -11,7 +11,6 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // Allow only certain paths for unverified users
   if (session && !session.isVerified) {
     const allowedPaths = [
       "/",
@@ -24,60 +23,18 @@ export async function middleware(req: NextRequest) {
     const isAllowed = allowedPaths.some(
       (path) => pathname === path || pathname.startsWith(`${path}/`)
     );
+
     if (!isAllowed) {
       return NextResponse.redirect(new URL("/verify", req.url));
     }
   }
 
-  if (session && (pathname === "/log-in" || pathname.startsWith("/sign-up"))) {
-    if (session.role === "admin")
-      return NextResponse.redirect(new URL("/admin", req.url));
-    if (session.role === "client")
-      return NextResponse.redirect(new URL("/buyer", req.url));
-    if (session.role === "freelancer")
-      return NextResponse.redirect(new URL("/seller", req.url));
-  }
-
-  if (
-    !session &&
-    (pathname === "/seller" ||
-      pathname.startsWith("/buyer") ||
-      pathname.startsWith("/admin"))
-  ) {
-    return NextResponse.redirect(new URL("/", req.url));
-  }
-
   if (!session && pathname.startsWith("/dashboard")) {
-    return NextResponse.redirect(new URL("/login", req.url));
+    return NextResponse.redirect(new URL("/log-in", req.url));
   }
 
-  if (session && pathname.startsWith("/admin")) {
-    if (!session.isAdmin) return NextResponse.redirect(new URL("/", req.url));
-  }
-
-  if (session && pathname.startsWith("/buyer")) {
-    if (session.role !== "client" || session.isAdmin)
-      return NextResponse.redirect(new URL("/", req.url));
-  }
-
-  if (session && pathname.startsWith("/seller")) {
-    if (session.role !== "freelancer" || session.isAdmin)
-      return NextResponse.redirect(new URL("/", req.url));
-  }
-
-  if (session && pathname.startsWith("/profile-seller")) {
-    if (session.role !== "freelancer" || session.isAdmin)
-      return NextResponse.redirect(new URL("/", req.url));
-  }
-
-  if (session && pathname.startsWith("/profile-buyer")) {
-    if (session.role !== "client" || session.isAdmin)
-      return NextResponse.redirect(new URL("/", req.url));
-  }
-
-  if (session && pathname.startsWith("/profile-admin")) {
-    if (!session.isAdmin) return NextResponse.redirect(new URL("/", req.url));
-  }
+  if (session && (pathname === "/log-in" || pathname.startsWith("/sign-up")))
+    return NextResponse.redirect(new URL("/dashboard", req.url));
 
   return NextResponse.next();
 }

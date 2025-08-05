@@ -1,5 +1,5 @@
 "use client";
-import UpdateProfileImage from "@/components/update-profile-image";
+import UpdateProfileImage from "@/app/profile/_components/update-profile-image";
 import useMe from "@/hooks/useMe";
 import { Avatar, Flex } from "@radix-ui/themes";
 
