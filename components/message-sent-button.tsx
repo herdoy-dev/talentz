@@ -31,7 +31,7 @@ export default function MessageSentButton({ seller }: Props) {
           queryClient.invalidateQueries({
             queryKey: ["chats"],
           });
-          router.push("/buyer/messages");
+          router.push("/dashboard/buyer/messages");
         } catch (error) {
           console.log(error);
         }

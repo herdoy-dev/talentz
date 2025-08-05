@@ -1,3 +1,5 @@
+import getSession from "@/actions/get-session";
+import { redirect } from "next/navigation";
 import { PropsWithChildren } from "react";
 import { FaGear } from "react-icons/fa6";
 import { IoBriefcaseOutline } from "react-icons/io5";
@@ -39,6 +41,10 @@ const items = [
   },
 ];
 
-export default function BuyerLayout({ children }: PropsWithChildren) {
+export const dynamic = "force-dynamic";
+
+export default async function BuyerLayout({ children }: PropsWithChildren) {
+  const session = await getSession();
+  if (session && session.role !== "client") return redirect("/");
   return <DashboardLayout navItems={items}>{children}</DashboardLayout>;
 }

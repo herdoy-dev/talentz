@@ -1,9 +1,8 @@
-"use client";
 import { Calendar } from "@/components/calender";
 import CardList from "@/components/card-list";
 import TodoList from "./todo-list";
 
-export default function DashboardPage() {
+async function DashboardPage() {
   return (
     <>
       <h2>Dashboard</h2>
@@ -24,3 +23,5 @@ export default function DashboardPage() {
     </>
   );
 }
+
+export default DashboardPage;
