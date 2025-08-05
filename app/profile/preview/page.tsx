@@ -1,5 +1,5 @@
+import LogoNavbar from "@/components/logoNav";
 import MessageSentButton from "@/components/message-sent-button";
-import Navbar from "@/components/navbar";
 import { Badge } from "@/components/ui/badge";
 
 import Container from "@/components/ui/container";
@@ -39,7 +39,7 @@ export default async function PreviewPage({ searchParams }: Props) {
 
   return (
     <>
-      <Navbar />
+      <LogoNavbar />
       <Container className="py-10">
         <div className="space-y-10 h-[80dvh] overflow-y-auto pb-20 px-10">
           <Flex justify="between">

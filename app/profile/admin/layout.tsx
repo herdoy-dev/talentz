@@ -1,5 +1,5 @@
 import getSession from "@/actions/get-session";
-import Navbar from "@/components/navbar";
+import LogoNavbar from "@/components/logoNav";
 import Container from "@/components/ui/container";
 import { redirect } from "next/navigation";
 import { PropsWithChildren } from "react";
@@ -13,7 +13,7 @@ export default async function AdminProfileLayout({
   if (session && session.role !== "admin") return redirect("/");
   return (
     <>
-      <Navbar />
+      <LogoNavbar />
       <Container>
         <div className="p-4">{children}</div>
       </Container>

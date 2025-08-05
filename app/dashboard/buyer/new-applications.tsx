@@ -13,14 +13,14 @@ function NewApplications() {
   return (
     <div
       className="p-6 bg-white"
-      onClick={() => router.push("/buyer/jobs/open")}
+      onClick={() => router.push("/dashboard/buyer/jobs/open")}
     >
       <Flex align="center" justify="between" mb="3">
         <p className="!text-xl font-semibold text-primary-dark">
           New Applications
         </p>
         <Link
-          href="/buyer"
+          href="/dashboard/buyer"
           className="underline font-semibold text-primary-dark"
         >
           View All
