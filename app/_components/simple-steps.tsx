@@ -54,7 +54,7 @@ export default function SimpleSteps() {
         <div className={boxClasses}>
           <div className={imageBoxClasses}>
             <Image
-              src="/step_freelancer.png"
+              src="/signup_client.png"
               alt="Employer Steps"
               width={264}
               height={282}
@@ -70,7 +70,7 @@ export default function SimpleSteps() {
         <div className={boxClasses}>
           <div className={imageBoxClasses}>
             <Image
-              src="/step_employer.png"
+              src="/signup_seller.png"
               alt="Employer Steps"
               width={264}
               height={282}
