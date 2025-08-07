@@ -18,6 +18,7 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { GrAppsRounded } from "react-icons/gr";
 import { IoExitOutline } from "react-icons/io5";
 import { MdOutlineAccountBalanceWallet } from "react-icons/md";
+import { VscVerified } from "react-icons/vsc";
 import Text from "./ui/text";
 
 export function ProfileCard() {
@@ -62,6 +63,12 @@ export function ProfileCard() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
+          <Link href="/verify/identity">
+            <DropdownMenuItem>
+              <VscVerified />
+              Identity Verification
+            </DropdownMenuItem>
+          </Link>
           <Link href="/profile">
             <DropdownMenuItem>
               <FaRegUserCircle />
