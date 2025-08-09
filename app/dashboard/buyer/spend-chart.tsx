@@ -28,23 +28,29 @@ const SpendChart = ({ data }: Props) => {
   return (
     <Card className="rounded-3xl">
       <CardContent>
-        <Grid columns={"1fr 1px 1fr 1px 1fr 1px 2fr"} gap="2" mb="6">
-          <div>
-            <p className="text-primary">Monthly Spending</p>
-            <h3>${data.monthlySpend}</h3>
+        <Grid
+          columns={{ initial: "2", md: "1fr 1fr 1fr 2fr" }}
+          gap={{ initial: "6", md: "2" }}
+          mb="6"
+        >
+          <div className="border-s ps-2">
+            <p className="text-primary text-xl">Monthly Spending</p>
+            <p className="text-primary font-semibold">${data.monthlySpend}</p>
           </div>
-          <div className="bg-gray-300" />
-          <div>
-            <p className="text-primary">Total Spending</p>
-            <h3>${data.totalSpend}</h3>
+
+          <div className="border-s ps-2">
+            <p className="text-primary text-xl">Total Spending</p>
+            <p className="text-primary font-semibold">${data.totalSpend}</p>
           </div>
-          <div className="bg-gray-300" />
-          <div>
-            <p className="text-primary">Average Project Cost</p>
-            <h3>${data.averateProjectCost}</h3>
+
+          <div className="border-s ps-2">
+            <p className="text-primary text-xl">Average Project Cost</p>
+            <p className="text-primary font-semibold">
+              ${data.averateProjectCost}
+            </p>
           </div>
-          <div className="bg-gray-300" />
-          <Flex justify="end">
+
+          <Flex justify="end" className="border-s ps-2">
             <div>
               <Switch
                 options={options}
