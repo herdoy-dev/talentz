@@ -12,10 +12,6 @@ export async function middleware(req: NextRequest) {
       return NextResponse.next();
     }
 
-    if (session && !session.isVerified) {
-      return NextResponse.redirect(new URL("/verify", req.url));
-    }
-
     if (
       session &&
       session.role !== "admin" &&

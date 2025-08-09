@@ -1,14 +1,14 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import useAllComments from "@/hooks/useAllComments";
 import { cn, formatDate } from "@/lib/utils";
 import { Flex } from "@radix-ui/themes";
+import { AlertCircle, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
-import { AlertCircle, ArrowRight } from "lucide-react";
 
 function NewActions() {
   const { data, isLoading } = useAllComments();
@@ -51,11 +51,7 @@ function NewActions() {
           </div>
         ) : data.data.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-4 text-center">
-            <div className="rounded-full bg-green-100 p-3 mb-2">
-              <AlertCircle className="h-6 w-6 text-green-500" />
-            </div>
-            <p className="text-gray-600">No pending actions</p>
-            <p className="text-sm text-gray-400">You&apos;re all caught up!</p>
+            <p className="text-gray-500">No pending actions</p>
           </div>
         ) : (
           <div className="space-y-4">
