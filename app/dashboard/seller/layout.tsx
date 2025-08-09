@@ -1,6 +1,7 @@
 import { PropsWithChildren } from "react";
 import { FaGear, FaMoneyCheckDollar } from "react-icons/fa6";
 import { IoBriefcaseOutline } from "react-icons/io5";
+import { LuCalendarDays } from "react-icons/lu";
 import { MdOutlineMessage } from "react-icons/md";
 import { RiDashboardLine } from "react-icons/ri";
 import DashboardLayout from "../_components/dashboard-layout";
@@ -35,6 +36,12 @@ const items = [
     label: "Settings",
     path: "/dashboard/seller/settings",
     icon: <FaGear />,
+  },
+  {
+    id: 8,
+    label: "Calendar",
+    path: "/dashboard/seller/calendar",
+    icon: <LuCalendarDays />,
   },
 ];
 
